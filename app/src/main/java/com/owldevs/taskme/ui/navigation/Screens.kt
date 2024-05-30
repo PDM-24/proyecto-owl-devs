@@ -1,4 +1,4 @@
-package com.owldevs.taskme.screens
+package com.owldevs.taskme.ui.navigation
 
 /*sealed class Screens (val screen: String) {
     data object UserHome: Screens("user_home")

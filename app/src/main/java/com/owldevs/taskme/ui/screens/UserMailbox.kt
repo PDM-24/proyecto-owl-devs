@@ -1,4 +1,4 @@
-package com.owldevs.taskme.screens
+package com.owldevs.taskme.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

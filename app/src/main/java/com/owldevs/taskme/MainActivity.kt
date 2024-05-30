@@ -3,7 +3,7 @@ package com.owldevs.taskme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.owldevs.taskme.components.MyAppNavigation
+import com.owldevs.taskme.ui.navigation.MyAppNavigation
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

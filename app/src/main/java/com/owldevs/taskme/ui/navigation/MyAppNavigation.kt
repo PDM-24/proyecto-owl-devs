@@ -1,4 +1,4 @@
-package com.owldevs.taskme.components
+package com.owldevs.taskme.ui.navigation
 
 import UserViewModel
 import androidx.compose.foundation.layout.padding
@@ -9,7 +9,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.owldevs.taskme.screens.*
+import com.owldevs.taskme.ui.screens.LoginScreen
+import com.owldevs.taskme.ui.screens.UserHome
+import com.owldevs.taskme.ui.screens.UserMailbox
+import com.owldevs.taskme.ui.screens.UserOrder
+import com.owldevs.taskme.ui.screens.UserProfile
 
 @Composable
 fun MyAppNavigation() {

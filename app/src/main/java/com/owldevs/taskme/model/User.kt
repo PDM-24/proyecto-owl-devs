@@ -1,4 +1,4 @@
-package com.owldevs.taskme.userdataprueba
+package com.owldevs.taskme.model
 
 data class User (
     val name: String,

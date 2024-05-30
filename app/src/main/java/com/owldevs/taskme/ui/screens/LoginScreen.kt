@@ -1,4 +1,4 @@
-package com.owldevs.taskme.screens
+package com.owldevs.taskme.ui.screens
 
 import UserViewModel
 import androidx.compose.foundation.Image
@@ -34,8 +34,8 @@ import androidx.navigation.NavController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextDecoration
 import com.owldevs.taskme.R
-import com.owldevs.taskme.managers.UserManager
-
+import com.owldevs.taskme.data.UserManager
+import com.owldevs.taskme.ui.navigation.Screens
 
 
 @Composable
@@ -122,7 +122,11 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                     if (isAuthenticated) {
                         val currentUser = UserManager.getCurrentUser()
                         userViewModel.currentUser = currentUser
-                        navController.navigate(Screens.UserHome.createRoute(currentUser?.email ?: "No email"))
+                        navController.navigate(
+                            Screens.UserHome.createRoute(
+                                currentUser?.email ?: "No email"
+                            )
+                        )
                     } else {
                         // Mostrar un error
                     }

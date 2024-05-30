@@ -1,4 +1,4 @@
-package com.owldevs.taskme.screens
+package com.owldevs.taskme.ui.screens
 
 import UserViewModel
 import androidx.compose.foundation.Image
@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.managers.UserManager
-import com.owldevs.taskme.routes.Routes
+import com.owldevs.taskme.data.UserManager
+import com.owldevs.taskme.ui.navigation.Screens
 
 @Composable
 fun UserProfile(navController: NavController) {

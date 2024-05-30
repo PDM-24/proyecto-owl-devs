@@ -1,6 +1,6 @@
-package com.owldevs.taskme.managers
+package com.owldevs.taskme.data
 
-import com.owldevs.taskme.userdataprueba.User
+import com.owldevs.taskme.model.User
 
 object UserManager {
 

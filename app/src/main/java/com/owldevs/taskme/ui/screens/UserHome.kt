@@ -1,4 +1,4 @@
-package com.owldevs.taskme.screens
+package com.owldevs.taskme.ui.screens
 
 import UserViewModel
 import androidx.compose.foundation.Image
@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.managers.UserManager
 
 @Composable
 fun UserHome(navController: NavController) {

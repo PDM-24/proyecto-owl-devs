@@ -1,4 +1,4 @@
-package com.owldevs.taskme.routes
+package com.owldevs.taskme.ui.navigation
 
 object Routes {
     var loginScreen = "login_screen"
