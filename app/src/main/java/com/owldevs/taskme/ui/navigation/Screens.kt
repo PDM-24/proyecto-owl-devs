@@ -17,4 +17,7 @@ sealed class Screens(val route: String) {
     data object UserProfile : Screens("user_profile/{email}") {
         fun createRoute(email: String) = "user_profile/$email"
     }
+    data object Chat : Screens("chat/{userId}") {
+        fun createRoute(userId: String) = "chat/$userId"
+    }
 }
