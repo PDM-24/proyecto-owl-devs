@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @Composable
 fun TransactionItem(
@@ -32,7 +33,7 @@ fun TransactionItem(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(color = MaterialTheme.colorScheme.secondary)
+            .background(color = MaterialTheme.colorScheme.background)
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -50,17 +51,17 @@ fun TransactionItem(
             ) {
                 Text(
                     text = userTransaction,
-                    color = MaterialTheme.colorScheme.onSecondary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     text = transactionCategory,
-                    color = MaterialTheme.colorScheme.onSecondary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     text = "$transactionDate",
-                    color = MaterialTheme.colorScheme.onSecondary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
@@ -68,13 +69,13 @@ fun TransactionItem(
         if (true) {
             Text(
                 text = "+$ $transactionAmount",
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleLarge
             )
         } else {
             Text(
                 text = "-$ $transactionAmount",
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleLarge
             )
         }

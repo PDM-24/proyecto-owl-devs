@@ -71,7 +71,11 @@ fun UserInfoCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (true) {
-                        Text(text = "Disponible", style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = "Disponible",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
                         Box(
                             modifier = Modifier
                                 .size(15.dp)
@@ -81,7 +85,11 @@ fun UserInfoCard(
                                 )
                         )
                     } else {
-                        Text(text = "Disponible", style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = "Disponible",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
                         Box(
                             modifier = Modifier
                                 .size(15.dp)
@@ -113,7 +121,11 @@ fun UserInfoCard(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Miembro desde: ", style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = "Miembro desde: ",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
                     Text(text = "$dateJoined", style = MaterialTheme.typography.bodyMedium)
                 }
                 Row(
