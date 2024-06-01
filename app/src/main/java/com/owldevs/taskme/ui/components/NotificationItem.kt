@@ -36,8 +36,8 @@ fun NotificationItem(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .clip(RoundedCornerShape(16.dp))
-            .background(color = MaterialTheme.colorScheme.secondary)
-            .border(width = 1.dp, color = MaterialTheme.colorScheme.onPrimary)
+            .background(color = MaterialTheme.colorScheme.background)
+            .border(width = 1.dp, color = MaterialTheme.colorScheme.onBackground)
             .padding(12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -51,12 +51,12 @@ fun NotificationItem(
         ) {
             Text(
                 text = userName,
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
                 text = notificationBody,
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -70,7 +70,7 @@ fun NotificationItem(
                 Icon(
                     imageVector = Icons.Default.Clear,
                     contentDescription = "Delete Notification",
-                    tint = MaterialTheme.colorScheme.secondary
+                    tint = MaterialTheme.colorScheme.background
                 )
             }
         }

@@ -1,6 +1,7 @@
 package com.owldevs.taskme.ui.screens
 
 import UserViewModel
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,16 +28,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.UserManager
+import com.owldevs.taskme.ui.components.AbilityChip
+import com.owldevs.taskme.ui.components.CategoryCard
 import com.owldevs.taskme.ui.navigation.Screens
+import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @Composable
-fun UserProfile(navController: NavController) {
+fun UserProfile(navController: NavController = rememberNavController()) {
 
     val navy = colorResource(id = R.color.navy)
     val cyan = colorResource(id = R.color.cyan)
@@ -213,5 +219,4 @@ fun UserProfile(navController: NavController) {
 
     }
 }
-
 

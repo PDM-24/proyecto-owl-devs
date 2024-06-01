@@ -41,8 +41,8 @@ fun ReducedReviewCard(
             .fillMaxWidth(0.9f)
             .wrapContentHeight(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
         ),
     ) {
         Column(

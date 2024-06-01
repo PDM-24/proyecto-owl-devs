@@ -35,7 +35,7 @@ fun ChatItem(
         modifier = Modifier
             .fillMaxWidth(1f)
             .fillMaxHeight(0.08f)
-            .background(color = MaterialTheme.colorScheme.secondary)
+            .background(color = MaterialTheme.colorScheme.background)
             .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -54,12 +54,12 @@ fun ChatItem(
                 ) {
                     Text(
                         text = userName,
-                        color = MaterialTheme.colorScheme.onSecondary,
+                        color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleMedium
                     )
                     Text(
                         text = "$messageHour",
-                        color = MaterialTheme.colorScheme.onSecondary,
+                        color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -67,7 +67,7 @@ fun ChatItem(
                     text = userMessage,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSecondary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyLarge
                 )
             }

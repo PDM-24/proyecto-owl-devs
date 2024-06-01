@@ -41,8 +41,8 @@ fun ExpandedReviewCard(
             .fillMaxWidth(0.9f)
             .wrapContentHeight(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
         ),
     ) {
         Column(
@@ -65,7 +65,7 @@ fun ExpandedReviewCard(
                     if (true) {
                         TextButton(
                             onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onPrimary)
+                            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onSecondary)
                         ) {
                             Text(text = "ver mas")
                             Icon(
@@ -76,7 +76,7 @@ fun ExpandedReviewCard(
                     } else {
                         TextButton(
                             onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onPrimary)
+                            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onSecondary)
                         ) {
                             Text(text = "ver menos")
                             Icon(
