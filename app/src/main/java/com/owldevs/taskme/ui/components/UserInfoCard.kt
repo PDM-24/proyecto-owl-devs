@@ -29,7 +29,7 @@ import com.owldevs.taskme.R
 
 @Composable
 fun UserInfoCard(
-    userImg: Int = R.drawable.pfp_cont,
+    userImg: Int = R.drawable.ic_pfp,
     userName: String = "Jhon Doe",
     tasksCompleted: Int = 0,
     userDescription: String = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",

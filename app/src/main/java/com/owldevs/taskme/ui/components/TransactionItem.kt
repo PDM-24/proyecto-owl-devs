@@ -42,7 +42,7 @@ fun TransactionItem(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.pfp_cont),
+                painter = painterResource(id = R.drawable.ic_pfp),
                 contentDescription = "Money Img"
             )
             Column(

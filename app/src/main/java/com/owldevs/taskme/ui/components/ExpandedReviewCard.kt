@@ -30,7 +30,7 @@ import com.owldevs.taskme.R
 
 @Composable
 fun ExpandedReviewCard(
-    userImg: Int = R.drawable.pfp_cont,
+    userImg: Int = R.drawable.ic_pfp,
     userName: String = "Jhon Doe",
     reviewBody: String = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
     reviewDate: Long = 123456,

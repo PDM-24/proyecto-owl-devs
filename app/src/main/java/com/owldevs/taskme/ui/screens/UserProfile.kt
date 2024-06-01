@@ -71,8 +71,9 @@ fun UserProfile(navController: NavController) {
                     color = Color.White
                 )
 
-                Image(painter = painterResource(id = R.drawable.edit_square),
+                Icon(painter = painterResource(id = R.drawable.edit_square),
                     contentDescription = "Edit profile",
+                    tint = Color.Unspecified,
                     modifier = Modifier
                         .size(30.dp)
                         .clickable {
@@ -85,7 +86,8 @@ fun UserProfile(navController: NavController) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(painter = painterResource(id = R.drawable.ic_pfp),
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_pfp),
                     contentDescription = "Profile picture container",
                     tint = Color.Unspecified,
                     modifier = Modifier

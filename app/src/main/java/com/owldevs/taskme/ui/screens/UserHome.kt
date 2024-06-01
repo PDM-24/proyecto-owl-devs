@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -149,9 +150,10 @@ fun UserHome(navController: NavController) {
                                 modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Image(
+                                Icon(
                                     painter = painterResource(id = R.drawable.ic_carpentery),
                                     contentDescription = "Saw vector",
+                                    tint = Color.Unspecified,
                                     modifier = Modifier.size(40.dp)
                                 )
                                 Spacer(modifier = Modifier.width(7.dp))
@@ -176,9 +178,10 @@ fun UserHome(navController: NavController) {
                                 modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Image(
+                                Icon(
                                     painter = painterResource(id = R.drawable.ic_taxi),
                                     contentDescription = "Taxi vector",
+                                    tint = Color.Unspecified,
                                     modifier = Modifier.size(40.dp)
                                 )
 

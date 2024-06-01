@@ -202,16 +202,18 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                     .padding(48.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Image(painter = painterResource(id = R.drawable.ic_google),
+                Icon(painter = painterResource(id = R.drawable.ic_google),
                     contentDescription = "Google Img",
+                    tint = Color.Unspecified,
                     modifier = Modifier
                         .size(60.dp)
                         .clickable {
                             // icon clicked
                         }
                 )
-                Image(painter = painterResource(id = R.drawable.ic_google),
+                Icon(painter = painterResource(id = R.drawable.ic_facebook),
                     contentDescription = "Google Img",
+                    tint = Color.Unspecified,
                     modifier = Modifier
                         .size(60.dp)
                         .clickable {

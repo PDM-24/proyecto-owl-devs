@@ -28,7 +28,7 @@ import com.owldevs.taskme.R
 
 @Composable
 fun NotificationItem(
-    notificationImg: Int = R.drawable.pfp_cont,
+    notificationImg: Int = R.drawable.ic_pfp,
     userName: String = "Jhon Doe",
     notificationBody: String = "lorem ipsum lorem ipsum",
 ) {

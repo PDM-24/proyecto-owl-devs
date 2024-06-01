@@ -26,7 +26,7 @@ import com.owldevs.taskme.R
 
 @Composable
 fun ChatItem(
-    userImg: Int = R.drawable.pfp_cont,
+    userImg: Int = R.drawable.ic_pfp,
     userName: String = "Jhon Doe",
     userMessage: String = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
     messageHour: Long = 123456

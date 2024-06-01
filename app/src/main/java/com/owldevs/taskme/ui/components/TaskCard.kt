@@ -36,7 +36,7 @@ fun TaskCard(
     taskDate: Long = 123456,
     taskStatus: String = "Status",
     taskCategory: String = "Category",
-    taskerImg: Int = R.drawable.pfp_cont,
+    taskerImg: Int = R.drawable.ic_pfp,
     taskerName: String = "Jhon Doe"
 ) {
     Card(
