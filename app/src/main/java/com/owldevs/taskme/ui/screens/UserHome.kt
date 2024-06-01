@@ -52,7 +52,9 @@ fun UserHome(navController: NavController) {
         Image(
             painter = painterResource(id = R.drawable.img_homebg), // Replace with your image resource ID
             contentDescription = "Background Image",
-            modifier = Modifier.fillMaxHeight(0.3f).fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxHeight(0.3f)
+                .fillMaxWidth(),
             contentScale = ContentScale.FillBounds // Scale the image to fill the bounds of the Box
         )
         Column {
@@ -139,7 +141,8 @@ fun UserHome(navController: NavController) {
                         Button(
                             onClick = {
                                 // to do
-                            }, shape = RoundedCornerShape(8.dp),
+                            },
+                            shape = RoundedCornerShape(8.dp),
                             colors = ButtonDefaults.buttonColors(cyan)
                         ) {
                             Row(
@@ -153,7 +156,8 @@ fun UserHome(navController: NavController) {
                                 )
                                 Spacer(modifier = Modifier.width(7.dp))
                                 Text(
-                                    text = "Carpintería", fontSize = 16.sp,
+                                    text = "Carpintería",
+                                    fontSize = 16.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = navy
                                 )
@@ -164,7 +168,8 @@ fun UserHome(navController: NavController) {
                         Button(
                             onClick = {
                                 //to do
-                            }, shape = RoundedCornerShape(8.dp),
+                            },
+                            shape = RoundedCornerShape(8.dp),
                             colors = ButtonDefaults.buttonColors(cyan)
                         ) {
                             Row(
@@ -180,7 +185,8 @@ fun UserHome(navController: NavController) {
                                 Spacer(modifier = Modifier.width(7.dp))
 
                                 Text(
-                                    text = "Motorista", fontSize = 16.sp,
+                                    text = "Motorista",
+                                    fontSize = 16.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = navy
                                 )

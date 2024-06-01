@@ -14,8 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -32,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextDecoration
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.UserManager
@@ -43,13 +48,14 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
 
     val navy = colorResource(id = R.color.navy)
     val cyan = colorResource(id = R.color.cyan)
+    val lato_bold = FontFamily(Font(R.font.lato_bold))
 
     var email by remember {
-        mutableStateOf(" ")
+        mutableStateOf("")
     }
 
     var password by remember {
-        mutableStateOf(" ")
+        mutableStateOf("")
     }
     Box(modifier = Modifier.background(color = navy)) {
         Column(
@@ -63,9 +69,10 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
             Spacer(modifier = Modifier.height(120.dp))
 
             // agregar imagen
-            Image(
+            Icon(
                 painter = painterResource(id = R.drawable.ic_taskme),
-                contentDescription = "Login Img",
+                contentDescription = "Emoji",
+                tint = Color.Unspecified,
                 modifier = Modifier.size(200.dp)
             )
 
@@ -73,6 +80,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                 text = "Inicio de sesión",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
+                fontFamily = lato_bold,
                 color = Color.White
             )
 
@@ -85,7 +93,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                 contentAlignment = Alignment.Center // Corrected line
             ) {
                 Column(horizontalAlignment = Alignment.Start) {
-                    Text(text = "Correo", color = Color.White)
+                    Text(text = "Correo", color = Color.White, fontFamily = lato_bold, fontSize = 16.sp)
 
                     TextField(
                         value = email,
@@ -102,7 +110,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                 contentAlignment = Alignment.Center // Corrected line
             ) {
                 Column(horizontalAlignment = Alignment.Start) {
-                    Text(text = "Contraseña", color = Color.White)
+                    Text(text = "Contraseña", color = Color.White, fontFamily = lato_bold, fontSize = 16.sp)
 
                     TextField(
                         value = password,
@@ -136,9 +144,10 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                     .padding(start = 50.dp, end = 50.dp, top = 30.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = cyan // Use the retrieved color
-                )
+                ),
+                shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Ingresar", color = Color.Black)
+                Text(text = "Ingresar", color = Color.Black, fontFamily = lato_bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp))
             }
 
             // forgot password

@@ -35,13 +35,13 @@ val Typography = Typography(
     titleLarge = TextStyle(
         fontFamily = Lato,
         fontWeight = FontWeight.Bold,
-        fontSize = 48.sp
+        fontSize = 24.sp
     ),
 
     titleMedium = TextStyle(
         fontFamily = Lato,
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp
+        fontSize = 16.sp
     ),
 
     titleSmall = TextStyle(
