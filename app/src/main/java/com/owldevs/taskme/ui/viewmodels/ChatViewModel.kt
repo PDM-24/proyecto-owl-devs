@@ -16,7 +16,7 @@ class ChatViewModel : ViewModel() {
         // Initialize with some messages
         _messages.value = listOf(
             Message("John Doe", "Hola!", "18 OCT 2021 A LAS 7:25 P.M.", false),
-            Message("Usuario", "¡Hola!", "18 OCT 2021 A LAS 7:26 P.M.", true)
+            Message("Usuario", "Holaaaaa!", "18 OCT 2021 A LAS 7:26 P.M.", true)
         )
     }
 

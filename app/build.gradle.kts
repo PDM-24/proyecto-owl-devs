@@ -71,4 +71,5 @@ dependencies {
     //implementado manualmente
     val nav_version = "2.7.7"
     implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation ("com.google.accompanist:accompanist-insets:0.23.1")
 }

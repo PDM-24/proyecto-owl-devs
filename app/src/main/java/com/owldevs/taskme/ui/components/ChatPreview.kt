@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,10 +37,11 @@ fun ChatPreview(navController: NavController, chatData: ChatPreviewData) {
                 .size(40.dp)
                 .background(Color.Gray, CircleShape)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.pfp_cont),
+            Icon(
+                painter = painterResource(id = R.drawable.ic_pfp),
                 contentDescription = "Profile picture container",
-                modifier = Modifier.size(60.dp)
+                modifier = Modifier.size(60.dp),
+                tint = Color.Unspecified
             )
         }
 
