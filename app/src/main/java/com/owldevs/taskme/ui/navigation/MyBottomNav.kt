@@ -14,13 +14,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 //import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.ui.theme.BlueTM
 
 @Composable
-fun MyBottomNav(navController: NavController) {
+fun MyBottomNav(navController: NavController = rememberNavController()) {
     val selected = remember { mutableStateOf(Icons.Default.Home) }
 
     BottomAppBar(
