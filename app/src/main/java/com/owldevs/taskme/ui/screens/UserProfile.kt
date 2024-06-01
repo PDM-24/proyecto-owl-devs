@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -84,8 +85,9 @@ fun UserProfile(navController: NavController) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(painter = painterResource(id = R.drawable.pfp_cont),
+                Icon(painter = painterResource(id = R.drawable.ic_pfp),
                     contentDescription = "Profile picture container",
+                    tint = Color.Unspecified,
                     modifier = Modifier
                         .size(60.dp)
                         .clickable {

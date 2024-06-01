@@ -48,7 +48,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
 
     val navy = colorResource(id = R.color.navy)
     val cyan = colorResource(id = R.color.cyan)
-    val lato_bold = FontFamily(Font(R.font.lato_bold))
+    val latoBold = FontFamily(Font(R.font.lato_bold))
 
     var email by remember {
         mutableStateOf("")
@@ -80,7 +80,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                 text = "Inicio de sesión",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = lato_bold,
+                fontFamily = latoBold,
                 color = Color.White
             )
 
@@ -93,7 +93,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                 contentAlignment = Alignment.Center // Corrected line
             ) {
                 Column(horizontalAlignment = Alignment.Start) {
-                    Text(text = "Correo", color = Color.White, fontFamily = lato_bold, fontSize = 16.sp)
+                    Text(text = "Correo", color = Color.White, fontFamily = latoBold, fontSize = 16.sp)
 
                     TextField(
                         value = email,
@@ -110,7 +110,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                 contentAlignment = Alignment.Center // Corrected line
             ) {
                 Column(horizontalAlignment = Alignment.Start) {
-                    Text(text = "Contraseña", color = Color.White, fontFamily = lato_bold, fontSize = 16.sp)
+                    Text(text = "Contraseña", color = Color.White, fontFamily = latoBold, fontSize = 16.sp)
 
                     TextField(
                         value = password,
@@ -147,7 +147,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Ingresar", color = Color.Black, fontFamily = lato_bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp))
+                Text(text = "Ingresar", color = Color.Black, fontFamily = latoBold, fontSize = 18.sp, modifier = Modifier.padding(8.dp))
             }
 
             // forgot password
