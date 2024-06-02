@@ -15,6 +15,7 @@ import androidx.navigation.navArgument
 import com.owldevs.taskme.ui.screens.*
 import com.owldevs.taskme.ui.viewmodels.ChatViewModel
 
+
 @Composable
 fun MyAppNavigation() {
     val navController = rememberNavController()
@@ -54,11 +55,16 @@ fun MyAppNavigation() {
                 UserHome(navController)
             }
             composable(route = Screens.UserOrder.route) {
-                UserOrder()
+                UserOrder(navController)
             }
             composable(route = Screens.UserMailbox.route) {
                 UserMailbox(navController)
             }
+
+            composable(route = Routes.userTaskScreen){
+                UserTaskScreen(navController)
+            }
+
             composable(
                 route = "chat_screen/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType })

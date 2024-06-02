@@ -10,4 +10,6 @@
     //  task me
     <color name="navy">#121F34</color>
     <color name="cyan">#AEFFF6</color>
+    <color name="salmon">#FE5260</color>
+    <color name="mustard">#FFAA3F</color>
 </resources>
