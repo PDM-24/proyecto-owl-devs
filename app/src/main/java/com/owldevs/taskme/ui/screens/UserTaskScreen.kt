@@ -67,17 +67,17 @@ fun UserTaskScreen(navController: NavController){
                 ,horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Image(painter = painterResource(id = R.drawable.pfp_cont), contentDescription = "Profile Picture",
+                Image(painter = painterResource(id = R.drawable.ic_pfp), contentDescription = "Profile Picture",
                     modifier = Modifier
-                        .size(100.dp)
+                        .size(80.dp)
                         .clip(CircleShape)
                 )
                 Spacer(modifier = Modifier.width(30.dp))
                 Column {
-                    Text(text = "Jhon Doe", fontWeight = FontWeight.Bold, color = Color.White, fontSize = 15.sp)
-                    Text(text = "En proceso", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(top = 0.dp, bottom = 5.dp, start = 0.dp, end = 0.dp))
-                    Text(text = "03/04/2024,"+" 3:00 a.m.", color = Color.White,modifier = Modifier.padding(top = 0.dp, bottom = 5.dp, start = 0.dp, end = 0.dp))
-                    Text(text = "Ver perfil", modifier = Modifier.clickable {  },textDecoration = TextDecoration.Underline, color = Color.White)
+                    Text(text = "Jhon Doe", fontWeight = FontWeight.Bold, color = Color.White, fontSize = 25.sp)
+                    Text(text = "En proceso", color = Color.White, fontSize = 15.sp, modifier = Modifier.padding(top = 0.dp, bottom = 5.dp, start = 0.dp, end = 0.dp))
+                    Text(text = "03/04/2024,"+" 3:00 a.m.", color = Color.White, fontSize = 15.sp,modifier = Modifier.padding(top = 0.dp, bottom = 5.dp, start = 0.dp, end = 0.dp))
+                    Text(text = "Ver perfil", modifier = Modifier.clickable {  },textDecoration = TextDecoration.Underline, color = Color.White, fontSize = 15.sp)
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
