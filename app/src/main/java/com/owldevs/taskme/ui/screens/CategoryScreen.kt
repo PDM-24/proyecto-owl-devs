@@ -62,6 +62,7 @@ fun CategoryScreen(
     taskerDirection: String = "San Salvador, El Salvador"
 ) {
     var userSearch by remember { mutableStateOf("") }
+
     Scaffold(
         topBar = {
             Box(
@@ -139,7 +140,7 @@ fun CategoryScreen(
             }
             OutlinedTextField(
                 value = userSearch,
-                onValueChange = { userSearch = it },
+                onValueChange = { userToSearch -> userSearch = userToSearch },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Search,

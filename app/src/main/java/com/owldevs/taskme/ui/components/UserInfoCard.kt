@@ -26,6 +26,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.screens.CategoryScreen
+import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @Composable
 fun UserInfoCard(
@@ -35,7 +37,8 @@ fun UserInfoCard(
     userDescription: String = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
     dateJoined: Long = 123456,
     userRatings: Double = 1.5,
-    ratingsNumber: Int = 0
+    ratingsNumber: Int = 0,
+    disponible: Boolean = false
 ) {
     Card(
         modifier = Modifier
@@ -62,7 +65,8 @@ fun UserInfoCard(
                 ) {
                     Image(
                         painter = painterResource(id = userImg),
-                        contentDescription = "User Img"
+                        contentDescription = "User Img",
+                        modifier = Modifier.size(64.dp)
                     )
                     Text(text = userName, style = MaterialTheme.typography.titleMedium)
                 }
@@ -70,7 +74,7 @@ fun UserInfoCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (true) {
+                    if (disponible) {
                         Text(
                             text = "Disponible",
                             style = MaterialTheme.typography.bodyMedium,
@@ -86,7 +90,7 @@ fun UserInfoCard(
                         )
                     } else {
                         Text(
-                            text = "Disponible",
+                            text = "No Disponible",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.secondary
                         )
@@ -123,10 +127,10 @@ fun UserInfoCard(
                 ) {
                     Text(
                         text = "Miembro desde: ",
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.secondary
                     )
-                    Text(text = "$dateJoined", style = MaterialTheme.typography.bodyMedium)
+                    Text(text = "$dateJoined", style = MaterialTheme.typography.bodySmall)
                 }
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -142,5 +146,13 @@ fun UserInfoCard(
                 }
             }
         }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun ComponentPreview() {
+    TaskMeTheme {
+        UserInfoCard()
     }
 }
