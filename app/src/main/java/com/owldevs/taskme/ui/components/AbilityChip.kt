@@ -30,11 +30,3 @@ fun AbilityChip(
     )
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun ItemPreview() {
-    TaskMeTheme(darkTheme = true) {
-        AbilityChip()
-    }
-}
-
