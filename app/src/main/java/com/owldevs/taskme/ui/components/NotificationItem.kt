@@ -34,8 +34,8 @@ fun NotificationItem(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth(0.9f)
-            .clip(RoundedCornerShape(16.dp))
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
             .background(color = MaterialTheme.colorScheme.background)
             .border(width = 1.dp, color = MaterialTheme.colorScheme.onBackground)
             .padding(12.dp),
@@ -44,10 +44,12 @@ fun NotificationItem(
     ) {
         Image(
             painter = painterResource(id = notificationImg),
-            contentDescription = "Notification Img"
+            contentDescription = "Notification Img",
+            modifier = Modifier.size(48.dp)
         )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.Bottom
         ) {
             Text(
                 text = userName,
@@ -57,7 +59,7 @@ fun NotificationItem(
             Text(
                 text = notificationBody,
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodySmall
             )
         }
         Box(
@@ -66,7 +68,7 @@ fun NotificationItem(
                 shape = CircleShape
             )
         ) {
-            IconButton(onClick = { /*TODO*/ }, modifier = Modifier.size(24.dp)) {
+            IconButton(onClick = { /*TODO*/ }, modifier = Modifier.size(18.dp)) {
                 Icon(
                     imageVector = Icons.Default.Clear,
                     contentDescription = "Delete Notification",
