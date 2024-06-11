@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -41,7 +42,7 @@ fun TaskCard(
 ) {
     Card(
         modifier = Modifier
-            .fillMaxWidth(0.9f)
+            .fillMaxWidth()
             .wrapContentHeight(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -57,7 +58,7 @@ fun TaskCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = "Task N°: $taskId", style = MaterialTheme.typography.bodyMedium)
-                Text(text = "$taskDate", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "$taskDate", style = MaterialTheme.typography.bodySmall)
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -92,7 +93,8 @@ fun TaskCard(
                 ) {
                     Image(
                         painter = painterResource(id = taskerImg),
-                        contentDescription = "Tasker Img"
+                        contentDescription = "Tasker Img",
+                        modifier = Modifier.size(32.dp)
                     )
                     Text(text = taskerName, style = MaterialTheme.typography.bodyMedium)
                 }
@@ -101,9 +103,12 @@ fun TaskCard(
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.secondary,
                         contentColor = MaterialTheme.colorScheme.onSecondary
-                    )
+                    ),
                 ) {
-                    Text(text = "Ver mas")
+                    Text(
+                        text = "Ver mas",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
         }
