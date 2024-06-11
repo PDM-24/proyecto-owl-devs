@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,7 +32,7 @@ fun UserMailbox(navController: NavController) {
 
     Box(
         modifier = Modifier
-            .background(color = navy)
+            .background(color = MaterialTheme.colorScheme.background)
             .fillMaxSize()
     ) {
         Column {
@@ -47,9 +48,8 @@ fun UserMailbox(navController: NavController) {
                 ) {
                     Text(
                         text = "Bandeja de entrada",
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        style= MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(start = 25.dp, top = 40.dp, bottom = 10.dp)
                     )
 
@@ -58,8 +58,8 @@ fun UserMailbox(navController: NavController) {
                     Text(
                         text = "(box de filtro)",
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.White,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(start = 25.dp, top = 10.dp, bottom = 10.dp)
                     )
 
@@ -67,19 +67,18 @@ fun UserMailbox(navController: NavController) {
 
                     Text(
                         text = "Recientes",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(start = 25.dp, bottom = 10.dp)
                     )
                 }
             }
-            Divider(color = Color.White, thickness = 1.dp)
+            Divider(color = MaterialTheme.colorScheme.onBackground, thickness = 1.dp)
             Box(modifier = Modifier.fillMaxWidth()) {
                 LazyColumn {
                     items(chatList) { chatData ->
                         ChatPreview(navController = navController, chatData = chatData)
-                        Divider(color = Color.White, thickness = 1.dp)
+                        Divider(color = MaterialTheme.colorScheme.onBackground, thickness = 1.dp)
                     }
                 }
             }

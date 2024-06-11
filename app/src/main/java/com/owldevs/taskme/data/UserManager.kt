@@ -6,13 +6,15 @@ object UserManager {
 
     private var currentUser: User? = null
 
+    private val validUser = User("A", "a@ex.com", "1", "client")
+
     fun authenticateUser(email: String, password: String): Boolean {
-        val validUser = User("A", "a", "1", "client")
-        if (email == validUser.email && password == validUser.password) {
+        return if (email == validUser.email && password == validUser.password) {
             currentUser = validUser
-            return true
+            true
+        } else {
+            false
         }
-        return false
     }
 
     fun getCurrentUser(): User? {
@@ -21,5 +23,11 @@ object UserManager {
 
     fun logoutUser() {
         currentUser = null
+    }
+
+    fun changeUserRole(role: String) {
+        currentUser?.let {
+            currentUser = it.copy(role = role)
+        }
     }
 }

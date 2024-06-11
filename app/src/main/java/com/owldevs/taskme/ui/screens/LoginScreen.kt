@@ -4,27 +4,10 @@ import UserViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.* // cambié el "remember" por "*" para que se importe todito de una
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,7 +25,6 @@ import com.owldevs.taskme.R
 import com.owldevs.taskme.data.UserManager
 import com.owldevs.taskme.ui.navigation.Screens
 
-
 @Composable
 fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
 
@@ -57,18 +39,17 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
     var password by remember {
         mutableStateOf("")
     }
+
     Box(modifier = Modifier.background(color = navy)) {
         Column(
             modifier = Modifier
                 .fillMaxSize(),
-
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
-        ) { // para evitar que los elementos overlappeen
-
+        ) {
             Spacer(modifier = Modifier.height(120.dp))
 
-            // agregar imagen
+            // Add Image
             Icon(
                 painter = painterResource(id = R.drawable.ic_taskme),
                 contentDescription = "Emoji",
@@ -84,13 +65,11 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                 color = Color.White
             )
 
-
-            //text fields
             Spacer(modifier = Modifier.height(16.dp))
 
             Box(
                 modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center // Corrected line
+                contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.Start) {
                     Text(text = "Correo", color = Color.White, fontFamily = latoBold, fontSize = 16.sp)
@@ -107,7 +86,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
 
             Box(
                 modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center // Corrected line
+                contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.Start) {
                     Text(text = "Contraseña", color = Color.White, fontFamily = latoBold, fontSize = 16.sp)
@@ -115,13 +94,12 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                     TextField(
                         value = password,
                         onValueChange = { password = it },
-                        label = { Text(text = "") }, // para ocultar la password
+                        label = { Text(text = "") },
                         visualTransformation = PasswordVisualTransformation()
                     )
                 }
             }
 
-            // button
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
@@ -129,32 +107,30 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                     val isAuthenticated = UserManager.authenticateUser(email, password)
                     if (isAuthenticated) {
                         val currentUser = UserManager.getCurrentUser()
-                        userViewModel.currentUser = currentUser
+                        userViewModel.setCurrentUser(currentUser)
                         navController.navigate(
                             Screens.UserHome.createRoute(
                                 currentUser?.email ?: "No email"
                             )
                         )
                     } else {
-                        // Mostrar un error
+                        // Display an error message
                     }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 50.dp, end = 50.dp, top = 30.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = cyan // Use the retrieved color
+                    containerColor = cyan
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text(text = "Ingresar", color = Color.Black, fontFamily = latoBold, fontSize = 18.sp, modifier = Modifier.padding(8.dp))
             }
 
-            // forgot password
             Spacer(modifier = Modifier.height(16.dp))
 
-            TextButton(onClick = { }
-            ) {
+            TextButton(onClick = { /* Navigate to sign-up screen */ }) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -171,8 +147,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            TextButton(onClick = { }
-            ) {
+            TextButton(onClick = { /* Navigate to help and support */ }) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -187,11 +162,6 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                 }
             }
 
-            /* También puede ser:
-            Text(text = "Forgot password?", modifier = Modifier.clickable{})
-             */
-
-            // log in w/ dif platforms
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(text = "Or log in with")
@@ -208,22 +178,19 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                     modifier = Modifier
                         .size(60.dp)
                         .clickable {
-                            // icon clicked
+                            // Handle Google login
                         }
                 )
                 Icon(painter = painterResource(id = R.drawable.ic_facebook),
-                    contentDescription = "Google Img",
+                    contentDescription = "Facebook Img",
                     tint = Color.Unspecified,
                     modifier = Modifier
                         .size(60.dp)
                         .clickable {
-                            // icon clicked
+                            // Handle Facebook login
                         }
                 )
             }
         }
-
     }
-
-
 }

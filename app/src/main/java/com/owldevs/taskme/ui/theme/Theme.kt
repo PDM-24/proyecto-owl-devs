@@ -27,6 +27,7 @@ private val DarkColorScheme = darkColorScheme(
     onSecondary = Blanco,
     onBackground = Blanco,
     onTertiary = GrisOscuro,
+    primaryContainer = AzulMarino,
     onError = Blanco,
 )
 

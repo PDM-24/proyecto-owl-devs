@@ -48,10 +48,10 @@ fun MyAppNavigation() {
                 LoginScreen(navController, userViewModel = userViewModel)
             }
             composable(route = Screens.UserProfile.route) {
-                UserProfile(navController)
+                UserProfile(navController, userViewModel = userViewModel)
             }
             composable(route = Screens.UserHome.route) {
-                UserHome(navController)
+                UserHome(navController, userViewModel = userViewModel)
             }
             composable(route = Screens.UserOrder.route) {
                 UserOrder()
@@ -65,7 +65,7 @@ fun MyAppNavigation() {
             ) { backStackEntry ->
                 val userId = backStackEntry.arguments?.getString("userId") ?: return@composable
                 val chatViewModel = viewModel<ChatViewModel>()
-                ChatScreen(navController, chatViewModel, userId)
+                ChatScreen(navController, chatViewModel, userViewModel = userViewModel, userId)
             }
         }
     }
