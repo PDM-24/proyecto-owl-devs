@@ -1,5 +1,6 @@
 package com.owldevs.taskme.ui.screens
 
+import UserViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,16 +12,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,75 +26,58 @@ import androidx.navigation.NavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.components.NewTaskSection
+import com.owldevs.taskme.ui.components.OrderDetailBtn
 import com.owldevs.taskme.ui.viewmodels.ChatViewModel
-import com.owldevs.taskme.ui.theme.*
 
 @Composable
-fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel, userId: String) {
+fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  userViewModel: UserViewModel, userId: String) {
     ProvideWindowInsets {
         val chatMessages by chatViewModel.messages.collectAsState(initial = emptyList())
-
-        val navy = colorResource(id = R.color.navy)
-        val latoBold = FontFamily(Font(R.font.lato_bold))
-        val nunitoRegular = FontFamily(Font(R.font.nunito_regular))
+        val currentUser by userViewModel.currentUser.observeAsState()
+        val role = currentUser?.role
 
         var messageText by remember { mutableStateOf("") }
 
         Box(
             modifier = Modifier
-                .background(color = navy)
-                .fillMaxSize().navigationBarsPadding()
+                .background(color = MaterialTheme.colorScheme.background)
+                .fillMaxSize()
+                .navigationBarsPadding()
         ) {
-            Column(modifier = Modifier.fillMaxSize()
+            Column(modifier = Modifier
+                .fillMaxSize()
                 .imePadding()) {
+
                 // Back button
                 IconButton(
                     onClick = { navController.popBackStack() },
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = MaterialTheme.colorScheme.onBackground)
                 }
 
                 // Order details button
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = NaranjaIntenso)
-                        .padding(vertical = 20.dp)
+                        .background(color = MaterialTheme.colorScheme.tertiary)
+                        .padding(vertical = 20.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Button(
-                        onClick = { /* Handle order details click */ },
-                        colors = ButtonDefaults.buttonColors(containerColor = Turquesa),
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .padding(10.dp),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_detail),
-                                contentDescription = "order detail",
-                                tint = Color.Unspecified
-                            )
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Column {
-                                Text(
-                                    text = "Detalles de la tarea",
-                                    color = AzulMarino,
-                                    fontSize = 18.sp,
-                                    fontFamily = latoBold
-                                )
-                                Text(
-                                    text = "Conoce el estado de tu pedido",
-                                    color = AzulMarino,
-                                    fontSize = 16.sp,
-                                    fontFamily = nunitoRegular
-                                )
-                            }
+                    Column{
+                        if(role == "client"){
+                            OrderDetailBtn()
+                        }else{
+                            NewTaskSection()
                         }
+
+                        // Debugging: Show current user role
+                        Text(
+                            text = "Role: ${currentUser?.role ?: "No role"}",
+                            fontSize = 16.sp,
+                            color = Color.White
+                        )
                     }
                 }
 
@@ -135,19 +116,17 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel, userI
                                             )
                                             Text(
                                                 text = message.sender,
-                                                color = Color.White,
-                                                fontWeight = FontWeight.Bold,
-                                                fontSize = 24.sp
+                                                color = MaterialTheme.colorScheme.onBackground,
+                                                style = MaterialTheme.typography.titleLarge
                                             )
 
                                             Spacer(modifier = Modifier.height(6.dp))
 
                                             Text(
                                                 text = "Recuerda establecer fecha, hora y precio del servicio para poder agendar la tarea.",
-                                                color = Color.White,
-                                                fontSize = 16.sp,
-                                                textAlign = TextAlign.Center,
-                                                fontFamily = nunitoRegular
+                                                color = MaterialTheme.colorScheme.onBackground,
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                textAlign = TextAlign.Center
                                             )
                                         }
                                     }
@@ -163,8 +142,8 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel, userI
                                     lastDisplayedDate = messageDate
                                     Text(
                                         text = messageDate,
-                                        color = Color.Gray,
-                                        fontSize = 12.sp,
+                                        color = MaterialTheme.colorScheme.onTertiary,
+                                        style = MaterialTheme.typography.bodySmall,
                                         modifier = Modifier.padding(vertical = 4.dp),
                                         textAlign = TextAlign.Center
                                     )
@@ -204,13 +183,13 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel, userI
                                     Text(
                                         text = message.text,
                                         color = if (message.isUser) Color.White else Color.Black,
-                                        fontSize = 14.sp,
+                                        style = MaterialTheme.typography.bodyMedium
                                     )
                                     Spacer(modifier = Modifier.height(2.dp))
                                     Text(
                                         text = messageTime,
                                         color = if (message.isUser) Color.White else Color.Gray,
-                                        fontSize = 12.sp
+                                        style = MaterialTheme.typography.bodySmall
                                     )
                                 }
 
@@ -223,7 +202,7 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel, userI
                                             .size(30.dp)
                                             .clip(CircleShape)
                                             .align(alignment = Alignment.Bottom),
-                                        tint = Color(0xFF007193)
+                                        tint = MaterialTheme.colorScheme.secondary
                                     )
                                 }
                             }
@@ -236,7 +215,8 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel, userI
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
-                        .padding(start= 10.dp, end= 10.dp, top= 2.dp, bottom= 14.dp).navigationBarsWithImePadding()
+                        .padding(start = 10.dp, end = 10.dp, top = 2.dp, bottom = 14.dp)
+                        .navigationBarsWithImePadding()
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -248,7 +228,9 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel, userI
                         BasicTextField(
                             value = messageText,
                             onValueChange = { messageText = it },
-                            modifier = Modifier.weight(1f).padding(vertical= 6.dp, horizontal = 12.dp)
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(vertical = 6.dp, horizontal = 12.dp)
                         )
                     }
 

@@ -34,7 +34,7 @@ fun ChatPreview(navController: NavController, chatData: ChatPreviewData) {
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .background(Color.Gray, CircleShape)
+                .background(color = MaterialTheme.colorScheme.background, CircleShape)
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_pfp),
@@ -50,10 +50,10 @@ fun ChatPreview(navController: NavController, chatData: ChatPreviewData) {
             modifier = Modifier.weight(1f).background(color = MaterialTheme.colorScheme.background)
         ) {
             Text(text = chatData.name, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground, maxLines = 1)
-            Text(text = chatData.message, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onTertiary, maxLines = 1)
+            Text(text = chatData.message, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground, maxLines = 1)
         }
 
-        Text(text = chatData.time, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onTertiary)
+        Text(text = chatData.time, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onBackground)
     }
 }
 

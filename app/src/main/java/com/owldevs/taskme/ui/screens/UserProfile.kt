@@ -1,8 +1,6 @@
 package com.owldevs.taskme.ui.screens
 
 import UserViewModel
-import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,13 +20,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,47 +35,40 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.UserManager
-import com.owldevs.taskme.ui.components.AbilityChip
-import com.owldevs.taskme.ui.components.CategoryCard
 import com.owldevs.taskme.ui.navigation.Screens
-import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @Composable
-fun UserProfile(navController: NavController = rememberNavController()) {
-
+fun UserProfile(navController: NavController = rememberNavController(), userViewModel: UserViewModel) {
     val navy = colorResource(id = R.color.navy)
     val cyan = colorResource(id = R.color.cyan)
 
-    val userViewModel: UserViewModel = viewModel()
-    val currentUser = userViewModel.currentUser
+
+    val currentUser by userViewModel.currentUser.observeAsState()
+
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = navy)
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(30.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-
                 Text(
                     text = "Perfil",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
-
                 Icon(painter = painterResource(id = R.drawable.edit_square),
                     contentDescription = "Edit profile",
                     tint = Color.Unspecified,
@@ -86,7 +78,6 @@ fun UserProfile(navController: NavController = rememberNavController()) {
                             // icon clicked
                         }
                 )
-
             }
 
             Column(
@@ -112,7 +103,6 @@ fun UserProfile(navController: NavController = rememberNavController()) {
                 )
             }
 
-
             Spacer(modifier = Modifier.height(16.dp))
 
             Column(
@@ -132,7 +122,6 @@ fun UserProfile(navController: NavController = rememberNavController()) {
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
-
                     Text(
                         text = currentUser?.email ?: "No email",
                         fontSize = 16.sp,
@@ -153,7 +142,6 @@ fun UserProfile(navController: NavController = rememberNavController()) {
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
-
                     Text(
                         text = currentUser?.password ?: "No password",
                         fontSize = 16.sp,
@@ -170,7 +158,6 @@ fun UserProfile(navController: NavController = rememberNavController()) {
                         color = Color.White
                     )
                 }
-
             }
 
             Column(
@@ -179,22 +166,47 @@ fun UserProfile(navController: NavController = rememberNavController()) {
                     .padding(30.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(
-                    onClick = {
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = cyan // Use the retrieved color
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 10.dp)
-                ) {
-                    Text(text = "Hazte tasker", color = Color.Black)
+                // Debugging: Show current user role
+                Text(
+                    text = "Role: ${currentUser?.role ?: "No role"}",
+                    fontSize = 16.sp,
+                    color = Color.White
+                )
+
+                if (currentUser?.role == "client") {
+                    Button(
+                        onClick = {
+                            userViewModel.changeUserRole("tasker")
+                            UserManager.changeUserRole("tasker")
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = cyan
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 10.dp)
+                    ) {
+                        Text(text = "Hazte tasker", color = Color.Black)
+                    }
+                } else if (currentUser?.role == "tasker") {
+                    Button(
+                        onClick = {
+                            userViewModel.changeUserRole("client")
+                            UserManager.changeUserRole("client")
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = cyan
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 10.dp)
+                    ) {
+                        Text(text = "Regresar a perfil de usuario", color = Color.Black)
+                    }
                 }
 
                 Button(
                     onClick = {
-                        // cerrar la sesión
                         UserManager.logoutUser()
                         navController.navigate(Screens.Login.route) {
                             popUpTo(Screens.Login.route) { inclusive = true }
@@ -202,8 +214,7 @@ fun UserProfile(navController: NavController = rememberNavController()) {
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                )
-                {
+                ) {
                     Text(text = "Cerrar sesión")
                 }
 
@@ -212,11 +223,7 @@ fun UserProfile(navController: NavController = rememberNavController()) {
                 TextButton(onClick = { }) {
                     Text(text = "Ayuda", fontSize = 16.sp, color = Color.White)
                 }
-
-
             }
         }
-
     }
 }
-
