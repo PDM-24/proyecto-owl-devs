@@ -426,11 +426,3 @@ fun ProfileScreen(
         }
     }
 }
-
-@Preview(showSystemUi = true)
-@Composable
-fun ViewScreen() {
-    TaskMeTheme(darkTheme = true) {
-        ProfileScreen()
-    }
-}
