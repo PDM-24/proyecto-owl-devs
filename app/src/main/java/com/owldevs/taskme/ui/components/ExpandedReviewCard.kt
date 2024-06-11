@@ -20,6 +20,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -36,9 +40,10 @@ fun ExpandedReviewCard(
     reviewDate: Long = 123456,
     userRating: Double = 1.5
 ) {
+    var viewMore by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
-            .fillMaxWidth(0.9f)
+            .fillMaxWidth()
             .wrapContentHeight(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondary,
@@ -58,13 +63,17 @@ fun ExpandedReviewCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(painter = painterResource(id = userImg), contentDescription = "User Img")
+                    Image(
+                        painter = painterResource(id = userImg),
+                        contentDescription = "User Img",
+                        modifier = Modifier.size(48.dp)
+                    )
                     Text(text = userName, style = MaterialTheme.typography.titleMedium)
                 }
                 Row() {
-                    if (true) {
+                    if (!viewMore) {
                         TextButton(
-                            onClick = { /*TODO*/ },
+                            onClick = { viewMore = !viewMore },
                             colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onSecondary)
                         ) {
                             Text(text = "ver mas")
@@ -75,7 +84,7 @@ fun ExpandedReviewCard(
                         }
                     } else {
                         TextButton(
-                            onClick = { /*TODO*/ },
+                            onClick = { viewMore = !viewMore },
                             colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onSecondary)
                         ) {
                             Text(text = "ver menos")
@@ -89,7 +98,7 @@ fun ExpandedReviewCard(
             }
             Text(
                 text = reviewBody,
-                maxLines = 2,
+                maxLines = if (viewMore) Int.MAX_VALUE else 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -97,7 +106,7 @@ fun ExpandedReviewCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "$reviewDate", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "$reviewDate", style = MaterialTheme.typography.bodySmall)
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
