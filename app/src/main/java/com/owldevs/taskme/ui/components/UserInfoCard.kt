@@ -149,10 +149,3 @@ fun UserInfoCard(
     }
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun ComponentPreview() {
-    TaskMeTheme {
-        UserInfoCard()
-    }
-}

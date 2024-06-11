@@ -19,7 +19,7 @@ fun AbilityChip(
         label = {
             Text(
                 text = abilityName,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
             )
         },
