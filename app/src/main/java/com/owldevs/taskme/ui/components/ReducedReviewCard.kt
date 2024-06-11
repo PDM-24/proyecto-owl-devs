@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @Composable
 fun ReducedReviewCard(
@@ -58,7 +59,10 @@ fun ReducedReviewCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(painter = painterResource(id = userImg), contentDescription = "User Img")
+                    Image(
+                        painter = painterResource(id = userImg), contentDescription = "User Img",
+                        modifier = Modifier.size(32.dp)
+                    )
                     Text(text = userName, style = MaterialTheme.typography.titleMedium)
                 }
             }
@@ -70,9 +74,10 @@ fun ReducedReviewCard(
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "$reviewDate", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "$reviewDate", style = MaterialTheme.typography.bodySmall)
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
@@ -85,5 +90,13 @@ fun ReducedReviewCard(
                 }
             }
         }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun ComponentPreview() {
+    TaskMeTheme {
+        ReducedReviewCard()
     }
 }
