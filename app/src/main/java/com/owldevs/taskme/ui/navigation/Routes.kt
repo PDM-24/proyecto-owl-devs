@@ -5,4 +5,5 @@ object Routes {
     var userHomeScreen = "userhome_screen"
     var userprofileScreen = "userprofile_screen"
     var userTaskScreen = "usertask_screen"
+    var cardscreen = "cardScreen"
 }

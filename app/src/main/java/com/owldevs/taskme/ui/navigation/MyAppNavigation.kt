@@ -74,6 +74,9 @@ fun MyAppNavigation() {
                 val chatViewModel = viewModel<ChatViewModel>()
                 ChatScreen(navController, chatViewModel, userViewModel = userViewModel, userId)
             }
+            composable(route = Screens.Card.route){
+                CardScreen(navController)
+            }
         }
     }
 }
