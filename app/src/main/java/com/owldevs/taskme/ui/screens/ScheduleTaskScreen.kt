@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -158,7 +157,9 @@ fun ScheduleTaskScreen(
                 TextField(
                     value = time ,
                     onValueChange = { time = it },
-                    label = { Text("23:59", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary ) },
+                    label = { Text("23:59",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimary ) },
                     textStyle = MaterialTheme.typography.bodyMedium,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = MaterialTheme.colorScheme.onBackground,
@@ -215,9 +216,7 @@ fun ScheduleTaskScreen(
             },
             modifier = Modifier
                 .fillMaxWidth().padding(horizontal = 30.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary
-            ),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             shape = RoundedCornerShape(10.dp)
         ) {
             Text(text = "Agendar pedido",
