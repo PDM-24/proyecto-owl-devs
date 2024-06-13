@@ -34,5 +34,9 @@ class ChatViewModel : ViewModel() {
         val dateFormat = SimpleDateFormat("dd MMM yyyy 'A LAS' hh:mm a", Locale.getDefault())
         return dateFormat.format(Date())
     }
+
+    fun getOtherUserName(): String {
+        return _messages.value.firstOrNull { !it.isUser }?.sender ?: "Otro Usuario"
+    }
 }
 

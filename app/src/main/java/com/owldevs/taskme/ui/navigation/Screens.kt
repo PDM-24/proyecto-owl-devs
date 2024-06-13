@@ -20,4 +20,8 @@ sealed class Screens(val route: String) {
     data object Chat : Screens("chat/{userId}") {
         fun createRoute(userId: String) = "chat/$userId"
     }
+
+    data object ScheduleTaskScreen : Screens("tasker_schedule")
+
+    data object ScheduleTaskDetail : Screens("user_task_schedule")
 }

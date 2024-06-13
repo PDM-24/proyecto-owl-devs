@@ -2,6 +2,7 @@ package com.owldevs.taskme.ui.navigation
 
 import UserViewModel
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -33,7 +34,7 @@ fun MyAppNavigation() {
     }
 
     Scaffold(
-        containerColor = Color.Transparent,
+        //containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             // Ocultar la barra de navegación en la página de login
             if (currentRoute != Screens.Login.route) {
@@ -73,6 +74,14 @@ fun MyAppNavigation() {
                 val userId = backStackEntry.arguments?.getString("userId") ?: return@composable
                 val chatViewModel = viewModel<ChatViewModel>()
                 ChatScreen(navController, chatViewModel, userViewModel = userViewModel, userId)
+            }
+
+            composable(Screens.ScheduleTaskScreen.route) {
+                ScheduleTaskScreen(navController = navController, userViewModel = userViewModel)
+            }
+
+            composable(Screens.ScheduleTaskDetail.route) {
+                ScheduleTaskDetail(navController = navController, userViewModel = userViewModel)
             }
         }
     }

@@ -19,11 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.navigation.Screens
 
 @Composable
-fun OrderDetailBtn(){
-    Button(onClick = { /*TODO*/ },
+fun OrderDetailBtn(navController: NavController){
+    Button(onClick = {  navController.navigate(Screens.ScheduleTaskDetail.route) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 50.dp),
