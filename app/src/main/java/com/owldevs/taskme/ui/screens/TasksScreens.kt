@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,106 +37,98 @@ fun TasksScreen(
     var filterSearch by remember { mutableStateOf("") }
 
 
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = if(isTasker) "Mis pedidos" else "Mis Trabajos",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                }, colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+    Column(
+        modifier = Modifier
+            .padding()
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CenterAlignedTopAppBar(
+            title = {
+                Text(
+                    text = if (isTasker) "Mis pedidos" else "Mis Trabajos",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
-
+            }, colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimary
             )
-        },
-        bottomBar = {
-            MyBottomNav()
-        }
-    ) { innerPadding ->
+
+        )
         Column(
             modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
+                .padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(14.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Filtros: ",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                maxItemsInEachRow = 4
             ) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Filtros: ",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                FlowRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    maxItemsInEachRow = 4
-                ) {
-                    FilterChip(
-                        selected = filterSearch == "Soliciados",
-                        onClick = { filterSearch = "Soliciados" },
-                        label = {
-                            Text(
-                                text = "Solicitados",
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
-                    )
-                    FilterChip(
-                        selected = filterSearch == "Aceptados",
-                        onClick = { filterSearch = "Aceptados" },
-                        label = {
-                            Text(
-                                text = "Aceptados",
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
-                    )
-                    FilterChip(
-                        selected = filterSearch == "Finalizados",
-                        onClick = { filterSearch = "Finalizados" },
-                        label = {
-                            Text(
-                                text = "Finalizados",
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
-                    )
-                    FilterChip(
-                        selected = filterSearch == "Cancelados",
-                        onClick = { filterSearch = "Cancelados" },
-                        label = {
-                            Text(
-                                text = "Cancelados",
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
-                    )
-                }
-                LazyColumn(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    items(10) {
-                        TaskCard()
+                FilterChip(
+                    selected = filterSearch == "Soliciados",
+                    onClick = { filterSearch = "Soliciados" },
+                    label = {
+                        Text(
+                            text = "Solicitados",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
                     }
+                )
+                FilterChip(
+                    selected = filterSearch == "Aceptados",
+                    onClick = { filterSearch = "Aceptados" },
+                    label = {
+                        Text(
+                            text = "Aceptados",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                )
+                FilterChip(
+                    selected = filterSearch == "Finalizados",
+                    onClick = { filterSearch = "Finalizados" },
+                    label = {
+                        Text(
+                            text = "Finalizados",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                )
+                FilterChip(
+                    selected = filterSearch == "Cancelados",
+                    onClick = { filterSearch = "Cancelados" },
+                    label = {
+                        Text(
+                            text = "Cancelados",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                )
+            }
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(10) {
+                    TaskCard()
                 }
             }
         }
-
     }
 
 }

@@ -3,6 +3,7 @@ package com.owldevs.taskme.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,39 +35,41 @@ import com.owldevs.taskme.ui.theme.TaskMeTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserSettingsScreen() {
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Ajustes",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
-                navigationIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "Back",
-                        modifier = Modifier.size(32.dp)
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(150.dp)
+    ) {
+        CenterAlignedTopAppBar(
+            title = {
+                Text(
+                    text = "Ajustes",
+                    style = MaterialTheme.typography.titleLarge
                 )
+            },
+            navigationIcon = {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    modifier = Modifier.size(32.dp)
+                )
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
+                titleContentColor = MaterialTheme.colorScheme.onBackground
             )
-        }
-    ) { innerPadding ->
+        )
         Column(
             modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .fillMaxHeight(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth(0.8f),
+                modifier = Modifier
+                    .fillMaxWidth(0.8f)
+                    .weight(1f),
                 verticalArrangement = Arrangement.spacedBy(150.dp)
             ) {
                 Column(
@@ -158,14 +161,5 @@ fun UserSettingsScreen() {
 
             }
         }
-
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun ShowScreen() {
-    TaskMeTheme(darkTheme = true) {
-        UserSettingsScreen()
     }
 }
