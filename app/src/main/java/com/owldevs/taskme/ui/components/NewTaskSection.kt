@@ -1,29 +1,24 @@
 package com.owldevs.taskme.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.navigation.Screens
 
 @Composable
-fun NewTaskSection(){
-    Column (modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+fun NewTaskSection(navController: NavController){
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
@@ -51,17 +46,22 @@ fun NewTaskSection(){
 
         Button(
             onClick = {
-                      // to do
+                navController.navigate(Screens.ScheduleTaskScreen.route)
             },
             modifier = Modifier
-                .fillMaxWidth().padding(horizontal = 50.dp),
+                .fillMaxWidth()
+                .padding(horizontal = 50.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary // Use the retrieved color
+                containerColor = MaterialTheme.colorScheme.primary
             ),
             shape = RoundedCornerShape(10.dp)
         ) {
-            Text(text = "Agendar cita", color = MaterialTheme.colorScheme.primaryContainer, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(8.dp))
+            Text(
+                text = "Agendar cita",
+                color = MaterialTheme.colorScheme.primaryContainer,
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(10.dp)
+            )
         }
     }
-    
 }
