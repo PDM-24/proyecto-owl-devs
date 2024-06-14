@@ -36,16 +36,19 @@ fun MyAppNavigation() {
         containerColor = Color.Transparent,
         bottomBar = {
             // Ocultar la barra de navegación en la página de login
-            if (currentRoute != Screens.Login.route) {
+            if (currentRoute != Screens.Login.route && currentRoute != Screens.CreateOrHave.route) {
                 MyBottomNav(navController)
             }
         }
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screens.Login.route,
+            startDestination = Screens.CreateOrHave.route,
             modifier = Modifier.padding(it)
         ) {
+            composable(route = Screens.CreateOrHave.route) {
+                CreateOrHaveScreen(navController)
+            }
             composable(route = Screens.Login.route) {
                 LoginScreen(navController, userViewModel = userViewModel)
             }
