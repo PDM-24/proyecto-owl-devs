@@ -149,8 +149,6 @@ fun UserProfile(navController: NavController = rememberNavController(), userView
 
                 TextButton(onClick = {
                     navController.navigate(Screens.Card.route)
-                Spacer(modifier = Modifier.height(12.dp))
-     
                 }) {
                     Text(
                         text = "Mis tarjetas",

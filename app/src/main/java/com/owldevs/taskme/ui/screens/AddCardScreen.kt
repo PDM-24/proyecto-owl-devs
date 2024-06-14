@@ -199,7 +199,7 @@ fun AddCardScreen(navController: NavController, userViewModel: UserViewModel) {
                Box(
                    modifier = Modifier
                        .fillMaxWidth()
-                       .padding(start = 20.dp, top = 20.dp)
+                       .padding(start = 20.dp)
                    ,
                    contentAlignment = Alignment.Center
                ){
