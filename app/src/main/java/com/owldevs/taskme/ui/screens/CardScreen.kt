@@ -1,10 +1,13 @@
 package com.owldevs.taskme.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,10 +37,18 @@ import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.TextButton
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import com.owldevs.taskme.ui.components.UserCard
+import com.owldevs.taskme.ui.navigation.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,35 +89,13 @@ topBar ={
                 .fillMaxWidth()
         ) {
             UserCard()
+            TextButton(onClick = { navController.navigate(Screens.AddCard.route) },
+                modifier = Modifier
+                    .padding(top = 13.dp, start = 20.dp)) {
+                Text(text = "+ Agregar tarjeta", color = Color.White, textDecoration = TextDecoration.Underline)
+            }
         }
 
     }
 }
 
-@Composable
-fun UserCard(){
-    var isChecked by remember { mutableStateOf(false) }
-    val checkedColor = colorResource(id = R.color.salmon)
-    Row (
-        modifier = Modifier
-            .fillMaxWidth()
-        , horizontalArrangement = Arrangement.Center
-    ){
-        Checkbox(
-            checked = isChecked,
-            onCheckedChange = { isChecked = it },
-            colors = CheckboxDefaults.colors(
-                checkedColor = checkedColor
-            )
-        )
-        Box (
-            modifier = Modifier
-                .width(200.dp)
-                .height(100.dp)
-                .background(Color.White)
-        ){
-            Text(text = "I'm a card", color = Color.Black)
-        }
-
-    }
-}

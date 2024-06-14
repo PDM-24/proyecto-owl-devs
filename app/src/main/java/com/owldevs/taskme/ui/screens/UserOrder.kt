@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.navigation.Routes
+import com.owldevs.taskme.ui.navigation.Screens
 
 @Composable
 fun UserOrder(navController: NavController) {
@@ -43,7 +44,7 @@ fun UserOrder(navController: NavController) {
         ){
             Column(){
                 Button(onClick = {
-                    navController.navigate(Routes.userTaskScreen)
+                    navController.navigate(Screens.UserTask.route)
                 }) {
                     Text(text = "ver mas")
                 }
