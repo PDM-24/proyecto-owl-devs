@@ -67,9 +67,9 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  user
                 ) {
                     Column{
                         if(role == "client"){
-                            OrderDetailBtn()
+                            OrderDetailBtn(navController = navController)
                         }else{
-                            NewTaskSection()
+                            NewTaskSection(navController = navController)
                         }
 
                         // Debugging: Show current user role

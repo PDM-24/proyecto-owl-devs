@@ -3,9 +3,9 @@ package com.owldevs.taskme.ui.navigation
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -32,14 +32,7 @@ fun MyBottomNav(navController: NavController = rememberNavController()) {
     val selectedIconResId = remember { mutableStateOf(R.drawable.ic_home) }
 
     // BottomAppBar with rounded corners and border
-    BottomAppBar(
-        containerColor = MaterialTheme.colorScheme.secondary,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(65.dp)
-            .background(Color.Transparent)
-    ) {
-        // BottomAppBar with rounded corners and border
+
         BottomAppBar(
             containerColor = BlueTM,
             modifier = Modifier
@@ -117,7 +110,7 @@ fun MyBottomNav(navController: NavController = rememberNavController()) {
             }
         }
     }
-}
+
 
 @Preview(showSystemUi = true)
 @Composable
