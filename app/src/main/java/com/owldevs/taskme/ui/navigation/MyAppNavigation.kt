@@ -63,7 +63,7 @@ fun MyAppNavigation() {
                 UserMailbox(navController)
             }
 
-            composable(route = Routes.userTaskScreen){
+            composable(route = Screens.UserTask.route){
                 UserTaskScreen(navController)
             }
 
@@ -76,12 +76,19 @@ fun MyAppNavigation() {
                 ChatScreen(navController, chatViewModel, userViewModel = userViewModel, userId)
             }
 
+            composable(route = Screens.Card.route){
+                CardScreen(navController)
+            }
+            composable(route = Screens.AddCard.route){
+                AddCardScreen(navController, userViewModel = userViewModel)
+
             composable(Screens.ScheduleTaskScreen.route) {
                 ScheduleTaskScreen(navController = navController, userViewModel = userViewModel)
             }
 
             composable(Screens.ScheduleTaskDetail.route) {
                 ScheduleTaskDetail(navController = navController, userViewModel = userViewModel)
+
             }
         }
     }
