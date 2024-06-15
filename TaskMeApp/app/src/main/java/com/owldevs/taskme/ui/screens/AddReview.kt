@@ -57,7 +57,7 @@ fun AddReview(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = "Trabajo realizado") },
+                title = { Text(text = "Escribir reseña") },
                 navigationIcon = {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
