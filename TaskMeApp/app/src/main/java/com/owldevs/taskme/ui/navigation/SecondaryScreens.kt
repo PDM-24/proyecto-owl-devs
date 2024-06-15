@@ -32,4 +32,6 @@ sealed class SecondaryScreens(val route: String) {
 
     data object AddReview : SecondaryScreens("addReview")
 
+    data object UsertoTasker : SecondaryScreens("UsertoTasker")
+
 }
