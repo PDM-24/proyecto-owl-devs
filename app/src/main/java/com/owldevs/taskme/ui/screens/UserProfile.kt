@@ -154,10 +154,9 @@ fun UserProfile(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
-
                 TextButton(onClick = {
-                    //todo
+                    /*NAVCONTRLLER CARD*/
+                    /*navController.navigate()*/
                 }) {
                     Text(
                         text = "Mis tarjetas",

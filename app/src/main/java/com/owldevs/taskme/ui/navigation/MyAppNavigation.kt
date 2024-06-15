@@ -34,13 +34,16 @@ fun MyAppNavigation() {
         //containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             // Ocultar la barra de navegación en la página de login
+
             if (currentRoute != SecondaryScreens.LoginScreen.route) {
+
                 MyBottomNav(navController)
             }
         }
     ) {
         NavHost(
             navController = navController,
+
             startDestination = SecondaryScreens.LoginScreen.route,
             modifier = Modifier.padding(it)
         ) {
@@ -74,7 +77,6 @@ fun MyAppNavigation() {
             }
             /*FIN DE RUTAS PRINCIPALES*/
 
-
             /*RUTAS SECUNDARIAS*/
 
             composable(route = SecondaryScreens.UserOrder.route) {
@@ -93,10 +95,12 @@ fun MyAppNavigation() {
                 ChatScreen(navController, chatViewModel, userViewModel)
             }
             composable(SecondaryScreens.ScheduleScreen.route) {
+
                 ScheduleTaskScreen(navController = navController, userViewModel = userViewModel)
             }
             composable(SecondaryScreens.ScheduleDetail.route) {
                 ScheduleTaskDetail(navController = navController, userViewModel = userViewModel)
+
             }
             composable(SecondaryScreens.CategoryScreen.route) {
                 CategoryScreen(navController)
@@ -113,3 +117,4 @@ fun MyAppNavigation() {
         }
     }
 }
+

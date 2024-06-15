@@ -11,12 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @Composable
 fun UserOrder(navController: NavController) {
