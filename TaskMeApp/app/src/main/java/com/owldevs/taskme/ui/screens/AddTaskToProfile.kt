@@ -6,6 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -99,44 +100,61 @@ fun AddTaskToProfile(
             verticalArrangement = Arrangement.Center
         ) {
             item {
-                Text(text = "Escoge una imagen:")
-                imageUri?.let { uri ->
-                    Image(
-                        painter = rememberAsyncImagePainter(uri),
-                        contentDescription = "Task_picture",
-                        modifier = Modifier
-                            .size(300.dp)
-                            .clickable { imagePickerLauncher.launch("image/*") }
-                    )
-                } ?: run {
-                    Icon(
-                        painter = painterResource(id = R.drawable.imagetask),
-                        contentDescription = "blank_pic",
-                        tint = Color.Unspecified,
-                        modifier = Modifier
-                            .size(300.dp)
-                            .clickable { imagePickerLauncher.launch("image/*") }
+
+                Column(){
+                    Text(text = "Escoge una imagen:")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    imageUri?.let { uri ->
+                        Image(
+                            painter = rememberAsyncImagePainter(uri),
+                            contentDescription = "Task_picture",
+                            modifier = Modifier
+                                .size(300.dp)
+                            //.clickable { imagePickerLauncher.launch("image/*") }
+                        )
+                    } ?: run {
+                        Icon(
+                            painter = painterResource(id = R.drawable.imagetask),
+                            contentDescription = "blank_task",
+                            tint = Color.Unspecified,
+                            modifier = Modifier
+                                .size(300.dp,200.dp)
+                            //.clickable { imagePickerLauncher.launch("image/*") }
+                        )
+                    }
+                }
+
+                Button(
+                    onClick = { imagePickerLauncher.launch("image/*")},
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(cyan)
+                ) {
+                    Text(text = "Agregar imagen")
+                }
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                Column(){
+                    Text(text = "Agregar una descripcion:")
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    TextField(
+                        value = descripcion,
+                        onValueChange = { descripcion = it },
+                        modifier = Modifier.width(300.dp),
+
+                        textStyle = MaterialTheme.typography.bodyMedium,
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                            focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary
+                        )
                     )
                 }
 
-               Text(text = "Agregar una descripcion:")
-                Spacer(modifier = Modifier.height(8.dp))
 
-                TextField(
-                    value = descripcion,
-                    onValueChange = { descripcion = it },
-                    modifier = Modifier.width(300.dp),
-
-                    textStyle = MaterialTheme.typography.bodyMedium,
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = MaterialTheme.colorScheme.onBackground,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
-                        focusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                        unfocusedTextColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(50.dp))
 
 
                 Button(
