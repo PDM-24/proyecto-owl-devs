@@ -30,4 +30,6 @@ sealed class SecondaryScreens(val route: String) {
 
     data object AddTaskToProfile : SecondaryScreens ("addTask")
 
+    data object AddReview : SecondaryScreens("addReview")
+
 }

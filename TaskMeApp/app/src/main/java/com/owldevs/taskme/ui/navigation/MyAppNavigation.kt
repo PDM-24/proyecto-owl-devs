@@ -127,6 +127,10 @@ fun MyAppNavigation() {
             composable(SecondaryScreens.AddTaskToProfile.route) {
                 AddTaskToProfile(navController = navController)
             }
+
+            composable(SecondaryScreens.AddReview.route) {
+                AddReview(navController = navController)
+            }
         }
     }
 }

@@ -113,7 +113,16 @@ fun EditProfile(
             verticalArrangement = Arrangement.Center
         ) {
             item {
-                Spacer(modifier = Modifier.height(40.dp))
+
+                Spacer(modifier = Modifier.height(30.dp))
+
+                Icon(
+                    painter = painterResource(id = R.drawable.deco_svg_1),
+                    contentDescription = "icono_decoracion",
+                    tint = Color.Unspecified,
+                    modifier = Modifier.size(60.dp)
+                )
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Row {
                     if (imageUri != null) {
@@ -282,7 +291,9 @@ fun EditProfile(
                 ) {
                     Text(text = "Guardar")
                 }
+                Spacer(modifier = Modifier.height(20.dp))
             }
+
         }
     }
 }
