@@ -120,21 +120,23 @@ fun RegisterClientOrTaskScreen(navController: NavController) {
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.clickable { showPopup = false }
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "Cliente: Usuario que únicamente podrá buscar ayuda dentro de la aplicación.",
-                            color = Color.White,
-                            textAlign = TextAlign.Justify
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "Tasker: Usuario que podrá brindar ayuda en base a sus habilidades dentro de la aplicación.",
-                            color = Color.White,
-                            textAlign = TextAlign.Justify
-                        )
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Cliente: Usuario que únicamente podrá buscar ayuda dentro de la aplicación.",
+                        color = Color.White,
+                        textAlign = TextAlign.Justify
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Tasker: Usuario que podrá brindar ayuda en base a sus habilidades dentro de la aplicación.",
+                        color = Color.White,
+                        textAlign = TextAlign.Justify
+                    )
                 }
             }
         }
     }
 }
+
+
