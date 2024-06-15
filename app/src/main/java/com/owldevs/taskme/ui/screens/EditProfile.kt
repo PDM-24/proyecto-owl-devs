@@ -1,14 +1,19 @@
 package com.owldevs.taskme.ui.screens
 
 import UserViewModel
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -42,8 +47,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.AbilityChip
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun EditProfile(navController: NavController, userViewModel: UserViewModel) {
     val cyan = colorResource(id = R.color.cyan)
@@ -66,7 +72,10 @@ fun EditProfile(navController: NavController, userViewModel: UserViewModel) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clickable { navController.popBackStack() }
+
                     )
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -81,9 +90,13 @@ fun EditProfile(navController: NavController, userViewModel: UserViewModel) {
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
+
+            Spacer(modifier = Modifier.height(15.dp))
+
             Row {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_pfp),
@@ -92,6 +105,7 @@ fun EditProfile(navController: NavController, userViewModel: UserViewModel) {
                     modifier = Modifier
                         .size(60.dp)
                 )
+                Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     onClick = { /*TODO*/ },
                     shape = RoundedCornerShape(8.dp),
@@ -100,6 +114,7 @@ fun EditProfile(navController: NavController, userViewModel: UserViewModel) {
                     Text(text = "Agregar o cambiar foto de perfil")
                 }
             }
+            Spacer(modifier = Modifier.height(15.dp))
             Column {
                 Text(
                     text = "Nombre",
@@ -107,7 +122,7 @@ fun EditProfile(navController: NavController, userViewModel: UserViewModel) {
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
                 TextField(
                     value = name,
@@ -128,6 +143,7 @@ fun EditProfile(navController: NavController, userViewModel: UserViewModel) {
                     )
                 )
             }
+            Spacer(modifier = Modifier.height(15.dp))
 
             Column {
                 Text(
@@ -136,7 +152,7 @@ fun EditProfile(navController: NavController, userViewModel: UserViewModel) {
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
                 TextField(
                     value = descripcion,
@@ -157,14 +173,20 @@ fun EditProfile(navController: NavController, userViewModel: UserViewModel) {
                     )
                 )
             }
-            Spacer(modifier = Modifier.height(8.dp))
 
-            Column {
+            Spacer(modifier = Modifier.height(15.dp))
+
+            Column(
+
+            ) {
                 Text(
                     text = "Categorias",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
+
+                Spacer(modifier = Modifier.height(10.dp))
+
                 ExposedDropdownMenuBox(
                     expanded = expanded,
                     onExpandedChange = { expanded = !expanded }
@@ -207,24 +229,36 @@ fun EditProfile(navController: NavController, userViewModel: UserViewModel) {
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .wrapContentWidth()
-                ) {
+                Spacer(modifier = Modifier.height(15.dp))
 
+            }
+
+            Column(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .wrapContentWidth()
+            ) {
+                FlowRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    maxItemsInEachRow = 4,
+
+                ) {
                     selectedCategorias.forEach { categoria ->
                         AbilityChip(
                             abilityName = categoria,
                             showCloseIcon = true,
                             onRemove = { selectedCategorias.remove(categoria) }
                         )
+                        Spacer(modifier = Modifier.width(8.dp))
                     }
                 }
+
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
             Button(
                 onClick = { /*TODO*/ },
