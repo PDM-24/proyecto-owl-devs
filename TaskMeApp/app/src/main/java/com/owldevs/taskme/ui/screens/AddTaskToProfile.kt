@@ -135,7 +135,7 @@ fun AddTaskToProfile(
                 Spacer(modifier = Modifier.height(40.dp))
 
                 Column(){
-                    Text(text = "Agregar una descripcion:")
+                    Text(text = "Agrega una descripcion:")
                     Spacer(modifier = Modifier.height(10.dp))
 
                     TextField(
