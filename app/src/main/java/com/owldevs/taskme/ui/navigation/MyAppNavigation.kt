@@ -37,7 +37,7 @@ fun MyAppNavigation() {
         //containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             // Ocultar la barra de navegación en la página de login
-            if (currentRoute != Screens.Login.route && currentRoute != Screens.CreateOrHave.route) {
+            if (currentRoute != Screens.Login.route && currentRoute != Screens.CreateOrHave.route && currentRoute != Screens.RegisterClientOrTask.route) {
                 MyBottomNav(navController)
             }
         }
@@ -70,6 +70,11 @@ fun MyAppNavigation() {
                 UserTaskScreen(navController)
             }
 
+            // Nueva ruta para RegisterClientOrTask
+            composable(route = Screens.RegisterClientOrTask.route) {
+                RegisterClientOrTaskScreen(navController)
+            }
+
             composable(
                 route = "chat_screen/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType })
@@ -82,13 +87,12 @@ fun MyAppNavigation() {
             composable(route = Screens.Card.route){
                 CardScreen(navController)
             }
-            composable(route = Screens.AddCard.route){
+            composable(route = Screens.AddCard.route) {
                 AddCardScreen(navController, userViewModel = userViewModel)
-
+            }
             composable(Screens.ScheduleTaskScreen.route) {
                 ScheduleTaskScreen(navController = navController, userViewModel = userViewModel)
             }
-
             composable(Screens.ScheduleTaskDetail.route) {
                 ScheduleTaskDetail(navController = navController, userViewModel = userViewModel)
 
@@ -96,4 +100,4 @@ fun MyAppNavigation() {
         }
     }
 }
-}
+
