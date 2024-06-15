@@ -32,4 +32,6 @@ sealed class Screens(val route: String) {
 
     data object ScheduleTaskDetail : Screens("user_task_schedule")
 
+    data object EditProfile : Screens ("editProfile")
+
 }

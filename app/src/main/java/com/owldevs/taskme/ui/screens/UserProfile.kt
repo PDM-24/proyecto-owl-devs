@@ -75,7 +75,7 @@ fun UserProfile(navController: NavController = rememberNavController(), userView
                     modifier = Modifier
                         .size(30.dp)
                         .clickable {
-                            // icon clicked todo
+                            navController.navigate(Screens.EditProfile.route)
                         }
                 )
             }
