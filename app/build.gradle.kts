@@ -72,8 +72,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+
     //implementado manualmente
     val nav_version = "2.7.7"
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation ("com.google.accompanist:accompanist-insets:0.23.1")
+    implementation("io.coil-kt:coil-compose:2.0.0")
 }
