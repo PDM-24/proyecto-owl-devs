@@ -29,10 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
 @Composable
 fun TaskCard(
+    navController: NavController,
     taskId: Int = 0,
     taskDate: Long = 123456,
     taskStatus: String = "Status",
@@ -99,7 +102,7 @@ fun TaskCard(
                     Text(text = taskerName, style = MaterialTheme.typography.bodyMedium)
                 }
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { /*NAVCONTROLLER A DETALLE DE LA TAREA*/ },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.secondary,
                         contentColor = MaterialTheme.colorScheme.onSecondary

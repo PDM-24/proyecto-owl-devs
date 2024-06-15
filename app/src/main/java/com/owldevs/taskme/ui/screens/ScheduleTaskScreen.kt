@@ -11,11 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.ui.navigation.Screens
+import com.owldevs.taskme.ui.navigation.MainScreens
+import com.owldevs.taskme.ui.theme.TaskMeTheme
 import com.owldevs.taskme.ui.viewmodels.TaskViewModel
 import com.owldevs.taskme.ui.viewmodels.ChatViewModel
 
@@ -45,7 +48,9 @@ fun ScheduleTaskScreen(
 
         // Campos de entrada para la información de la tarea
 
-        Row(modifier = Modifier.padding(horizontal = 20.dp).fillMaxWidth(),
+        Row(modifier = Modifier
+            .padding(horizontal = 20.dp)
+            .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start){
             Icon(
@@ -212,10 +217,11 @@ fun ScheduleTaskScreen(
             onClick = {
                 taskViewModel.updateTask(name, category, date, location, time, price)
                 taskViewModel.scheduleTask()
-                navController.navigate(Screens.UserHome.route)
+                navController.navigate(MainScreens.UserHome.route)
             },
             modifier = Modifier
-                .fillMaxWidth().padding(horizontal = 30.dp),
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             shape = RoundedCornerShape(10.dp)
         ) {
@@ -226,3 +232,11 @@ fun ScheduleTaskScreen(
         }
     }
 }
+
+/*@Preview
+@Composable
+fun ShowPreview() {
+    TaskMeTheme {
+        ScheduleTaskScreen()
+    }
+}*/

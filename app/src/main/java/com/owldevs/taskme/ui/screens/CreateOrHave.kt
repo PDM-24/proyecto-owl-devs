@@ -24,7 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.ui.navigation.Screens
+import com.owldevs.taskme.ui.navigation.MainScreens
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.AzulMarino
 import com.owldevs.taskme.ui.theme.NaranjaIntenso
 
@@ -99,7 +100,7 @@ fun CreateOrHaveScreen(navController: NavController) {
 
                     ClickableText(
                         text = AnnotatedString("Ya tengo una cuenta"),
-                        onClick = { navController.navigate(Screens.Login.route) },
+                        onClick = { navController.navigate(SecondaryScreens.LoginScreen.route) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 16.dp),

@@ -19,13 +19,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @Composable
-fun UserHome(navController: NavController, userViewModel: UserViewModel) {
+fun UserHome(
+    navController: NavController,
+    userViewModel: UserViewModel = viewModel()
+) {
 
     val navy = colorResource(id = R.color.navy)
     val cyan = colorResource(id = R.color.cyan)

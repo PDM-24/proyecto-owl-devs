@@ -13,12 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.model.ChatPreviewData
 import com.owldevs.taskme.ui.components.ChatPreview
+import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @Composable
 fun UserMailbox(navController: NavController) {
@@ -77,7 +80,7 @@ fun UserMailbox(navController: NavController) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 LazyColumn {
                     items(chatList) { chatData ->
-                        ChatPreview(navController = navController, chatData = chatData)
+                        ChatPreview(navController, chatData)
                         Divider(color = MaterialTheme.colorScheme.onBackground, thickness = 1.dp)
                     }
                 }

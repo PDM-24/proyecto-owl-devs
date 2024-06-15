@@ -3,6 +3,7 @@ package com.owldevs.taskme.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,6 +51,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.UserInfoCard
 import com.owldevs.taskme.ui.navigation.MyBottomNav
@@ -58,163 +61,151 @@ import com.owldevs.taskme.ui.theme.TaskMeTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryScreen(
+    navController: NavController,
     categoryName: String = "CategoryName",
     taskerDirection: String = "San Salvador, El Salvador"
 ) {
     var userSearch by remember { mutableStateOf("") }
 
-    Scaffold(
-        topBar = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(152.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.img_homebg),
-                    contentDescription = "Category Img",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .zIndex(0f)
-                )
-                LargeTopAppBar(
-                    title = {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .zIndex(1f),
-                            contentAlignment = Alignment.BottomStart
-                        ) {
-                            Text(
-                                text = categoryName,
-                                style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onSecondary,
-                                modifier = Modifier
-                                    .zIndex(1f)
-                            )
-                        }
-                    },
-                    navigationIcon = {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back",
-                            tint = MaterialTheme.colorScheme.onSecondary,
-                            modifier = Modifier
-                                .padding(start = 10.dp)
-                                .zIndex(1f)
-                                .size(28.dp)
-                        )
-                    },
-                    colors = TopAppBarDefaults.largeTopAppBarColors(containerColor = Color.Transparent),
-                    modifier = Modifier.zIndex(1f)
-                )
-            }
-
-        },
-        bottomBar = {
-            MyBottomNav()
-        }
-
-    ) { paddingValues ->
-        Column(
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(0.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()
-                .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .height(152.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .padding(top = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                Icon(imageVector = Icons.Default.LocationOn, contentDescription = "Location Icon")
-                Text(
-                    text = taskerDirection,
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-            OutlinedTextField(
-                value = userSearch,
-                onValueChange = { userToSearch -> userSearch = userToSearch },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Search,
-                        contentDescription = "Search Icon"
-                    )
-                },
-                label = {
-                    Text(text = "Buscar Tasker")
-                },
-                placeholder = {
-                    Text(
-                        text = "Jhon Doe",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                },
-                textStyle = MaterialTheme.typography.bodyMedium,
-                shape = RoundedCornerShape(8.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                singleLine = true,
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.onSecondary,
-                    focusedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
-                    focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
-                    focusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                    focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
-                    focusedLabelColor = MaterialTheme.colorScheme.onSecondary
-                ),
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-            )
-            Text(
-                text = "Taskers destacados en tu area: ",
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.fillMaxWidth(0.9f)
-            )
-            LazyColumn(
+            Image(
+                painter = painterResource(id = R.drawable.img_homebg),
+                contentDescription = "Category Img",
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(1f)
-                    .padding(bottom = 5.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = if (true) {
-                    Arrangement.spacedBy(12.dp)
-                } else {
-                    Arrangement.Center
-                }
-            ) {
-                if (true) {
-                    items(count = 5) {
-                        UserInfoCard()
+                    .zIndex(0f)
+            )
+            LargeTopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .zIndex(1f),
+                        contentAlignment = Alignment.BottomStart
+                    ) {
+                        Text(
+                            text = categoryName,
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSecondary,
+                            modifier = Modifier
+                                .zIndex(1f)
+                        )
                     }
-                } else {
-                    item {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "No hay Taskers en esta ubicacion",
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                        }
+                },
+                navigationIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = MaterialTheme.colorScheme.onSecondary,
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .zIndex(1f)
+                            .size(28.dp)
+                            .clickable {
+                                navController.popBackStack()
+                            }
+                    )
+                },
+                colors = TopAppBarDefaults.largeTopAppBarColors(containerColor = Color.Transparent),
+                modifier = Modifier.zIndex(1f)
+            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(0.9f)
+                .padding(top = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Icon(imageVector = Icons.Default.LocationOn, contentDescription = "Location Icon")
+            Text(
+                text = taskerDirection,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
+        OutlinedTextField(
+            value = userSearch,
+            onValueChange = { userToSearch -> userSearch = userToSearch },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = "Search Icon"
+                )
+            },
+            label = {
+                Text(text = "Buscar Tasker", style = MaterialTheme.typography.titleMedium)
+            },
+            placeholder = {
+                Text(
+                    text = "Jhon Doe",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
+            textStyle = MaterialTheme.typography.bodyMedium,
+            shape = RoundedCornerShape(8.dp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.onSecondary,
+                focusedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
+                focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
+                focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
+                focusedLabelColor = MaterialTheme.colorScheme.onSecondary
+            ),
+            modifier = Modifier
+                .fillMaxWidth(0.9f)
+        )
+        Text(
+            text = "Taskers destacados en tu area: ",
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.fillMaxWidth(0.9f)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)
+                .padding(bottom = 5.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = if (true) {
+                Arrangement.spacedBy(12.dp)
+            } else {
+                Arrangement.Center
+            }
+        ) {
+            if (true) {
+                items(count = 5) {
+                    UserInfoCard(navController)
+                }
+            } else {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "No hay Taskers en esta ubicacion",
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleLarge
+                        )
                     }
                 }
             }
         }
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun ScreePreview() {
-    TaskMeTheme {
-        CategoryScreen()
     }
 }

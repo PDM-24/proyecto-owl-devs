@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,8 +14,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.ui.navigation.Routes
-import com.owldevs.taskme.ui.navigation.Screens
 
 @Composable
 fun UserOrder(navController: NavController) {
@@ -44,7 +41,7 @@ fun UserOrder(navController: NavController) {
         ){
             Column(){
                 Button(onClick = {
-                    navController.navigate(Screens.UserTask.route)
+                    /*navController.navigate()*/
                 }) {
                     Text(text = "ver mas")
                 }
@@ -52,6 +49,4 @@ fun UserOrder(navController: NavController) {
         }
     }
 
-
-    
 }

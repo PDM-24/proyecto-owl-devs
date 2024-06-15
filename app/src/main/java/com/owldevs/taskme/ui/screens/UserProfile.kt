@@ -29,16 +29,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.UserManager
-import com.owldevs.taskme.ui.navigation.Screens
+import com.owldevs.taskme.ui.navigation.MainScreens
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
+import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @Composable
-fun UserProfile(navController: NavController = rememberNavController(), userViewModel: UserViewModel) {
+fun UserProfile(
+    navController: NavController,
+    userViewModel: UserViewModel = viewModel()
+) {
 
     val currentUser by userViewModel.currentUser.observeAsState()
 
@@ -148,7 +155,8 @@ fun UserProfile(navController: NavController = rememberNavController(), userView
                 }
 
                 TextButton(onClick = {
-                    navController.navigate(Screens.Card.route)
+                    /*NAVCONTRLLER CARD*/
+                    /*navController.navigate()*/
                 }) {
                     Text(
                         text = "Mis tarjetas",
@@ -180,14 +188,17 @@ fun UserProfile(navController: NavController = rememberNavController(), userView
                             UserManager.changeUserRole("tasker")
                         },
                         modifier = Modifier
-                            .fillMaxWidth().padding(horizontal = 10.dp),
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         shape = RoundedCornerShape(10.dp)
                     ) {
-                        Text(text = "Cambiar a perfil de Tasker",
+                        Text(
+                            text = "Cambiar a perfil de Tasker",
                             color = MaterialTheme.colorScheme.primaryContainer,
                             style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(8.dp))
+                            modifier = Modifier.padding(8.dp)
+                        )
                     }
                 } else if (currentUser?.role == "tasker") {
                     Button(
@@ -196,14 +207,17 @@ fun UserProfile(navController: NavController = rememberNavController(), userView
                             UserManager.changeUserRole("client")
                         },
                         modifier = Modifier
-                            .fillMaxWidth().padding(horizontal = 10.dp),
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         shape = RoundedCornerShape(10.dp)
                     ) {
-                        Text(text = "Cambiar a perfil de usuario",
+                        Text(
+                            text = "Cambiar a perfil de usuario",
                             color = MaterialTheme.colorScheme.primaryContainer,
                             style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(8.dp))
+                            modifier = Modifier.padding(8.dp)
+                        )
                     }
                 }
 
@@ -211,20 +225,20 @@ fun UserProfile(navController: NavController = rememberNavController(), userView
 
                 Button(
                     onClick = {
-                        UserManager.logoutUser()
-                        navController.navigate(Screens.Login.route) {
-                            popUpTo(Screens.Login.route) { inclusive = true }
-                        }
+                        navController.navigate(SecondaryScreens.LoginScreen.route)
                     },
                     modifier = Modifier
-                        .fillMaxWidth().padding(horizontal = 10.dp),
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text(text = "Cerrar sesión",
+                    Text(
+                        text = "Cerrar sesión",
                         color = MaterialTheme.colorScheme.primaryContainer,
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(8.dp))
+                        modifier = Modifier.padding(8.dp)
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(30.dp))
@@ -232,10 +246,12 @@ fun UserProfile(navController: NavController = rememberNavController(), userView
                 TextButton(onClick = {
                     // todo
                 }) {
-                    Text(text = "Ayuda",
+                    Text(
+                        text = "Ayuda",
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.bodySmall,
-                        textDecoration = TextDecoration.Underline)
+                        textDecoration = TextDecoration.Underline
+                    )
                 }
             }
         }

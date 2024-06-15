@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.model.ChatPreviewData
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
 @Composable
 fun ChatPreview(navController: NavController, chatData: ChatPreviewData) {
@@ -27,7 +28,7 @@ fun ChatPreview(navController: NavController, chatData: ChatPreviewData) {
             .padding(horizontal = 20.dp, vertical = 10.dp)
             .background(color = MaterialTheme.colorScheme.background)
             .clickable {
-                navController.navigate("chat_screen/${chatData.userId}")
+                navController.navigate(SecondaryScreens.ChatScreen.route)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
