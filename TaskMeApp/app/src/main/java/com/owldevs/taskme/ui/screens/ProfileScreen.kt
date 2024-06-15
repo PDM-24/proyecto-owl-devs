@@ -391,7 +391,10 @@ fun ProfileScreen(
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text(text = "Escribir reseña")
+                        Text(
+                            text = "Escribir reseña",
+                            Modifier.clickable { navController.navigate(SecondaryScreens.AddReview.route) }
+                        )
                     }
                 }
                 ReducedReviewCard(navController)
