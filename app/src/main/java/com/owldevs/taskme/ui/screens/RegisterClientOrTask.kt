@@ -87,7 +87,7 @@ fun RegisterClientOrTaskScreen(navController: NavController) {
             }
         }
         Text(
-            text = "Ayuda&Soporte",
+            text = "Ayuda & Soporte",
             color = Color.White,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
