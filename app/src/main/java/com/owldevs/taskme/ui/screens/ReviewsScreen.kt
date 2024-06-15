@@ -1,6 +1,7 @@
 package com.owldevs.taskme.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,13 +43,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.ExpandedReviewCard
 import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReviewsScreen(userRatings: String = "John Doe") {
+fun ReviewsScreen(
+    navController: NavController,
+    userRatings: String = "John Doe"
+) {
     var isExpanded by remember { mutableStateOf(false) }
     var ratingValue by remember { mutableStateOf("") }
 
@@ -69,7 +75,9 @@ fun ReviewsScreen(userRatings: String = "John Doe") {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back",
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable { navController.popBackStack() }
                 )
             },
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(

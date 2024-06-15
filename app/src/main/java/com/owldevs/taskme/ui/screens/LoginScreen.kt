@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextDecoration
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.UserManager
-import com.owldevs.taskme.ui.navigation.Screens
+import com.owldevs.taskme.ui.navigation.MainScreens
 
 @Composable
 fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
@@ -138,9 +138,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
                             val currentUser = UserManager.getCurrentUser()
                             userViewModel.setCurrentUser(currentUser)
                             navController.navigate(
-                                Screens.UserHome.createRoute(
-                                    currentUser?.email ?: "No email"
-                                )
+                                MainScreens.UserHome.route
                             )
                         } else {
                             // Display an error message todo

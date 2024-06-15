@@ -29,12 +29,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.navigation.MainScreens
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserSettingsScreen() {
+fun UserSettingsScreen(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(150.dp)
@@ -76,7 +80,9 @@ fun UserSettingsScreen() {
                     verticalArrangement = Arrangement.spacedBy(18.dp)
                 ) {
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            /*NAVCONTROLLER A EDITAR PERFIL*/
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(60.dp),
@@ -100,7 +106,9 @@ fun UserSettingsScreen() {
                     }
 
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            /*NAVCONTROLLER A SUBIR TRABAJO REALIZADO*/
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(60.dp),
@@ -128,7 +136,9 @@ fun UserSettingsScreen() {
                     verticalArrangement = Arrangement.spacedBy(18.dp)
                 ) {
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            navController.navigate(MainScreens.UserProfile.route)
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(60.dp),
@@ -145,7 +155,9 @@ fun UserSettingsScreen() {
                     }
 
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            navController.navigate(SecondaryScreens.LoginScreen.route)
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(60.dp),

@@ -1,6 +1,7 @@
 package com.owldevs.taskme.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,11 +27,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @Composable
 fun ReducedReviewCard(
+    navController: NavController,
     userImg: Int = R.drawable.ic_pfp,
     userName: String = "Jhon Doe",
     reviewBody: String = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
@@ -40,7 +44,8 @@ fun ReducedReviewCard(
     Card(
         modifier = Modifier
             .fillMaxWidth(0.9f)
-            .wrapContentHeight(),
+            .wrapContentHeight()
+            .clickable { navController.navigate(SecondaryScreens.ReviewsScreen.route) },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondary,
             contentColor = MaterialTheme.colorScheme.onSecondary
@@ -90,13 +95,5 @@ fun ReducedReviewCard(
                 }
             }
         }
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun ComponentPreview() {
-    TaskMeTheme {
-        ReducedReviewCard()
     }
 }

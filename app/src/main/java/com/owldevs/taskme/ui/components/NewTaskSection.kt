@@ -10,7 +10,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.ui.navigation.Screens
+import com.owldevs.taskme.ui.navigation.MainScreens
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
 @Composable
 fun NewTaskSection(navController: NavController){
@@ -46,7 +47,7 @@ fun NewTaskSection(navController: NavController){
 
         Button(
             onClick = {
-                navController.navigate(Screens.ScheduleTaskScreen.route)
+                navController.navigate(SecondaryScreens.ScheduleScreen.route)
             },
             modifier = Modifier
                 .fillMaxWidth()

@@ -1,6 +1,7 @@
 package com.owldevs.taskme.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,13 +30,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.FAQItem
 import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FAQScreen() {
+fun FAQScreen(navController: NavController) {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -52,7 +55,9 @@ fun FAQScreen() {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back",
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable { navController.popBackStack() }
                 )
             },
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(

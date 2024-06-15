@@ -24,6 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.ui.components.TaskCard
 import com.owldevs.taskme.ui.navigation.MyBottomNav
 import com.owldevs.taskme.ui.theme.TaskMeTheme
@@ -31,6 +33,7 @@ import com.owldevs.taskme.ui.theme.TaskMeTheme
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TasksScreen(
+    navController: NavController,
     isTasker: Boolean = true
 ) {
 
@@ -125,7 +128,7 @@ fun TasksScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(10) {
-                    TaskCard()
+                    TaskCard(navController)
                 }
             }
         }

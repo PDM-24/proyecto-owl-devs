@@ -4,6 +4,7 @@ import android.provider.ContactsContract.Profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,15 +57,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.AbilityChip
 import com.owldevs.taskme.ui.components.ReducedReviewCard
 import com.owldevs.taskme.ui.navigation.MyBottomNav
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ProfileScreen(
+    navController: NavController,
     userImg: Int = R.drawable.ic_pfp,
     userName: String = "John Doe",
     tasksCompleted: Int = 0,
@@ -101,14 +106,18 @@ fun ProfileScreen(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable { navController.popBackStack() }
                 )
                 if (!isTasker) {
                     Icon(
                         imageVector = Icons.Filled.Settings,
                         contentDescription = "Back",
                         tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clickable { navController.navigate(SecondaryScreens.UserSettings.route) }
                     )
                 }
             }
@@ -266,7 +275,7 @@ fun ProfileScreen(
                 ) {
                     Row(
                     ) {
-                        TextButton(onClick = { /*TODO*/ }) {
+                        TextButton(onClick = { navController.navigate(SecondaryScreens.ReviewsScreen.route) }) {
                             Text(
                                 text = "Reseñas: $ratingMedia",
                                 style = MaterialTheme.typography.titleMedium
@@ -385,12 +394,12 @@ fun ProfileScreen(
                         Text(text = "Escribir reseña")
                     }
                 }
-                ReducedReviewCard()
-                ReducedReviewCard()
-                ReducedReviewCard()
-                ReducedReviewCard()
-                ReducedReviewCard()
-                ReducedReviewCard()
+                ReducedReviewCard(navController)
+                ReducedReviewCard(navController)
+                ReducedReviewCard(navController)
+                ReducedReviewCard(navController)
+                ReducedReviewCard(navController)
+                ReducedReviewCard(navController)
             }
         }
     }

@@ -12,11 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.ui.navigation.Screens
+import com.owldevs.taskme.ui.navigation.MainScreens
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
+import com.owldevs.taskme.ui.theme.TaskMeTheme
 import com.owldevs.taskme.ui.viewmodels.TaskViewModel
 import com.owldevs.taskme.ui.viewmodels.ChatViewModel
 
@@ -88,7 +92,7 @@ fun ScheduleTaskDetail(
                 .padding(vertical = 40.dp),
             contentAlignment = Alignment.Center
         ) {
-            Button(onClick = {  navController.navigate(Screens.ScheduleTaskDetail.route) },
+            Button(onClick = {  navController.navigate(SecondaryScreens.ScheduleDetail.route) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 50.dp),
@@ -108,8 +112,12 @@ fun ScheduleTaskDetail(
 
         // Campos de entrada para la información de la tarea
 
-        Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)){
-            Row(modifier = Modifier.padding(horizontal = 20.dp).fillMaxWidth(),
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)){
+            Row(modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start){
                 Icon(
@@ -219,7 +227,8 @@ fun ScheduleTaskDetail(
                 // todo
             },
             modifier = Modifier
-                .fillMaxWidth().padding(horizontal = 30.dp),
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.tertiary
             ),
@@ -238,7 +247,8 @@ fun ScheduleTaskDetail(
                 showDialog = true
             },
             modifier = Modifier
-                .fillMaxWidth().padding(horizontal = 30.dp),
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.error
             ),

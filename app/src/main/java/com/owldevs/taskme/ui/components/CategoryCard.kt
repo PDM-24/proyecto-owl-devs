@@ -1,6 +1,7 @@
 package com.owldevs.taskme.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,17 +21,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
 @Composable
 fun CategoryCard(
+    navController: NavController,
     categoryImg: Int = R.drawable.ic_carpentery,
     categoryName: String = "CategoryName"
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth(0.45f)
-            .height(75.dp),
+            .height(75.dp)
+            .clickable { navController.navigate(SecondaryScreens.CategoryScreen.route) },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary

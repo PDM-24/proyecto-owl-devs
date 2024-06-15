@@ -21,11 +21,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.ui.navigation.Screens
+import com.owldevs.taskme.ui.navigation.MainScreens
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
 @Composable
 fun OrderDetailBtn(navController: NavController){
-    Button(onClick = {  navController.navigate(Screens.ScheduleTaskDetail.route) },
+    Button(onClick = {  navController.navigate(SecondaryScreens.ScheduleDetail.route) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 50.dp),

@@ -2,12 +2,9 @@ package com.owldevs.taskme.ui.navigation
 
 import UserViewModel
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -37,51 +34,81 @@ fun MyAppNavigation() {
         //containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             // Ocultar la barra de navegación en la página de login
-            if (currentRoute != Screens.Login.route) {
+            if (currentRoute != SecondaryScreens.LoginScreen.route) {
                 MyBottomNav(navController)
             }
         }
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screens.Login.route,
+            startDestination = SecondaryScreens.LoginScreen.route,
             modifier = Modifier.padding(it)
         ) {
-            composable(route = Screens.Login.route) {
-                LoginScreen(navController, userViewModel = userViewModel)
+
+            /*RUTA DEFAULT*/
+            composable(route = SecondaryScreens.LoginScreen.route) {
+                LoginScreen(navController, userViewModel)
             }
-            composable(route = Screens.UserProfile.route) {
-                UserProfile(navController, userViewModel = userViewModel)
+
+            /*RUTAS PRINCIPALES*/
+            if (false) {
+                composable(route = MainScreens.UserProfile.route) {
+                    UserProfile(navController, userViewModel)
+                }
+            } else {
+                composable(route = MainScreens.UserProfile.route) {
+                    ProfileScreen(navController)
+                }
             }
-            composable(route = Screens.UserHome.route) {
-                UserHome(navController, userViewModel = userViewModel)
+            composable(route = MainScreens.UserHome.route) {
+                UserHome(navController, userViewModel)
             }
-            composable(route = Screens.UserOrder.route) {
-                UserOrder(navController)
+            composable(route = MainScreens.TaskerHome.route) {
+                NotificationsScreen()
             }
-            composable(route = Screens.UserMailbox.route) {
+            composable(route = MainScreens.UserChat.route) {
                 UserMailbox(navController)
             }
+            composable(route = MainScreens.UserTasks.route) {
+                TasksScreen(navController)
+            }
+            /*FIN DE RUTAS PRINCIPALES*/
 
-            composable(route = Routes.userTaskScreen){
+
+            /*RUTAS SECUNDARIAS*/
+
+            composable(route = SecondaryScreens.UserOrder.route) {
+                UserOrder(navController)
+            }
+            composable(route = SecondaryScreens.UserMailbox.route) {
+                UserMailbox(navController)
+            }
+            composable(route = SecondaryScreens.TaskScreen.route) {
                 UserTaskScreen(navController)
             }
-
             composable(
-                route = "chat_screen/{userId}",
-                arguments = listOf(navArgument("userId") { type = NavType.StringType })
-            ) { backStackEntry ->
-                val userId = backStackEntry.arguments?.getString("userId") ?: return@composable
+                route = SecondaryScreens.ChatScreen.route
+            ) {
                 val chatViewModel = viewModel<ChatViewModel>()
-                ChatScreen(navController, chatViewModel, userViewModel = userViewModel, userId)
+                ChatScreen(navController, chatViewModel, userViewModel)
             }
-
-            composable(Screens.ScheduleTaskScreen.route) {
+            composable(SecondaryScreens.ScheduleScreen.route) {
                 ScheduleTaskScreen(navController = navController, userViewModel = userViewModel)
             }
-
-            composable(Screens.ScheduleTaskDetail.route) {
+            composable(SecondaryScreens.ScheduleDetail.route) {
                 ScheduleTaskDetail(navController = navController, userViewModel = userViewModel)
+            }
+            composable(SecondaryScreens.CategoryScreen.route) {
+                CategoryScreen(navController)
+            }
+            composable(SecondaryScreens.FAQScreen.route) {
+                FAQScreen(navController)
+            }
+            composable(SecondaryScreens.ReviewsScreen.route) {
+                ReviewsScreen(navController)
+            }
+            composable(SecondaryScreens.UserSettings.route) {
+                UserSettingsScreen(navController)
             }
         }
     }

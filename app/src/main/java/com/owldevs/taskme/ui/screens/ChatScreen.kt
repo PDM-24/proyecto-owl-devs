@@ -31,7 +31,7 @@ import com.owldevs.taskme.ui.components.OrderDetailBtn
 import com.owldevs.taskme.ui.viewmodels.ChatViewModel
 
 @Composable
-fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  userViewModel: UserViewModel, userId: String) {
+fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  userViewModel: UserViewModel) {
     ProvideWindowInsets {
         val chatMessages by chatViewModel.messages.collectAsState(initial = emptyList())
         val currentUser by userViewModel.currentUser.observeAsState()
@@ -67,9 +67,9 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  user
                 ) {
                     Column{
                         if(role == "client"){
-                            OrderDetailBtn(navController = navController)
+                            OrderDetailBtn(navController)
                         }else{
-                            NewTaskSection(navController = navController)
+                            NewTaskSection(navController)
                         }
 
                         // Debugging: Show current user role
