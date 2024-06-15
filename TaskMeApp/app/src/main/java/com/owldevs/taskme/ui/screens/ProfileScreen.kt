@@ -384,7 +384,7 @@ fun ProfileScreen(
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    TextButton(onClick = { /*TODO*/ }) {
+                    TextButton(onClick = { navController.navigate(SecondaryScreens.AddReview.route) }) {
                         Icon(
                             painter = painterResource(id = R.drawable.edit_square),
                             contentDescription = "Write review",
@@ -392,8 +392,7 @@ fun ProfileScreen(
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = "Escribir reseña",
-                            Modifier.clickable { navController.navigate(SecondaryScreens.AddReview.route) }
+                            text = "Escribir reseña"
                         )
                     }
                 }

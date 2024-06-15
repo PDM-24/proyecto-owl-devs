@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.colorResource
 import com.owldevs.taskme.ui.theme.NaranjaIntenso
@@ -94,7 +95,10 @@ fun AddReview(
                 )
                 Spacer(modifier = Modifier.height(20.dp))
 
-                Text(text = "Valorar trabajo:")
+                Text(
+                    text = "Valorar trabajo:",
+                    style = MaterialTheme.typography.titleLarge
+                )
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -107,12 +111,18 @@ fun AddReview(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                Text(text = "Puntuación: $currentRating/5")
+                Text(
+                    text = "Puntuación: $currentRating/5",
+                    style = MaterialTheme.typography.bodyLarge
+                )
 
                 Spacer(modifier = Modifier.height(60.dp))
 
                 Column() {
-                    Text(text = "Agregar comentario:")
+                    Text(
+                        text = "Agregar comentario:",
+                        style = MaterialTheme.typography.titleMedium
+                    )
 
                     Spacer(modifier = Modifier.height(15.dp))
 
@@ -132,13 +142,14 @@ fun AddReview(
                 }
 
 
-
                 Spacer(modifier = Modifier.height(50.dp))
 
                 Button(
                     onClick = { /*TODO*/ },
                     shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(cyan)
+                    colors = ButtonDefaults.buttonColors(cyan),
+                    modifier = Modifier
+                        .width(300.dp)
                 ) {
                     Text(text = "Publicar")
                 }
@@ -159,14 +170,14 @@ fun StarRating(
     initialRating: Int = 0,
     onRatingChanged: (Int) -> Unit
 ) {
-    var rating by remember { mutableStateOf(initialRating) }
+    var rating by remember { mutableIntStateOf(initialRating) }
 
     Row(modifier = modifier) {
         for (i in 1..totalStars) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_white_hammer),
                 contentDescription = if (i <= rating) "Filled Star" else "Outlined Star",
-                tint = if (i <= rating) NaranjaIntenso else Color.Gray,
+                tint = if (i <= rating) MaterialTheme.colorScheme.tertiary else Color.Gray,
                 modifier = Modifier
                     .padding(4.dp)
                     .clickable {
