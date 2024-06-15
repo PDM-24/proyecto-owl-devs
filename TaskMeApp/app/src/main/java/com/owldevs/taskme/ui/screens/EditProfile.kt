@@ -155,13 +155,6 @@ fun EditProfile(
                         modifier = Modifier.width(300.dp), // Fixed width
                         value = name,
                         onValueChange = { name = it },
-                        label = {
-                            Text(
-                                text = "",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onPrimary
-                            )
-                        },
                         textStyle = MaterialTheme.typography.bodyMedium,
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.onBackground,
@@ -190,13 +183,6 @@ fun EditProfile(
                         value = descripcion,
                         onValueChange = { descripcion = it },
                         modifier = Modifier.width(300.dp), // Fixed width
-                        label = {
-                            Text(
-                                text = "",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onPrimary
-                            )
-                        },
                         textStyle = MaterialTheme.typography.bodyMedium,
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.onBackground,
@@ -226,7 +212,6 @@ fun EditProfile(
                         TextField(
                             value = categorias,
                             onValueChange = { categorias = it },
-                            label = {},
                             textStyle = MaterialTheme.typography.bodyMedium,
                             colors = TextFieldDefaults.colors(
                                 focusedContainerColor = MaterialTheme.colorScheme.onBackground,
