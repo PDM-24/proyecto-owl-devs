@@ -25,5 +25,6 @@ sealed class SecondaryScreens(val route: String) {
     data object UserMailbox: SecondaryScreens("userMailbox")
 
     data object TaskScreen: SecondaryScreens("taskScreen")
+    data object EditProfile : Screens ("editProfile")
 
 }

@@ -2,9 +2,12 @@ package com.owldevs.taskme.ui.navigation
 
 import UserViewModel
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -114,7 +117,10 @@ fun MyAppNavigation() {
             composable(SecondaryScreens.UserSettings.route) {
                 UserSettingsScreen(navController)
             }
+            composable(SecondaryScreens.EditProfile.route) {
+                EditProfile(navController = navController, userViewModel = userViewModel)
+
+            }
         }
     }
 }
-

@@ -81,7 +81,7 @@ fun UserSettingsScreen(navController: NavController) {
                 ) {
                     Button(
                         onClick = {
-                            /*NAVCONTROLLER A EDITAR PERFIL*/
+                            navController.navigate(SecondaryScreens.EditProfile.route)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
