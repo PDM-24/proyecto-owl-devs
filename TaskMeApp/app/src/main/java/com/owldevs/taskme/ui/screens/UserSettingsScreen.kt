@@ -107,7 +107,7 @@ fun UserSettingsScreen(navController: NavController) {
 
                     Button(
                         onClick = {
-                            /*NAVCONTROLLER A SUBIR TRABAJO REALIZADO*/
+                            navController.navigate(SecondaryScreens.AddTaskToProfile.route)
                         },
                         modifier = Modifier
                             .fillMaxWidth()

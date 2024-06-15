@@ -121,6 +121,12 @@ fun MyAppNavigation() {
                 EditProfile(navController = navController, userViewModel = userViewModel)
 
             }
+            composable(SecondaryScreens.EditProfile.route) {
+                EditProfile(navController = navController, userViewModel = userViewModel)
+            }
+            composable(SecondaryScreens.AddTaskToProfile.route) {
+                AddTaskToProfile(navController = navController)
+            }
         }
     }
 }
