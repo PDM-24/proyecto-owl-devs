@@ -10,6 +10,7 @@ package com.owldevs.taskme.ui.navigation
 sealed class Screens(val route: String) {
     data object CreateOrHave : Screens("create_or_have")
     data object Login : Screens("login")
+    data object RegisterClientOrTask : Screens("register_client_or_task")
     data object UserHome : Screens("user_home/{email}") {
         fun createRoute(email: String) = "user_home/$email"
     }
