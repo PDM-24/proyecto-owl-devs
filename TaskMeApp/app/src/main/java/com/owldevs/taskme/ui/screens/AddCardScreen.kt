@@ -128,7 +128,13 @@ fun AddCardScreen(navController: NavController, userViewModel: UserViewModel) {
                    TextField(
                        value = namecard,
                        onValueChange = {namecard = it},
-                       label = { Text(text = "Nombre tarjetahabiente") }
+                       label = { Text(text = "Nombre tarjetahabiente") },
+                       colors = TextFieldDefaults.colors(
+                           focusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                           unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                           focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                           unfocusedTextColor = MaterialTheme.colorScheme.onPrimary),
+                       textStyle = MaterialTheme.typography.bodyMedium
                    )
                }
                Spacer(modifier = Modifier.height(16.dp))
@@ -140,7 +146,13 @@ fun AddCardScreen(navController: NavController, userViewModel: UserViewModel) {
                        value = cardnumber,
                        onValueChange = {cardnumber = it},
                        label = { Text(text = "Numero de la tarjeta de credito o debito",fontSize = 12.sp) },
-                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                       colors = TextFieldDefaults.colors(
+                           focusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                           unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                           focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                           unfocusedTextColor = MaterialTheme.colorScheme.onPrimary),
+                       textStyle = MaterialTheme.typography.bodyMedium
                        )
                }
 
@@ -157,7 +169,13 @@ fun AddCardScreen(navController: NavController, userViewModel: UserViewModel) {
                            onValueChange = {expedetiondate = it},
                            label = { Text(text = "MM/YY") },
                            modifier = Modifier.weight(1f),
-                           keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                           keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                           colors = TextFieldDefaults.colors(
+                               focusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                               unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                               focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                               unfocusedTextColor = MaterialTheme.colorScheme.onPrimary),
+                           textStyle = MaterialTheme.typography.bodyMedium
                        )
                        Spacer(modifier = Modifier.width(16.dp))
                        TextField(
@@ -166,7 +184,13 @@ fun AddCardScreen(navController: NavController, userViewModel: UserViewModel) {
                            label = { Text(text = "CVV/CVC") },
                            modifier = Modifier.weight(1f),
                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                           visualTransformation = PasswordVisualTransformation()
+                           visualTransformation = PasswordVisualTransformation(),
+                           colors = TextFieldDefaults.colors(
+                               focusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                               unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                               focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                               unfocusedTextColor = MaterialTheme.colorScheme.onPrimary),
+                           textStyle = MaterialTheme.typography.bodyMedium
                        )
                    }
                }
@@ -210,7 +234,7 @@ fun AddCardScreen(navController: NavController, userViewModel: UserViewModel) {
                        ), modifier = Modifier
                            .fillMaxWidth()
                            .height(45.dp) ,
-                       shape = RoundedCornerShape(10.dp)
+                       shape = RoundedCornerShape(5.dp)
                    ) {
                        Text(text = "Agregar tarjeta")
                    }

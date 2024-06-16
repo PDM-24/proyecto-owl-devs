@@ -31,5 +31,14 @@ sealed class SecondaryScreens(val route: String) {
     data object AddTaskToProfile : SecondaryScreens ("addTask")
 
     data object AddReview : SecondaryScreens("addReview")
+    data object UserFunds: SecondaryScreens("userfundsScreen")
+
+    data object PaymentCardScreen: SecondaryScreens("paymentScreen")
+
+    data object AddCardScreen: SecondaryScreens("addCardScreen")
+
+    data object TypeOfPaymentScreen: SecondaryScreens("typeOfPaymentScreen")
+
+    data object SuccesfulPaymentScreen: SecondaryScreens("succefulPaymentScreen")
 
 }

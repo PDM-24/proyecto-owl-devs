@@ -224,7 +224,7 @@ fun ScheduleTaskDetail(
 
         Button(
             onClick = {
-                // todo
+                navController.navigate(SecondaryScreens.TypeOfPaymentScreen.route)
             },
             modifier = Modifier
                 .fillMaxWidth()

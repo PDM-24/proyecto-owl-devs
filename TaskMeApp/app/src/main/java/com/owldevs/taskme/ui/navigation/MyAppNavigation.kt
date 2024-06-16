@@ -105,6 +105,10 @@ fun MyAppNavigation() {
                 ScheduleTaskDetail(navController = navController, userViewModel = userViewModel)
 
             }
+            composable(SecondaryScreens.AddCardScreen.route){
+                AddCardScreen(navController = navController, userViewModel = userViewModel)
+            }
+
             composable(SecondaryScreens.CategoryScreen.route) {
                 CategoryScreen(navController)
             }
@@ -131,6 +135,23 @@ fun MyAppNavigation() {
             composable(SecondaryScreens.AddReview.route) {
                 AddReview(navController = navController)
             }
+            composable(SecondaryScreens.UserFunds.route){
+                UserFundsScreen(navController)
+            }
+            composable(SecondaryScreens.PaymentCardScreen.route){
+                PaymentCardScreen(navController)
+            }
+
+            composable(SecondaryScreens.TypeOfPaymentScreen.route){
+                TypeOfPaymentScreen(navController)
+            }
+
+            composable(SecondaryScreens.SuccesfulPaymentScreen.route){
+                SuccesfulPaymentScreen(navController)
+
+            }
+
+            /*FIN DE RUTAS SECUNDARIAS*/
         }
     }
 }
