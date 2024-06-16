@@ -6,5 +6,6 @@ val dummyUser = User(
     name = "Jane Doe",
     email = "jane.doe@example.com",
     password = "password123",
-    role = "tasker"
+    role = "tasker",
+    phoneNo = "75938185"
 )

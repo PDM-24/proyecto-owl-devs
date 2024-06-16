@@ -1,13 +1,15 @@
 package com.owldevs.taskme.ui.screens
 
 import UserViewModel
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -17,14 +19,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.NewTaskSection
 import com.owldevs.taskme.ui.components.OrderDetailBtn
@@ -36,8 +37,10 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  user
         val chatMessages by chatViewModel.messages.collectAsState(initial = emptyList())
         val currentUser by userViewModel.currentUser.observeAsState()
         val role = currentUser?.role
+        val mobileNumber = currentUser?.phoneNo
 
         var messageText by remember { mutableStateOf("") }
+        val context = LocalContext.current
 
         Box(
             modifier = Modifier
@@ -134,137 +137,53 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  user
                                 }
                             }
 
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                if (messageDate != lastDisplayedDate) {
-                                    lastDisplayedDate = messageDate
-                                    Text(
-                                        text = messageDate,
-                                        color = MaterialTheme.colorScheme.onTertiary,
-                                        style = MaterialTheme.typography.bodySmall,
-                                        modifier = Modifier.padding(vertical = 4.dp),
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
-                            }
+                            Row(modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center){
 
-                            Row(
-                                horizontalArrangement = if (message.isUser) Arrangement.End else Arrangement.Start,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 4.dp)
-                            ) {
-                                if (!message.isUser) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_pfp),
-                                        contentDescription = "Profile Picture",
-                                        modifier = Modifier
-                                            .size(30.dp)
-                                            .clip(CircleShape)
-                                            .align(alignment = Alignment.Bottom),
-                                        tint = Color.Unspecified
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                }
-
-                                Column(
-                                    horizontalAlignment = if (message.isUser) Alignment.End else Alignment.Start,
+                                Button(
+                                    onClick = {
+                                        val message = "Hello, I would like to contact you regarding a task."
+                                        mobileNumber?.let {
+                                            onClickWhatsApp(
+                                                context = context,
+                                                mobileNumber = it,
+                                                message = message
+                                            )
+                                        }
+                                    },
                                     modifier = Modifier
-                                        .background(
-                                            if (message.isUser) Color(0xFF007193) else Color.White,
-                                            RoundedCornerShape(10.dp)
-                                        )
-                                        .padding(horizontal = 10.dp, vertical = 8.dp)
-                                        .widthIn(max = (LocalConfiguration.current.screenWidthDp.dp * 0.6f))
+                                        .fillMaxWidth().padding(horizontal = 10.dp),
+                                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                                    shape = RoundedCornerShape(10.dp)
                                 ) {
-
-                                    Text(
-                                        text = message.text,
-                                        color = if (message.isUser) Color.White else Color.Black,
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                    Spacer(modifier = Modifier.height(2.dp))
-                                    Text(
-                                        text = messageTime,
-                                        color = if (message.isUser) Color.White else Color.Gray,
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
+                                    Text(text = "Contactar via WhatsApp",
+                                        color = MaterialTheme.colorScheme.primaryContainer,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier.padding(8.dp))
                                 }
 
-                                if (message.isUser) {
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_pfp),
-                                        contentDescription = "User Profile Picture",
-                                        modifier = Modifier
-                                            .size(30.dp)
-                                            .clip(CircleShape)
-                                            .align(alignment = Alignment.Bottom),
-                                        tint = MaterialTheme.colorScheme.secondary
-                                    )
-                                }
                             }
+
                         }
                     }
                 }
 
-                // Message input row
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .padding(start = 10.dp, end = 10.dp, top = 2.dp, bottom = 14.dp)
-                        .navigationBarsWithImePadding()
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .background(Color.White, RoundedCornerShape(5.dp))
-                            .padding(vertical = 4.dp)
-                            .fillMaxWidth(0.75f)
-                    ) {
-                        BasicTextField(
-                            value = messageText,
-                            onValueChange = { messageText = it },
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(vertical = 6.dp, horizontal = 12.dp)
-                        )
-                    }
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .padding(1.dp)
-                    ) {
-                        IconButton(onClick = { /* Camera icon click */ }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_camera),
-                                contentDescription = "Camera",
-                                tint = Color.Unspecified
-                            )
-                        }
-                        IconButton(onClick = {
-                            if (messageText.isNotEmpty()) {
-                                chatViewModel.sendMessage(messageText)
-                                messageText = ""
-                            }
-                        }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_send),
-                                contentDescription = "Send",
-                                tint = Color.Unspecified
-                            )
-                        }
-                    }
-                }
             }
         }
     }
 }
 
-
-
-
+fun onClickWhatsApp(
+    context: Context,
+    mobileNumber: String,
+    message: String
+) {
+    val intent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse(
+            "https://wa.me/${mobileNumber.removePrefix("+")}?text=${message.replace(" ", "%20")}"
+        )
+    )
+    context.startActivity(intent)
+}

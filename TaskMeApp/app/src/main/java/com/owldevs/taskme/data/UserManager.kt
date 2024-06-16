@@ -6,7 +6,7 @@ object UserManager {
 
     private var currentUser: User? = null
 
-    private val validUser = User("A", "a@ex.com", "1", "client")
+    private val validUser = User("A", "a@ex.com", "1", "client", "75938185")
 
     fun authenticateUser(email: String, password: String): Boolean {
         return if (email == validUser.email && password == validUser.password) {
