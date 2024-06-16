@@ -219,7 +219,7 @@ fun UsertoTaskerScreen(
                             ),
                             style = MaterialTheme.typography.labelLarge,
                             onClick = { offset ->
-                                navController.navigate(SecondaryScreens.UsertoTasker.route)
+                                navController.navigate(SecondaryScreens.TermsConditions.route)
                             }
                         )
                     }
