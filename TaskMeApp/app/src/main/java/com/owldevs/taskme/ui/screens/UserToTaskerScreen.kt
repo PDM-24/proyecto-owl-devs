@@ -16,10 +16,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -41,11 +43,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.AbilityChip
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
@@ -59,6 +62,7 @@ fun UsertoTaskerSscreen(
     var expanded by remember { mutableStateOf(false) }
     val categoriasList = listOf("Categoria 1", "Categoria 2", "Categoria 3")
     val selectedCategorias = remember { mutableStateListOf<String>() }
+    var agreedToTerms by remember { mutableStateOf(false) } // State for checkbox
 
     Box() {
         Row {
@@ -119,7 +123,7 @@ fun UsertoTaskerSscreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Column {
                     Text(
@@ -201,13 +205,37 @@ fun UsertoTaskerSscreen(
 
                 Spacer(modifier = Modifier.width(30.dp))
 
+                // Checkbox for terms and conditions
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = agreedToTerms,
+                        onCheckedChange = { agreedToTerms = it },
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    ClickableText(
+                        text =
+                        AnnotatedString(
+                            text = "He leído y acepto los términos y condiciones",
+                            ),
+                        style=MaterialTheme.typography.labelLarge,
+                        onClick = { offset ->
+                            //navController.navigate(SecondaryScreens.UsertoTasker.route) }
+                        }
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(30.dp))
 
                 Button(
                     onClick = { /*TODO*/ },
                     shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(cyan)
-                ) {
-                    Text(text = "Convertirme en tasker")
+                    colors = ButtonDefaults.buttonColors(cyan),
+                    enabled = agreedToTerms // Enable button based on checkbox
+                )
+                {
+                    Text(
+                        text = "Convertirme en tasker",
+                    )
                 }
                 Spacer(modifier = Modifier.height(20.dp))
 
