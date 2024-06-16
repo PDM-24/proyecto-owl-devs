@@ -34,4 +34,6 @@ sealed class SecondaryScreens(val route: String) {
 
     data object UsertoTasker : SecondaryScreens("UsertoTasker")
 
+    data object TermsConditions : SecondaryScreens("TermsConditions")
+
 }

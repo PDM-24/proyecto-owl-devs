@@ -131,6 +131,7 @@ fun MyAppNavigation() {
             composable(SecondaryScreens.AddReview.route) {
                 AddReview(navController = navController)
             }
+
         }
     }
 }
