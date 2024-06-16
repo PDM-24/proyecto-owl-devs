@@ -53,7 +53,7 @@ import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun UsertoTaskerSscreen(
+fun UsertoTaskerScreen(
     //navController: NavController
 ) {
     val cyan = colorResource(id = R.color.cyan)
@@ -251,5 +251,5 @@ fun UsertoTaskerSscreen(
 @Preview(showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    UsertoTaskerSscreen()
+    UsertoTaskerScreen()
 }
