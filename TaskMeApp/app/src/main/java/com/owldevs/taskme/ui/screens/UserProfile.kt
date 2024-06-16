@@ -181,11 +181,12 @@ fun UserProfile(
                     color = Color.White
                 )
 
-                if (currentUser?.role == "client") {
+
                     Button(
                         onClick = {
                             userViewModel.changeUserRole("tasker")
                             UserManager.changeUserRole("tasker")
+                            navController.navigate(MainScreens.TaskerProfile.route)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -200,26 +201,7 @@ fun UserProfile(
                             modifier = Modifier.padding(8.dp)
                         )
                     }
-                } else if (currentUser?.role == "tasker") {
-                    Button(
-                        onClick = {
-                            userViewModel.changeUserRole("client")
-                            UserManager.changeUserRole("client")
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 10.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Text(
-                            text = "Cambiar a perfil de usuario",
-                            color = MaterialTheme.colorScheme.primaryContainer,
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                    }
-                }
+
 
                 Spacer(modifier = Modifier.height(16.dp))
 

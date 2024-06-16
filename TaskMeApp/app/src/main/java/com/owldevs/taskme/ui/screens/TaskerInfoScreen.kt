@@ -22,9 +22,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -44,6 +45,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -54,7 +56,7 @@ import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun ProfileScreen(
+fun TaskerInfoScreen(
     navController: NavController,
     userViewModel: UserViewModel = viewModel()
 
@@ -62,10 +64,10 @@ fun ProfileScreen(
     val currentUser by userViewModel.currentUser.observeAsState()
 
     val userName = currentUser?.name?: "Unknown"
+    val userImg = R.drawable.ic_pfp
     var tasksCompleted =  currentUser?.tasksCompleted
     var userBio = currentUser?.taskerBio?: "No bio available"
     var ratingMedia = currentUser?.ratingMedia
-    var taskerFounds = currentUser?.taskerFounds
 
     var isExpanded by remember { mutableStateOf(false) }
     var ratingValue by remember { mutableStateOf("") }
@@ -88,19 +90,19 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Settings,
+                    imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
                         .size(32.dp)
-                        .clickable { navController.navigate(SecondaryScreens.UserSettings.route) }
+                        .clickable { navController.popBackStack() }
                 )
             }
             Image(
-                painter = painterResource(R.drawable.ic_pfp),
+                painter = painterResource(id = userImg),
                 contentDescription = "User Img",
                 modifier = Modifier.size(86.dp)
             )
@@ -118,23 +120,6 @@ fun ProfileScreen(
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
-
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.AddCircle,
-                        contentDescription = "Founds",
-                        tint = MaterialTheme.colorScheme.onPrimary
-                    )
-                    Text(
-                        text = "$ $taskerFounds",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
-
             }
         }
         Column(
@@ -154,6 +139,23 @@ fun ProfileScreen(
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 5
                 )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End
+            ) {
+                Button(
+                    onClick = { /*TODO*/ },
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                ) {
+                    Text(
+                        text = "Contactar", style = MaterialTheme.typography.titleMedium
+                    )
+                }
             }
 
             Column(
@@ -230,7 +232,7 @@ fun ProfileScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(1f),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -246,8 +248,7 @@ fun ProfileScreen(
                             Icon(
                                 imageVector = Icons.Filled.Build,
                                 contentDescription = "Reviews",
-                                modifier = Modifier.size(16.dp),
-                                tint = MaterialTheme.colorScheme.onBackground
+                                modifier = Modifier.size(16.dp)
                             )
                         }
                     }
@@ -338,7 +339,24 @@ fun ProfileScreen(
                         }
                     }
                 }
-
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    TextButton(onClick = { navController.navigate(SecondaryScreens.AddReview.route) }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.edit_square),
+                            contentDescription = "Write review",
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "Escribir reseña",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            textDecoration = TextDecoration.Underline
+                        )
+                    }
+                }
                 ReducedReviewCard(navController)
                 ReducedReviewCard(navController)
                 ReducedReviewCard(navController)

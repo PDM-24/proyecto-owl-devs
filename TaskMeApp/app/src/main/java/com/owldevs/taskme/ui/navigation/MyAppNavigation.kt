@@ -40,7 +40,7 @@ fun MyAppNavigation() {
 
             if (currentRoute != SecondaryScreens.LoginScreen.route) {
 
-                MyBottomNav(navController)
+                MyBottomNav(navController, userViewModel)
             }
         }
     ) {
@@ -57,15 +57,17 @@ fun MyAppNavigation() {
             }
 
             /*RUTAS PRINCIPALES*/
-            if (false) {
-                composable(route = MainScreens.UserProfile.route) {
-                    UserProfile(navController, userViewModel)
-                }
-            } else {
-                composable(route = MainScreens.UserProfile.route) {
-                    ProfileScreen(navController)
-                }
+
+            composable(route = MainScreens.UserProfile.route) {
+                UserProfile(navController, userViewModel)
             }
+
+
+            composable(route = MainScreens.TaskerProfile.route) {
+                ProfileScreen(navController, userViewModel)
+            }
+
+
             composable(route = MainScreens.UserHome.route) {
                 UserHome(navController, userViewModel)
             }
@@ -119,15 +121,13 @@ fun MyAppNavigation() {
                 ReviewsScreen(navController)
             }
             composable(SecondaryScreens.UserSettings.route) {
-                UserSettingsScreen(navController)
+                UserSettingsScreen(navController, userViewModel)
             }
             composable(SecondaryScreens.EditProfile.route) {
                 EditProfile(navController = navController, userViewModel = userViewModel)
 
             }
-            composable(SecondaryScreens.EditProfile.route) {
-                EditProfile(navController = navController, userViewModel = userViewModel)
-            }
+
             composable(SecondaryScreens.AddTaskToProfile.route) {
                 AddTaskToProfile(navController = navController)
             }
@@ -148,6 +148,11 @@ fun MyAppNavigation() {
 
             composable(SecondaryScreens.SuccesfulPaymentScreen.route){
                 SuccesfulPaymentScreen(navController)
+
+            }
+
+            composable(SecondaryScreens.TaskerInfoScreen.route){
+                TaskerInfoScreen(navController, userViewModel)
 
             }
 

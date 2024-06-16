@@ -1,5 +1,6 @@
 package com.owldevs.taskme.ui.screens
 
+import UserViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,16 +30,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.UserManager
 import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.TaskMeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserSettingsScreen(navController: NavController) {
+fun UserSettingsScreen(navController: NavController,
+                       userViewModel: UserViewModel = viewModel()
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(150.dp)
@@ -137,6 +142,8 @@ fun UserSettingsScreen(navController: NavController) {
                 ) {
                     Button(
                         onClick = {
+                            userViewModel.changeUserRole("client")
+                            UserManager.changeUserRole("client")
                             navController.navigate(MainScreens.UserProfile.route)
                         },
                         modifier = Modifier

@@ -85,7 +85,7 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  user
                 }
 
                 // Chat messages
-                Box(modifier = Modifier.weight(1f)) {
+                Box(modifier = Modifier.weight(0.40f)) {
                     var lastDisplayedDate: String? by remember { mutableStateOf(null) }
 
                     LazyColumn(
@@ -137,37 +137,41 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  user
                                 }
                             }
 
-                            Row(modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center){
+                        }
 
-                                Button(
-                                    onClick = {
-                                        val message = "Hello, I would like to contact you regarding a task."
-                                        mobileNumber?.let {
-                                            onClickWhatsApp(
-                                                context = context,
-                                                mobileNumber = it,
-                                                message = message
-                                            )
-                                        }
-                                    },
-                                    modifier = Modifier
-                                        .fillMaxWidth().padding(horizontal = 10.dp),
-                                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                                    shape = RoundedCornerShape(10.dp)
-                                ) {
-                                    Text(text = "Contactar via WhatsApp",
-                                        color = MaterialTheme.colorScheme.primaryContainer,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        modifier = Modifier.padding(8.dp))
+                    }
+                }
+
+                Box(modifier = Modifier.weight(0.60f)){
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal= 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            onClick = {
+                                val message = "Hello, I would like to contact you regarding a task."
+                                mobileNumber?.let {
+                                    onClickWhatsApp(
+                                        context = context,
+                                        mobileNumber = it,
+                                        message = message
+                                    )
                                 }
-
-                            }
-
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth().padding(horizontal = 10.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                            shape = RoundedCornerShape(10.dp)
+                        ) {
+                            Text(text = "Contactar via WhatsApp",
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                style = MaterialTheme.typography.titleMedium,
+                                modifier = Modifier.padding(8.dp))
                         }
                     }
                 }
+
 
             }
         }
