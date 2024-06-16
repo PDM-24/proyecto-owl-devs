@@ -8,3 +8,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+TaskMeApp/caches/
+*.pom
+*.module
+*.jar
+

@@ -29,4 +29,6 @@ sealed class MainScreens(val route: String, val label: String, val icon: Int) {
 
     data object UserTasks: MainScreens("userTasks", "Tasks", R.drawable.ic_orders)
 
+    data object TaskerProfile: MainScreens("taskerProfile", "Profile", R.drawable.ic_pfp)
+
 }
