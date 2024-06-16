@@ -220,7 +220,8 @@ fun EditProfile(
                     ) {
                         TextField(
                             value = categorias,
-                            onValueChange = { categorias = it },
+                            onValueChange = {  },
+                            readOnly = true,
                             textStyle = MaterialTheme.typography.bodyMedium,
                             colors = TextFieldDefaults.colors(
                                 focusedContainerColor = MaterialTheme.colorScheme.onBackground,

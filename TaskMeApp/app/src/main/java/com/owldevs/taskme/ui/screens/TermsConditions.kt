@@ -1,5 +1,6 @@
 package com.owldevs.taskme.ui.screens
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,10 +27,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.owldevs.taskme.R
 
 @Composable
 fun TermsConditions(
+    navController: NavController
    // terms: List<String>
 ) {
     val terms = listOf("Lorem ipsum dolor sit amet.",
@@ -126,7 +129,8 @@ fun TermsAndConditionsItem(term: String) {
 }
 
 
-@Preview(showSystemUi = true)
+@Preview(
+    showSystemUi = true)
 @Composable
 fun DefaultPreview2() {
     /*val sampleTerms = listOf(
@@ -137,5 +141,6 @@ fun DefaultPreview2() {
         "Consectetur adipiscing elit.",
         "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     )*/
-    TermsConditions(/*terms = sampleTerms*/)
+
+    //TermsConditions(/*terms = sampleTerms*/)
 }

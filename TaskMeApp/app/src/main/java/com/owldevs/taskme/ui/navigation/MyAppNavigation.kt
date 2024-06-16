@@ -132,6 +132,14 @@ fun MyAppNavigation() {
                 AddReview(navController = navController)
             }
 
+            composable(SecondaryScreens.UsertoTasker.route) {
+                UsertoTaskerScreen(navController = navController)
+            }
+
+            composable(SecondaryScreens.TermsConditions.route) {
+                TermsConditions(navController = navController)
+            }
+
         }
     }
 }

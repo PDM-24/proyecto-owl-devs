@@ -46,6 +46,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.AbilityChip
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
@@ -54,7 +55,7 @@ import com.owldevs.taskme.ui.navigation.SecondaryScreens
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun UsertoTaskerScreen(
-    //navController: NavController
+    navController: NavController
 ) {
     val cyan = colorResource(id = R.color.cyan)
     var descripcion by remember { mutableStateOf("") }
@@ -138,7 +139,8 @@ fun UsertoTaskerScreen(
                     ) {
                         TextField(
                             value = categorias,
-                            onValueChange = { categorias = it },
+                            onValueChange = { },
+                            readOnly = true,
                             textStyle = MaterialTheme.typography.bodyMedium,
                             colors = TextFieldDefaults.colors(
                                 focusedContainerColor = MaterialTheme.colorScheme.onBackground,
@@ -196,48 +198,49 @@ fun UsertoTaskerScreen(
                     }
 
                 }
-
                 Spacer(modifier = Modifier.width(30.dp))
 
-
-
-
-
-                Spacer(modifier = Modifier.width(30.dp))
-
-                // Checkbox for terms and conditions
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = agreedToTerms,
-                        onCheckedChange = { agreedToTerms = it },
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    ClickableText(
-                        text =
-                        AnnotatedString(
-                            text = "He leído y acepto los términos y condiciones",
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .width(300.dp)
+                ) {
+                    // Checkbox for terms and conditions
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                            checked = agreedToTerms,
+                            onCheckedChange = { agreedToTerms = it },
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                        ClickableText(
+                            text =
+                            AnnotatedString(
+                                text = "He leído y acepto los términos y condiciones",
                             ),
-                        style=MaterialTheme.typography.labelLarge,
-                        onClick = { offset ->
-                            //navController.navigate(SecondaryScreens.UsertoTasker.route) }
-                        }
-                    )
-                }
+                            style = MaterialTheme.typography.labelLarge,
+                            onClick = { offset ->
+                                navController.navigate(SecondaryScreens.UsertoTasker.route)
+                            }
+                        )
+                    }
 
-                Spacer(modifier = Modifier.width(30.dp))
 
-                Button(
-                    onClick = { /*TODO*/ },
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(cyan),
-                    enabled = agreedToTerms // Enable button based on checkbox
-                )
-                {
-                    Text(
-                        text = "Convertirme en tasker",
+                    Spacer(modifier = Modifier.width(30.dp))
+
+                    Button(
+                        onClick = { /*TODO*/ },
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(cyan),
+                        enabled = agreedToTerms // Enable button based on checkbox
                     )
+                    {
+                        Text(
+                            text = "Convertirme en tasker",
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
+
                 }
-                Spacer(modifier = Modifier.height(20.dp))
 
 
             }
@@ -251,5 +254,5 @@ fun UsertoTaskerScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    UsertoTaskerScreen()
+    //UsertoTaskerScreen()
 }
