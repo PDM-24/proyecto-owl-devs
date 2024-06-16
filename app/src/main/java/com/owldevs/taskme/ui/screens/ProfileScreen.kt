@@ -148,7 +148,10 @@ fun ProfileScreen(
                         Icon(
                             imageVector = Icons.Filled.AddCircle,
                             contentDescription = "Founds",
-                            tint = MaterialTheme.colorScheme.onPrimary
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier.clickable {
+                                navController.navigate(SecondaryScreens.UserFunds.route)
+                            }
                         )
                         Text(
                             text = "$ $taskerFounds",

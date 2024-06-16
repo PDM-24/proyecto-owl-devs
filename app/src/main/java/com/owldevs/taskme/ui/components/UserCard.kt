@@ -32,8 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.owldevs.taskme.R
 
 @Composable
-fun UserCard(){
-    var isChecked by remember { mutableStateOf(false) }
+fun UserCard(isChecked: Boolean, onCheckedChange: (Boolean) -> Unit){
     val checkedColor = colorResource(id = R.color.salmon)
     val navy = colorResource(id = R.color.navy)
     Row (
@@ -45,7 +44,7 @@ fun UserCard(){
         Row (verticalAlignment = Alignment.CenterVertically){
             Checkbox(
                 checked = isChecked,
-                onCheckedChange = { isChecked = it },
+                onCheckedChange = onCheckedChange,
                 colors = CheckboxDefaults.colors(
                     checkedColor = checkedColor
                 )
