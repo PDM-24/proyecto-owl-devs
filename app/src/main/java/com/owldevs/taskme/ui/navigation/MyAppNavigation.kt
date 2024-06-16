@@ -79,8 +79,9 @@ fun MyAppNavigation() {
             composable(route = Screens.Card.route){
                 CardScreen(navController)
             }
-            composable(route = Screens.AddCard.route){
+            composable(route = Screens.AddCard.route) {
                 AddCardScreen(navController, userViewModel = userViewModel)
+            }
 
             composable(Screens.ScheduleTaskScreen.route) {
                 ScheduleTaskScreen(navController = navController, userViewModel = userViewModel)
@@ -93,4 +94,4 @@ fun MyAppNavigation() {
         }
     }
 }
-}
+
