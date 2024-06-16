@@ -69,7 +69,7 @@ fun SuccesfulPaymentScreen(navController: NavController){
                     containerColor = MaterialTheme.colorScheme.tertiary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 ),
-                onClick = { /*TODO*/ }
+                onClick = { navController.navigate(SecondaryScreens.AddReview.route) }
             ) {
                 Text(text = "Escribir reseña ")
             }

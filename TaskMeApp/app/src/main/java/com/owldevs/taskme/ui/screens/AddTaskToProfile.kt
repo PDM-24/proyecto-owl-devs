@@ -43,6 +43,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.owldevs.taskme.R
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,11 +66,12 @@ fun AddTaskToProfile(
         // Perform your saving logic here
         val enteredDescription = descripcion
         val selectedImageUri = imageUri
+        val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
 
         // Example: Print the values for demonstration
         println("Entered Description: $enteredDescription")
         println("Selected Image Uri: $selectedImageUri")
-
+        println("Current Date: $currentDate")
     }
 
     Scaffold(
