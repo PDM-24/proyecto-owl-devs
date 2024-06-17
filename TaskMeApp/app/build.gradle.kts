@@ -51,6 +51,15 @@ android {
 
 dependencies {
 
+    //Dependencias para retrofit
+    val retrofit_version = "2.11.0"
+
+
+
+    //Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version")
+
     //Animacion
     implementation(libs.androidx.animation)
 
