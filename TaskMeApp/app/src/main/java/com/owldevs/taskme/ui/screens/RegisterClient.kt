@@ -25,12 +25,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextDecoration
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.AzulMarino
 
 @Composable
 fun RegisterScreen(navController: NavController, onBackClick: () -> Unit = {}) {
+
+    val cyan = colorResource(id = R.color.cyan)
+    val latoBold = FontFamily(Font(R.font.lato_bold))
+
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -72,6 +81,7 @@ fun RegisterScreen(navController: NavController, onBackClick: () -> Unit = {}) {
 
             Text(
                 text = "Registro",
+                style = MaterialTheme.typography.titleLarge,
                 color = Color.White,
                 fontSize = 18.sp,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -86,27 +96,27 @@ fun RegisterScreen(navController: NavController, onBackClick: () -> Unit = {}) {
             ) {
                 item {
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Nombre", color = Color.White)
+                    Text(text = "Nombre", style = MaterialTheme.typography.titleMedium, color = Color.White)
                     CustomTextField(value = name, onValueChange = { name = it }, placeholder = "Nombre")
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Apellido", color = Color.White)
+                    Text(text = "Apellido", style = MaterialTheme.typography.titleMedium, color = Color.White)
                     CustomTextField(value = surname, onValueChange = { surname = it }, placeholder = "Apellido")
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Correo", color = Color.White)
+                    Text(text = "Correo", style = MaterialTheme.typography.titleMedium, color = Color.White)
                     CustomTextField(value = email, onValueChange = { email = it }, placeholder = "Correo")
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Contraseña", color = Color.White)
+                    Text(text = "Contraseña", style = MaterialTheme.typography.titleMedium, color = Color.White)
                     CustomTextField(value = password, onValueChange = { password = it }, placeholder = "Contraseña", isPassword = true)
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Confirmar contraseña", color = Color.White)
+                    Text(text = "Confirmar contraseña", style = MaterialTheme.typography.titleMedium, color = Color.White)
                     CustomTextField(value = confirmPassword, onValueChange = { confirmPassword = it }, placeholder = "Confirmar contraseña", isPassword = true)
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Ubicación", color = Color.White)
+                    Text(text = "Ubicación", style = MaterialTheme.typography.titleMedium, color = Color.White)
                     CustomTextField(value = location, onValueChange = { location = it }, placeholder = "Ubicación", trailingIcon = {
                         Icon(imageVector = ImageVector.vectorResource(id = R.drawable.locationicon), contentDescription = "Location", tint = Color.Gray)
                     })
@@ -119,10 +129,17 @@ fun RegisterScreen(navController: NavController, onBackClick: () -> Unit = {}) {
                 onClick = { /* Handle registration */ },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFF00D4FF))
+                .padding(start = 50.dp, end = 50.dp, top = 30.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = cyan
+                ),
+                        shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Registrarme", color = Color.White)
+                Text(text = "Registrarme",
+                    color = Color.Black,
+                    fontFamily = latoBold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(8.dp))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -136,7 +153,9 @@ fun RegisterScreen(navController: NavController, onBackClick: () -> Unit = {}) {
                 ) {
                     Text(
                         text = "Ya tengo una cuenta",
+                        style = MaterialTheme.typography.bodySmall,
                         color = Color.White,
+                        textDecoration = TextDecoration.Underline,
                         modifier = Modifier.clickable { navController.navigate(SecondaryScreens.LoginScreen.route) } // Navegar a la pantalla de login
                     )
                 }
@@ -145,8 +164,10 @@ fun RegisterScreen(navController: NavController, onBackClick: () -> Unit = {}) {
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = "Ayuda&Soporte",
+                        text = "Ayuda & Soporte",
+                        style = MaterialTheme.typography.bodySmall,
                         color = Color.White,
+                        textDecoration = TextDecoration.Underline,
                         modifier = Modifier.clickable { navController.navigate(SecondaryScreens.Support.route) } // Navegar a la pantalla de soporte
                     )
                 }
