@@ -6,14 +6,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -23,6 +29,10 @@ import com.owldevs.taskme.ui.theme.AzulMarino
 
 @Composable
 fun RegisterClientOrTaskScreen(navController: NavController) {
+
+    val cyan = colorResource(id = R.color.cyan)
+    val latoBold = FontFamily(Font(R.font.lato_bold))
+
     var showPopup by remember { mutableStateOf(false) }
 
     Box(
@@ -57,38 +67,58 @@ fun RegisterClientOrTaskScreen(navController: NavController) {
             Image(
                 painter = painterResource(id = R.drawable.ic_taskme),
                 contentDescription = "Task Me Logo",
-                modifier = Modifier.size(150.dp)
+                modifier = Modifier.size(200.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
+           /* Text(
                 text = "Task Me!",
                 fontSize = 32.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
-            )
+            )*/
             Spacer(modifier = Modifier.height(32.dp))
             Button(
-                onClick = { /*navController.navigate(Screens.RegisterClient.route)*/ }, // Navegar a la pantalla RegisterClient
+                onClick = { navController.navigate(SecondaryScreens.RegisterClient.route)}, // Navegar a la pantalla RegisterClient
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 32.dp)
+                    .padding(start = 50.dp, end = 50.dp, top = 30.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = cyan
+                ),
+                shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Registrarme como cliente")
+                Text(text = "Registrarme como cliente",
+                    color = Color.Black,
+                    fontFamily = latoBold,
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(8.dp)
+                    )
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { /* Handle Register as Tasker */ },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 32.dp)
+                    .padding(start = 50.dp, end = 50.dp, top = 30.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = cyan
+                ),
+                shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Registrarme como Tasker")
+                Text(text = "Registrarme como Tasker",
+                    color = Color.Black,
+                    fontFamily = latoBold,
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(8.dp)
+                )
             }
         }
         Text(
             text = "Ayuda & Soporte",
+            style = MaterialTheme.typography.bodySmall,
             color = Color.White,
+            textDecoration = TextDecoration.Underline,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)

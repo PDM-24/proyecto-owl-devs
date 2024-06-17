@@ -10,8 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -20,6 +23,9 @@ import com.owldevs.taskme.ui.theme.AzulMarino
 
 @Composable
 fun SupportScreen(navController: NavController) {
+
+    val latoBold = FontFamily(Font(R.font.lato_bold))
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -49,6 +55,7 @@ fun SupportScreen(navController: NavController) {
                 text = "Contacta a nuestro equipo de soporte",
                 fontSize = 20.sp,
                 color = Color.White,
+                fontFamily = latoBold,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -62,6 +69,7 @@ fun SupportScreen(navController: NavController) {
                 text = "soportetaskme@gmail.com",
                 fontSize = 16.sp,
                 color = Color(0xFF64B5F6),
+                textDecoration = TextDecoration.Underline,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
