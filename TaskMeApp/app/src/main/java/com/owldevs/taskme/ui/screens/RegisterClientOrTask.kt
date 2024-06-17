@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.AzulMarino
 
 @Composable
@@ -91,7 +92,7 @@ fun RegisterClientOrTaskScreen(navController: NavController) {
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
-                .clickable { /*navController.navigate(Screens.Support.route)*/ } // Navegar a la pantalla de soporte
+                .clickable { navController.navigate(SecondaryScreens.Support.route)} // Navegar a la pantalla de soporte
         )
 
         if (showPopup) {
