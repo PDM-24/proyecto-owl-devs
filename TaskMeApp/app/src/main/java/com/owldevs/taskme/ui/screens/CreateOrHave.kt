@@ -34,7 +34,7 @@ fun CreateOrHaveScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color(0xFF121F34)) // Color de fondo
+            .background(color= AzulMarino) // Color de fondo
     ) {
         Image(
             painter = painterResource(id = R.drawable.background_taksme),
