@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.UserManager
 import com.owldevs.taskme.ui.navigation.MainScreens
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
 @Composable
 fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
@@ -165,6 +166,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
 
                 TextButton(onClick = {
                     // todo
+                    navController.navigate(SecondaryScreens.RegisterClientOrTask.route)
                 }) {
                     Row(
                         modifier = Modifier
@@ -219,6 +221,7 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
 
                 TextButton(onClick = {
                     //todo
+                    navController.navigate(SecondaryScreens.Support.route)
                 }) {
                     Row(
                         modifier = Modifier
