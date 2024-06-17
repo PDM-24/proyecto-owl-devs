@@ -29,6 +29,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
@@ -65,7 +66,9 @@ fun RegisterScreen(navController: NavController, onBackClick: () -> Unit = {}) {
                 Text(
                     text = "Task Me!",
                     color = Color.White,
-                    fontSize = 24.sp
+                    fontSize = 32.sp,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
                 )
 
                 Icon(

@@ -16,10 +16,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -31,6 +35,10 @@ import com.owldevs.taskme.ui.theme.NaranjaIntenso
 
 @Composable
 fun CreateOrHaveScreen(navController: NavController) {
+
+    val cyan = colorResource(id = R.color.cyan)
+    val latoBold = FontFamily(Font(R.font.lato_bold))
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -77,7 +85,9 @@ fun CreateOrHaveScreen(navController: NavController) {
                 ) {
                     Button(
                         onClick = {navController.navigate(SecondaryScreens.RegisterClientOrTask.route)}, // Navegar a la pantalla de creación de cuenta
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFAEFFF6)),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = cyan
+                        ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp)
@@ -85,7 +95,8 @@ fun CreateOrHaveScreen(navController: NavController) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(text = "Crear una cuenta", fontSize = 16.sp)
+                            Text(text = "Crear una cuenta", color = Color.Black,
+                                fontFamily = latoBold, fontSize = 16.sp)
                             Spacer(modifier = Modifier.width(8.dp)) // Espacio entre el texto y el icono
                             Image(
                                 painter = painterResource(id = R.drawable.ic_backbtn),
@@ -106,7 +117,10 @@ fun CreateOrHaveScreen(navController: NavController) {
                             .padding(bottom = 16.dp),
                         style = MaterialTheme.typography.bodyLarge.copy(
                             color = Color.White,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            fontFamily = latoBold,
+                            fontSize = 16.sp,
+                            textDecoration = TextDecoration.Underline
                         )
                     )
 
