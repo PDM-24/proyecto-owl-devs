@@ -22,6 +22,8 @@ sealed class SecondaryScreens(val route: String) {
 
     data object ScheduleScreen: SecondaryScreens("scheduleScreen")
 
+    data object Support : SecondaryScreens("support")
+
     data object UserOrder: SecondaryScreens("userOrder")
 
     data object UserSettings: SecondaryScreens("userSettingsScreen")
