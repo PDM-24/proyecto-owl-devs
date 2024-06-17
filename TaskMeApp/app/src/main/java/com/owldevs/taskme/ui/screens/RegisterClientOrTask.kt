@@ -69,7 +69,7 @@ fun RegisterClientOrTaskScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(32.dp))
             Button(
-                onClick = { /*navController.navigate(Screens.RegisterClient.route)*/ }, // Navegar a la pantalla RegisterClient
+                onClick = { navController.navigate(SecondaryScreens.RegisterClient.route)}, // Navegar a la pantalla RegisterClient
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp)
