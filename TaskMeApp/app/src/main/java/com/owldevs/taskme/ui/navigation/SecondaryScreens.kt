@@ -4,6 +4,8 @@ package com.owldevs.taskme.ui.navigation
 //Resto de rutas que NO se encuentran en la barra inferior
 sealed class SecondaryScreens(val route: String) {
 
+    data object CreateOrHave : SecondaryScreens("create_or_have")
+
     data object CategoryScreen: SecondaryScreens("categoryScreen")
 
     data object ChatScreen: SecondaryScreens("chatScreen")
@@ -13,6 +15,8 @@ sealed class SecondaryScreens(val route: String) {
     data object LoginScreen: SecondaryScreens("loginScreen")
 
     data object ReviewsScreen: SecondaryScreens("reviewsScreen")
+
+    data object RegisterClientOrTask : SecondaryScreens("register_client_or_task")
 
     data object ScheduleDetail: SecondaryScreens("scheduleDetail")
 

@@ -38,7 +38,7 @@ fun MyAppNavigation() {
         bottomBar = {
             // Ocultar la barra de navegación en la página de login
 
-            if (currentRoute != SecondaryScreens.LoginScreen.route) {
+            if (currentRoute != SecondaryScreens.LoginScreen.route && currentRoute != SecondaryScreens.CreateOrHave.route && currentRoute != SecondaryScreens.RegisterClientOrTask.route) {
 
                 MyBottomNav(navController, userViewModel)
             }
@@ -47,11 +47,14 @@ fun MyAppNavigation() {
         NavHost(
             navController = navController,
 
-            startDestination = SecondaryScreens.LoginScreen.route,
+            startDestination = SecondaryScreens.CreateOrHave.route,
             modifier = Modifier.padding(it)
         ) {
-
             /*RUTA DEFAULT*/
+            composable(route = SecondaryScreens.CreateOrHave.route) {
+                CreateOrHaveScreen(navController)
+            }
+
             composable(route = SecondaryScreens.LoginScreen.route) {
                 LoginScreen(navController, userViewModel)
             }
@@ -93,6 +96,11 @@ fun MyAppNavigation() {
             composable(route = SecondaryScreens.TaskScreen.route) {
                 UserTaskScreen(navController)
             }
+
+            composable(route = SecondaryScreens.RegisterClientOrTask.route) {
+                RegisterClientOrTaskScreen(navController)
+            }
+
             composable(
                 route = SecondaryScreens.ChatScreen.route
             ) {
