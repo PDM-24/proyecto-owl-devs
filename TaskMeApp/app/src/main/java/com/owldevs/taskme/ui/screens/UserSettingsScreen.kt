@@ -1,6 +1,7 @@
 package com.owldevs.taskme.ui.screens
 
 import UserViewModel
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -59,7 +60,9 @@ fun UserSettingsScreen(navController: NavController,
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back",
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable { navController.popBackStack() }
                 )
             },
             colors = TopAppBarDefaults.topAppBarColors(
