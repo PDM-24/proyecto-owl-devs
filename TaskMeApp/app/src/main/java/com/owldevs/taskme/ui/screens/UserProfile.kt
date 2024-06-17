@@ -82,7 +82,7 @@ fun UserProfile(
                     modifier = Modifier
                         .size(30.dp)
                         .clickable {
-
+                            navController.navigate(SecondaryScreens.EditProfile.route)
                         }
                 )
             }

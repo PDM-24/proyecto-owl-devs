@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -39,6 +40,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,38 +51,57 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.AbilityChip
 import coil.compose.rememberAsyncImagePainter
 
-
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun EditProfile(
     navController: NavController,
-    userViewModel: UserViewModel,
+    userViewModel: UserViewModel = viewModel(),
     userImg: Int = R.drawable.ic_pfp,
-    initialUserName: String = "John Doe",
     initialUserBio: String = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum " +
             "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum " +
             "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
     initialCategorias: List<String> = listOf("Categoria 1", "Categoria 2")
 ) {
+    val currentUserState = userViewModel.currentUser.observeAsState()
+    val currentUser = currentUserState.value
+    val initialUserName = currentUser?.name ?: "null"
+    val initialEmail = currentUser?.email ?: "null"
+    val currentRole = currentUser?.role
+
     val cyan = colorResource(id = R.color.cyan)
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var image by remember { mutableStateOf(userImg) }
-    var name by remember { mutableStateOf(initialUserName) }
+    var newName by remember { mutableStateOf(initialUserName) }
+    var newEmail by remember { mutableStateOf(initialEmail) }
     var descripcion by remember { mutableStateOf(initialUserBio) }
     var categorias by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     val categoriasList = listOf("Categoria 1", "Categoria 2", "Categoria 3")
     val selectedCategorias = remember { mutableStateListOf(*initialCategorias.toTypedArray()) }
+    val scrollState = rememberLazyListState()
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         imageUri = uri
+    }
+
+    fun saveProfile() {
+       /* if (newName.isNotBlank() && isValidEmail(newEmail)) {
+            userViewModel.updateProfile(
+                name = newName,
+                email = newEmail,
+                bio = descripcion,
+                categories = selectedCategorias.toList(),
+                imageUri = imageUri
+            )
+        }*/
     }
 
     Scaffold(
@@ -106,6 +127,7 @@ fun EditProfile(
         }
     ) { innerPadding ->
         LazyColumn(
+            state = scrollState,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
@@ -113,9 +135,7 @@ fun EditProfile(
             verticalArrangement = Arrangement.Center
         ) {
             item {
-
                 Spacer(modifier = Modifier.height(30.dp))
-
                 Icon(
                     painter = painterResource(id = R.drawable.deco_svg_1),
                     contentDescription = "icono_decoracion",
@@ -123,8 +143,9 @@ fun EditProfile(
                     modifier = Modifier.size(60.dp)
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-
-                Row {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     if (imageUri != null) {
                         Image(
                             painter = rememberAsyncImagePainter(imageUri),
@@ -141,14 +162,13 @@ fun EditProfile(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
-                        onClick = { imagePickerLauncher.launch("image/*")},
+                        onClick = { imagePickerLauncher.launch("image/*") },
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(cyan)
                     ) {
                         Text(text = "Agregar o cambiar foto de perfil")
                     }
                 }
-
                 Spacer(modifier = Modifier.height(15.dp))
             }
 
@@ -162,8 +182,8 @@ fun EditProfile(
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
                         modifier = Modifier.width(300.dp), // Fixed width
-                        value = name,
-                        onValueChange = { name = it },
+                        value = newName,
+                        onValueChange = { newName = it },
                         textStyle = MaterialTheme.typography.bodyMedium,
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.onBackground,
@@ -173,83 +193,132 @@ fun EditProfile(
                         )
                     )
                 }
-
                 Spacer(modifier = Modifier.height(15.dp))
-            }
-
-            item {
-                Column(
-                    modifier = Modifier
-                        .padding(15.dp)
-                ) {
+                Column {
                     Text(
-                        text = "Descripcion personal",
+                        text = "Correo",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
-                        value = descripcion,
-                        onValueChange = { descripcion = it },
                         modifier = Modifier.width(300.dp), // Fixed width
+                        value = newEmail,
+                        onValueChange = { newEmail = it },
                         textStyle = MaterialTheme.typography.bodyMedium,
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.onBackground,
                             unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
                             focusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary
-                        )
-
+                            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
+                        isError = !isValidEmail(newEmail), // Check if email is invalid
+                        singleLine = true // Ensure it's a single line input
                     )
-                }
 
+                }
                 Spacer(modifier = Modifier.height(15.dp))
             }
 
-            item {
-                Column {
-                    Text(
-                        text = "Categorias",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
+            if (currentRole == "tasker") {
+                item {
+                    Column(
+                        modifier = Modifier
+                            .padding(15.dp)
                     ) {
+                        Text(
+                            text = "Descripcion personal",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
                         TextField(
-                            value = categorias,
-                            onValueChange = {  },
-                            readOnly = true,
+                            value = descripcion,
+                            onValueChange = { descripcion = it },
+                            modifier = Modifier.width(300.dp), // Fixed width
                             textStyle = MaterialTheme.typography.bodyMedium,
                             colors = TextFieldDefaults.colors(
                                 focusedContainerColor = MaterialTheme.colorScheme.onBackground,
                                 unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
                                 focusedTextColor = MaterialTheme.colorScheme.onPrimary,
                                 unfocusedTextColor = MaterialTheme.colorScheme.onPrimary
-                            ),
-                            trailingIcon = {
-                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                            },
-                            modifier = Modifier
-                                .menuAnchor()
-                                .width(300.dp), // Fixed width
+                            )
                         )
-                        ExposedDropdownMenu(
+                    }
+                    Spacer(modifier = Modifier.height(15.dp))
+                }
+
+                item {
+                    Column {
+                        Text(
+                            text = "Categorias",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        ExposedDropdownMenuBox(
                             expanded = expanded,
-                            onDismissRequest = { expanded = false }
+                            onExpandedChange = { expanded = !expanded }
                         ) {
-                            categoriasList.forEach { categoria ->
-                                DropdownMenuItem(
-                                    text = { Text(categoria) },
-                                    onClick = {
-                                        if (categoria !in selectedCategorias) {
-                                            selectedCategorias.add(categoria)
+                            TextField(
+                                value = categorias,
+                                onValueChange = { },
+                                readOnly = true,
+                                textStyle = MaterialTheme.typography.bodyMedium,
+                                colors = TextFieldDefaults.colors(
+                                    focusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                                    unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                                    focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                                    unfocusedTextColor = MaterialTheme.colorScheme.onPrimary
+                                ),
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                                },
+                                modifier = Modifier
+                                    .menuAnchor()
+                                    .width(300.dp), // Fixed width
+                            )
+                            ExposedDropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false }
+                            ) {
+                                categoriasList.forEach { categoria ->
+                                    DropdownMenuItem(
+                                        text = { Text(categoria) },
+                                        onClick = {
+                                            if (categoria !in selectedCategorias) {
+                                                selectedCategorias.add(categoria)
+                                            }
+                                            expanded = false
                                         }
-                                        expanded = false
-                                    }
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(15.dp))
+                    }
+                }
+
+                item {
+                    Column(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .wrapContentWidth()
+                    ) {
+                        FlowRow(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(5.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            maxItemsInEachRow = 4,
+                        ) {
+                            selectedCategorias.forEach { categoria ->
+                                AbilityChip(
+                                    abilityName = categoria,
+                                    showCloseIcon = true,
+                                    onRemove = { selectedCategorias.remove(categoria) }
                                 )
+                                Spacer(modifier = Modifier.width(8.dp))
                             }
                         }
                     }
@@ -258,35 +327,8 @@ fun EditProfile(
             }
 
             item {
-                Column(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .wrapContentWidth()
-                ) {
-                    FlowRow(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(5.dp),
-                        horizontalArrangement = Arrangement.Center,
-                        maxItemsInEachRow = 4,
-                    ) {
-                        selectedCategorias.forEach { categoria ->
-                            AbilityChip(
-                                abilityName = categoria,
-                                showCloseIcon = true,
-                                onRemove = { selectedCategorias.remove(categoria) }
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(15.dp))
-            }
-
-            item {
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { saveProfile() },
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(cyan)
                 ) {
@@ -294,7 +336,11 @@ fun EditProfile(
                 }
                 Spacer(modifier = Modifier.height(20.dp))
             }
-
         }
     }
+}
+
+fun isValidEmail(email: String): Boolean {
+    val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+    return emailRegex.toRegex().matches(email)
 }
