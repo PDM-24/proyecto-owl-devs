@@ -76,7 +76,7 @@ fun CreateOrHaveScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Button(
-                        onClick = { /*navController.navigate(Screens.RegisterClientOrTask.route) */}, // Navegar a la pantalla de creación de cuenta
+                        onClick = {navController.navigate(SecondaryScreens.RegisterClientOrTask.route)}, // Navegar a la pantalla de creación de cuenta
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFAEFFF6)),
                         modifier = Modifier
                             .fillMaxWidth()
