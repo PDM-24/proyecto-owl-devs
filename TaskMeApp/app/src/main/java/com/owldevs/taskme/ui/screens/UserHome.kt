@@ -4,6 +4,7 @@ import UserViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,8 +27,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.ui.components.CategoryCard
 import com.owldevs.taskme.ui.theme.TaskMeTheme
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun UserHome(
     navController: NavController,
@@ -39,6 +42,16 @@ fun UserHome(
     val currentUserState = userViewModel.currentUser.observeAsState()
     val currentUser = currentUserState.value
     val name = currentUser?.name
+
+    // Lista de categorías con sus respectivos iconos (ID de recurso)
+    val categories = listOf(
+        "Electrician" to R.drawable.ic_bulb,
+        "Plumber" to R.drawable.ic_plumbering,
+        "Carpenter" to R.drawable.ic_carpentery,
+        "Gardener" to R.drawable.ic_scissors,
+        "Painter" to R.drawable.ic_paintroll
+        // Agrega más categorías según sea necesario
+    )
 
     Box(
         modifier = Modifier
@@ -128,67 +141,31 @@ fun UserHome(
                         fontSize = 16.sp,
                         color = Color.White
                     )
-                    Row(
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 10.dp, bottom = 10.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                            .padding(8.dp)
+                            .wrapContentWidth()
                     ) {
-                        Button(
-                            onClick = {
-                                // to do
-                            },
-                            shape = RoundedCornerShape(8.dp),
-                            colors = ButtonDefaults.buttonColors(cyan)
+
+                        FlowRow(
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .fillMaxWidth(),
+                            maxItemsInEachRow = 2,
                         ) {
-                            Row(
-                                modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_carpentery),
-                                    contentDescription = "Saw vector",
-                                    tint = Color.Unspecified,
-                                    modifier = Modifier.size(40.dp)
+                            categories.forEach { (categoryName, iconResId) ->
+                                CategoryCard(
+                                    categoryName = categoryName,
+                                    categoryImg = iconResId,
+                                    navController = navController,
+                                    onClick = {
+                                        navController.navigate("category/${categoryName}")
+                                    }
                                 )
-                                Spacer(modifier = Modifier.width(7.dp))
-                                Text(
-                                    text = "Carpintería",
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = navy
-                                )
+                                Spacer(modifier = Modifier.height(8.dp))
                             }
 
-                        }
 
-                        Button(
-                            onClick = {
-                                //to do
-                            },
-                            shape = RoundedCornerShape(8.dp),
-                            colors = ButtonDefaults.buttonColors(cyan)
-                        ) {
-                            Row(
-                                modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_taxi),
-                                    contentDescription = "Taxi vector",
-                                    tint = Color.Unspecified,
-                                    modifier = Modifier.size(40.dp)
-                                )
-
-                                Spacer(modifier = Modifier.width(7.dp))
-
-                                Text(
-                                    text = "Motorista",
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = navy
-                                )
-                            }
                         }
                     }
                 }

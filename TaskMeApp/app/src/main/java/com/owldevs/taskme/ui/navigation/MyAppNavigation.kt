@@ -180,6 +180,14 @@ fun MyAppNavigation() {
                 TermsConditions(navController = navController)
             }
 
+            composable(
+                "category/{categoryName}",
+                arguments = listOf(navArgument("categoryName") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val categoryName = backStackEntry.arguments?.getString("categoryName") ?: ""
+                CategoryScreen(navController = navController, categoryName = categoryName)
+            }
+
             /*FIN DE RUTAS SECUNDARIAS*/
 
 

@@ -28,6 +28,7 @@ import com.owldevs.taskme.ui.navigation.SecondaryScreens
 @Composable
 fun CategoryCard(
     navController: NavController,
+    onClick: () -> Unit,
     categoryImg: Int = R.drawable.ic_carpentery,
     categoryName: String = "CategoryName"
 ) {
