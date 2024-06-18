@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -53,20 +54,20 @@ fun UserHome(
         // Agrega más categorías según sea necesario
     )
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = navy)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.img_homebg), // Replace with your image resource ID
-            contentDescription = "Background Image",
-            modifier = Modifier
-                .fillMaxHeight(0.3f)
-                .fillMaxWidth(),
-            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds of the Box
-        )
-        Column {
+        Box() {
+            Image(
+                painter = painterResource(id = R.drawable.img_homebg), // Replace with your image resource ID
+                contentDescription = "Background Image",
+                modifier = Modifier
+                    .fillMaxHeight(0.3f)
+                    .fillMaxWidth(),
+                contentScale = ContentScale.FillBounds // Scale the image to fill the bounds of the Box
+            )
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -100,76 +101,76 @@ fun UserHome(
                     color = Color.Transparent
                 )
             }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
 
-            Column(modifier = Modifier.padding(start = 30.dp, end = 30.dp)) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.Transparent),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            item {
+                Text(
+                    text = "¿Qué necesitas?",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Text(
+                    text = "(box de filtro)",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.White
+                )
+
+                // Debugging: Show current user role
+                Text(
+                    text = "Role: ${currentUser?.role ?: "No role"}",
+                    fontSize = 16.sp,
+                    color = Color.White
+                )
+
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxSize(0.2f)
-                        .background(color = Color.Transparent),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(8.dp)
+                        .wrapContentWidth()
                 ) {
-                    Text(
-                        text = "¿Qué necesitas?",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Text(
-                        text = "(box de filtro)",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.White
-                    )
-                }
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxSize(1f)
-                        .background(color = Color.Transparent),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    // Debugging: Show current user role
-                    Text(
-                        text = "Role: ${currentUser?.role ?: "No role"}",
-                        fontSize = 16.sp,
-                        color = Color.White
-                    )
-                    Column(
+                    FlowRow(
                         modifier = Modifier
                             .padding(8.dp)
-                            .wrapContentWidth()
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalArrangement = Arrangement.spacedBy(8.dp) // Adjust vertical spacing here
                     ) {
-
-                        FlowRow(
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .fillMaxWidth(),
-                            maxItemsInEachRow = 2,
-                        ) {
-                            categories.forEach { (categoryName, iconResId) ->
-                                CategoryCard(
-                                    categoryName = categoryName,
-                                    categoryImg = iconResId,
-                                    navController = navController,
-                                    onClick = {
-                                        navController.navigate("category/${categoryName}")
-                                    }
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                            }
-
-
+                        categories.forEach { (categoryName, iconResId) ->
+                            CategoryCard(
+                                categoryName = categoryName,
+                                categoryImg = iconResId,
+                                navController = navController,
+                                onClick = {
+                                    navController.navigate("category/${categoryName}")
+                                },
+                            )
+                            Spacer(modifier = Modifier.width(5.dp)) // Horizontal spacing between cards
                         }
                     }
+
                 }
+
             }
+
+
         }
+
     }
+
+
 }
+
+
+
+
