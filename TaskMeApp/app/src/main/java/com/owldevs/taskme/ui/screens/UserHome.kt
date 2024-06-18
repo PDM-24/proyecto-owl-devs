@@ -5,14 +5,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,15 +22,18 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.CategoryCard
-import com.owldevs.taskme.ui.theme.TaskMeTheme
+
+// for a 'val' variable
+import androidx.compose.runtime.getValue
+
+// for a `var` variable also add
+import androidx.compose.runtime.setValue
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -38,8 +42,7 @@ fun UserHome(
     userViewModel: UserViewModel = viewModel()
 ) {
 
-    val navy = colorResource(id = R.color.navy)
-    val cyan = colorResource(id = R.color.cyan)
+
     val currentUserState = userViewModel.currentUser.observeAsState()
     val currentUser = currentUserState.value
     val name = currentUser?.name
@@ -53,6 +56,19 @@ fun UserHome(
         "Painter" to R.drawable.ic_paintroll
         // Agrega más categorías según sea necesario
     )
+
+    // State for filter text and filtered categories
+    var filterText by remember { mutableStateOf("") }
+
+    val filteredCategories = if (filterText.isBlank()) {
+        categories
+    } else {
+        categories.filter { (categoryName, _) ->
+            categoryName.contains(filterText, ignoreCase = true)
+        }
+    }
+
+
 
     Column(
         modifier = Modifier
@@ -120,12 +136,27 @@ fun UserHome(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(
-                    text = "(box de filtro)",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.White
+                // TextField for category lookup
+                TextField(
+                    value = filterText,
+                    onValueChange = { filterText = it },
+                    modifier = Modifier
+                        .fillMaxWidth(.9f)
+                        .padding(horizontal = 16.dp)
+                        .background(color = Color.White, shape = RoundedCornerShape(8.dp)), // Adjust background color as needed
+                    placeholder = { Text(text = "Buscar categoría...") },
+                    singleLine = true, // Adjust based on your design,
+                            textStyle = MaterialTheme.typography.bodyMedium,
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                        focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onPrimary
+                    )
+
                 )
+
+                Spacer(modifier = Modifier.height(10.dp))
 
                 // Debugging: Show current user role
                 Text(
@@ -144,9 +175,9 @@ fun UserHome(
                             .padding(8.dp)
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
-                        verticalArrangement = Arrangement.spacedBy(8.dp) // Adjust vertical spacing here
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        categories.forEach { (categoryName, iconResId) ->
+                        filteredCategories.forEach { (categoryName, iconResId) ->
                             CategoryCard(
                                 categoryName = categoryName,
                                 categoryImg = iconResId,
@@ -170,7 +201,3 @@ fun UserHome(
 
 
 }
-
-
-
-
