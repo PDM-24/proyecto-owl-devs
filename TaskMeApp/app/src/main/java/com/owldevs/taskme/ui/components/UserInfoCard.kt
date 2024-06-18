@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.navigation.MainScreens
+import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.screens.CategoryScreen
 import com.owldevs.taskme.ui.theme.TaskMeTheme
 
@@ -49,7 +50,7 @@ fun UserInfoCard(
             .fillMaxWidth(0.9f)
             .wrapContentHeight()
             .clickable {
-                navController.navigate(MainScreens.UserProfile.route)
+                navController.navigate(SecondaryScreens.TaskerInfoScreen.route)
             },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,
