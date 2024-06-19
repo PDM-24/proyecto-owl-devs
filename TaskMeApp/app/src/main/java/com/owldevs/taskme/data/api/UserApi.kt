@@ -24,7 +24,7 @@ data class UserApi(
     val metodos_pago: MutableList<tarjetas_asociadas> = arrayListOf(),
 
     @SerializedName(value = Constants.PERFIL_TASKER)
-    val PerfilTasker: MutableList<DetallesPerfilTasker> = arrayListOf(),
+    val PerfilTasker: DetallesPerfilTasker? = null,
 
     )
 
@@ -83,3 +83,13 @@ data class GaleriaTrabajo(
     @SerializedName(value = Constants.FECHA)
     val fecha: Date? = null
 )
+
+
+data class LoginRequest(
+    @SerializedName(Constants.CORREO_ELECTRONICO)
+    val correoElectronico: String,
+
+    @SerializedName(Constants.CONTRASENIA)
+    val contrasenia: String
+)
+

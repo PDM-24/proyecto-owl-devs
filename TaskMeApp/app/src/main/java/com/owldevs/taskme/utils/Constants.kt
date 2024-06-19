@@ -2,11 +2,13 @@ package com.owldevs.taskme.constants
 
 object Constants{
     //api service
-    const val BASE_URL = ""
+    const val BASE_URL = "http://192.168.1.25:3000"
     const val API_PATH = "/api"
 
+    //post paths
+
     //register user
-    const val POST_USER_PATH = "/postUser"
+    const val POST_USER_PATH = "/users/register"
 
     //post a review
     const val POST_REVIEW_PATH = "/postReview"
@@ -20,6 +22,8 @@ object Constants{
     //post a category
     const val POST_CATEGORY_PATH = "/postCategory"
 
+    //get paths
+    const val GET_USER_LOGIN_PATH = "/users/login"
 
     //api responses
     const val RESPONSE_SUCCESSFUL = "result"
@@ -42,12 +46,12 @@ object Constants{
     const val UBICACION = "ubicacion"
     const val PRECIO = "precio"
     const val METODO_PAGO = "metodo_pago"
-    const val NOMBRE_COMPLETO = "nombre_completo"
-    const val CORREO_ELECTRONICO = "correo_electronico"
+    const val NOMBRE_COMPLETO = "nombreCompleto"
+    const val CORREO_ELECTRONICO = "correoElectronico"
     const val CONTRASENIA = "contrasenia"
     const val USUARIO_TASKER = "usuario_tasker"
-    const val METODOS_PAGO = "metodos_pago"
-    const val PERFIL_TASKER = "perfil_tasker"
+    const val METODOS_PAGO = "tarjetas_asociadas"
+    const val PERFIL_TASKER = "perfilTasker"
     const val HABILIDADES = "habilidades"
     const val GALERIA_TRABAJOS = "galeria_trabajos"
     const val NUMERO = "numero"
@@ -66,5 +70,4 @@ object Constants{
     const val CALIFICACION = "calificacion"
     const val TEXTO = "texto"
 
-    const val PRUEBAAA = "pruebaaa"
 }
