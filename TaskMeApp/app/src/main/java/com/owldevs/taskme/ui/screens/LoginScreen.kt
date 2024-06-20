@@ -1,6 +1,6 @@
 package com.owldevs.taskme.ui.screens
 
-import UserViewModel
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,13 +22,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.owldevs.taskme.R
-import com.owldevs.taskme.data.UserManager
+import com.owldevs.taskme.data.api.ApiClient
+import com.owldevs.taskme.data.api.LoginRequest
 import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
+import com.owldevs.taskme.ui.viewmodels.LoginViewModel
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 @Composable
-fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
+fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel()) {
 
     val navy = colorResource(id = R.color.navy)
     val cyan = colorResource(id = R.color.cyan)
@@ -36,6 +43,14 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val loginState by loginViewModel::loginState
+    val errorMessage by loginViewModel::errorMessage
+
+    if (loginState) {
+        LaunchedEffect(Unit) {
+            navController.navigate(MainScreens.UserHome.route)
+        }
+    }
 
     Box(modifier = Modifier.background(color = navy)) {
         Row{
@@ -132,25 +147,25 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                if (errorMessage.isNotEmpty()) {
+                    Text(
+                        text = errorMessage,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
+
                 Button(
                     onClick = {
-                        val isAuthenticated = UserManager.authenticateUser(email, password)
-                        if (isAuthenticated) {
-                            val currentUser = UserManager.getCurrentUser()
-                            userViewModel.setCurrentUser(currentUser)
-                            navController.navigate(
-                                MainScreens.UserHome.route
-                            )
-                        } else {
-                            // Display an error message todo
-                        }
+                        val loginRequest = LoginRequest(correoElectronico = email, contrasenia = password)
+                        Log.i("LoginViewModel", "Login request: $loginRequest")
+                        loginViewModel.loginUser(loginRequest)
+                        Log.i("LoginViewModel", "Login request: $loginRequest")
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 50.dp, end = 50.dp, top = 30.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = cyan
-                    ),
+                    colors = ButtonDefaults.buttonColors(containerColor = cyan),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text(
@@ -243,3 +258,5 @@ fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
         }
     }
 }
+
+
