@@ -1,5 +1,7 @@
 package com.owldevs.taskme.ui.screens
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -32,8 +34,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.api.ApiClient
+import com.owldevs.taskme.data.api.UserApi
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.AzulMarino
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun RegisterScreen(navController: NavController, onBackClick: () -> Unit = {}) {
@@ -129,7 +137,18 @@ fun RegisterScreen(navController: NavController, onBackClick: () -> Unit = {}) {
             }
 
             Button(
-                onClick = { /* Handle registration */ },
+                onClick = {
+                    val user = UserApi(
+                    nombre_completo = "$name $surname",
+                    correo_electronico = email,
+                    contrasenia = password,
+                    ubicacion = location,
+                    usuario_tasker = false,
+                    metodos_pago = mutableListOf(),
+                    PerfilTasker = null
+                )
+                    registerUser(user, navController)
+                          },
                 modifier = Modifier
                     .fillMaxWidth()
                 .padding(start = 50.dp, end = 50.dp, top = 30.dp),
@@ -218,4 +237,25 @@ fun CustomTextField(
         singleLine = true,
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None
     )
+}
+
+
+fun registerUser(user: UserApi, navController: NavController) {
+    CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = ApiClient.apiService.registerUser(user)
+            withContext(Dispatchers.Main) {
+                if (response.result == "ok") {
+                    Toast.makeText(navController.context, "Registro exitoso", Toast.LENGTH_LONG).show()
+                    navController.navigate(SecondaryScreens.LoginScreen.route)
+                } else {
+                    Toast.makeText(navController.context, "error de algo", Toast.LENGTH_LONG).show()
+                }
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(navController.context, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 }

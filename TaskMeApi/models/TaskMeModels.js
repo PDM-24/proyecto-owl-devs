@@ -5,22 +5,22 @@ const userSchema = new mongoose.Schema({
     nombre_completo: {
         type: String,
         required: [true, 'El nombre completo es obligatorio'],
-        minlength: [3, 'El nombre completo debe tener al menos 3 caracteres']
+       minlength: [3, 'El nombre completo debe tener al menos 3 caracteres']
     },
     correo_electronico: {
         type: String,
         required: [true, 'El correo electrónico es obligatorio'],
         unique: true,
-        match: [/.+\@.+\..+/, 'Por favor ingresa un correo electrónico válido']
+       match: [/.+\@.+\..+/, 'Por favor ingresa un correo electrónico válido']
     },
     contrasenia: {
         type: String,
         required: [true, 'La contraseña es obligatoria'],
-        minlength: [6, 'La contraseña debe tener al menos 6 caracteres']
+       minlength: [6, 'La contraseña debe tener al menos 6 caracteres']
     },
     ubicacion: {
         type: String,
-        required: [true, 'La ubicación es obligatoria']
+       required: [true, 'La ubicación es obligatoria']
     },
     usuario_tasker: {
         type: Boolean,

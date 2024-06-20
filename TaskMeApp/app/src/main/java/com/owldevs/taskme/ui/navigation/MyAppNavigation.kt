@@ -16,12 +16,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.owldevs.taskme.ui.screens.*
 import com.owldevs.taskme.ui.viewmodels.ChatViewModel
+import com.owldevs.taskme.ui.viewmodels.LoginViewModel
 
 
 @Composable
 fun MyAppNavigation() {
     val navController = rememberNavController()
     val userViewModel = viewModel<UserViewModel>()
+    val loginViewModel = viewModel<LoginViewModel>()
 
     // State to track the current screen route
     var currentRoute by remember { mutableStateOf<String?>(null) }
@@ -56,7 +58,7 @@ fun MyAppNavigation() {
             }
 
             composable(route = SecondaryScreens.LoginScreen.route) {
-                LoginScreen(navController, userViewModel)
+                LoginScreen(navController, loginViewModel)
             }
 
             /*RUTAS PRINCIPALES*/
@@ -174,6 +176,11 @@ fun MyAppNavigation() {
 
             composable(SecondaryScreens.UsertoTasker.route) {
                 UsertoTaskerScreen(navController = navController)
+            }
+
+
+            composable(SecondaryScreens.UserTaskScreen.route) {
+                UserTaskScreen(navController = navController)
             }
 
             composable(SecondaryScreens.TermsConditions.route) {

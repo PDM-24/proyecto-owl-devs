@@ -102,7 +102,7 @@ fun TaskCard(
                     Text(text = taskerName, style = MaterialTheme.typography.bodyMedium)
                 }
                 Button(
-                    onClick = {  },
+                    onClick = { navController.navigate(SecondaryScreens.UserTaskScreen.route) },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.secondary,
                         contentColor = MaterialTheme.colorScheme.onSecondary
