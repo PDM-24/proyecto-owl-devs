@@ -8,12 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.LoginRequest
-import com.owldevs.taskme.data.api.UserApi
 import com.owldevs.taskme.model.UserApiResponse
-import com.owldevs.taskme.model.UserProfile
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
 
 class LoginViewModel : ViewModel() {
     var loginState by mutableStateOf(false)

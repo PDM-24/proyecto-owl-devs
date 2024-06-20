@@ -61,7 +61,7 @@ object Constants{
     const val DESCRIPCION_PERSONAL = "descripcion_personal"
     const val FECHA_UNION = "fecha_unión"
     const val TRABAJOS_REALIZADOS = "trabajos_realizados"
-    const val PROMEDIO_CALIFIACIONES = "promedio_calificaciones"
+    const val PROMEDIO_CALIFIACIONES = "calificacion"
     const val FOTO = "foto"
     const val ID_CATEGORIA = "id_categoria"
     const val URL = "url"

@@ -43,24 +43,3 @@ data class ApiResponseError(
 
 )
 
-
-data class Habilidades(
-    @SerializedName(value = Constants.ID_CATEGORIA)
-    val id_categoria: String? = null,
-
-    @SerializedName(value = Constants.NOMBRE)
-    val nombre: String? = ""
-)
-
-data class GaleriaTrabajoes(
-    @SerializedName(value = Constants.URL)
-    val url: String = "",
-
-    @SerializedName(value = Constants.DESCRIPCION)
-    val descripcion: String = "",
-
-    @SerializedName(value = Constants.FECHA)
-    val fecha: Date? = null
-)
-
-
