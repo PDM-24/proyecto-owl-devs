@@ -148,7 +148,7 @@ fun UserHome(
                     pair.forEachIndexed { index, category ->
                         CategoryCard(
                             categoryName = category.nombre,
-                            categoryImg = R.drawable.ic_broom, // Replace with actual icon if available
+                            categoryImg = R.drawable.ic_carpentery, // Replace with actual icon if available
                             navController = navController,
                             onClick = {
                                 navController.navigate("category/${category.nombre}")
