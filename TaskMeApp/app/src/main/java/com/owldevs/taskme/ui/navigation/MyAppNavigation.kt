@@ -15,8 +15,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.owldevs.taskme.ui.screens.*
+import com.owldevs.taskme.ui.viewmodels.CategoryViewModel
 import com.owldevs.taskme.ui.viewmodels.ChatViewModel
 import com.owldevs.taskme.ui.viewmodels.LoginViewModel
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
 
 @Composable
@@ -24,6 +26,8 @@ fun MyAppNavigation() {
     val navController = rememberNavController()
     val userViewModel = viewModel<UserViewModel>()
     val loginViewModel = viewModel<LoginViewModel>()
+    val userApiViewModel = viewModel<UserApiViewModel>()
+    val categoryViewModel = viewModel<CategoryViewModel>()
 
     // State to track the current screen route
     var currentRoute by remember { mutableStateOf<String?>(null) }
@@ -42,7 +46,7 @@ fun MyAppNavigation() {
 
             if (currentRoute != SecondaryScreens.LoginScreen.route && currentRoute != SecondaryScreens.CreateOrHave.route && currentRoute != SecondaryScreens.RegisterClientOrTask.route  && currentRoute != SecondaryScreens.Support.route && currentRoute != SecondaryScreens.RegisterClient.route) {
 
-                MyBottomNav(navController, userViewModel)
+                MyBottomNav(navController, userApiViewModel)
             }
         }
     ) {
@@ -58,23 +62,23 @@ fun MyAppNavigation() {
             }
 
             composable(route = SecondaryScreens.LoginScreen.route) {
-                LoginScreen(navController, loginViewModel)
+                LoginScreen(navController, loginViewModel, userApiViewModel)
             }
 
             /*RUTAS PRINCIPALES*/
 
             composable(route = MainScreens.UserProfile.route) {
-                UserProfile(navController, userViewModel)
+                UserProfile(navController, userApiViewModel)
             }
 
 
             composable(route = MainScreens.TaskerProfile.route) {
-                ProfileScreen(navController, userViewModel)
+                ProfileScreen(navController, userApiViewModel)
             }
 
 
             composable(route = MainScreens.UserHome.route) {
-                UserHome(navController, userViewModel)
+                UserHome(navController, categoryViewModel)
             }
             composable(route = MainScreens.TaskerHome.route) {
                 NotificationsScreen()
@@ -139,10 +143,10 @@ fun MyAppNavigation() {
                 ReviewsScreen(navController)
             }
             composable(SecondaryScreens.UserSettings.route) {
-                UserSettingsScreen(navController, userViewModel)
+                UserSettingsScreen(navController, userApiViewModel)
             }
             composable(SecondaryScreens.EditProfile.route) {
-                EditProfile(navController = navController, userViewModel = userViewModel)
+                EditProfile(navController = navController, userApiViewModel, categoryViewModel)
 
             }
 

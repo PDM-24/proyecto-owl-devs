@@ -4,10 +4,13 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.LoginRequest
+import com.owldevs.taskme.model.UserApiModel
 import com.owldevs.taskme.model.UserApiResponse
 import kotlinx.coroutines.launch
 
@@ -18,25 +21,27 @@ class LoginViewModel : ViewModel() {
     var errorMessage by mutableStateOf("")
         private set
 
-    fun loginUser(loginRequest: LoginRequest) {
+    private val _userProfile = MutableLiveData<UserApiModel?>()
+    val userProfile: LiveData<UserApiModel?> = _userProfile
+
+    fun loginUser(loginRequest: LoginRequest, userApiViewModel: UserApiViewModel) {
         viewModelScope.launch {
             try {
                 val response = ApiClient.apiService.loginUser(loginRequest)
                 Log.i("LoginViewModel", "Login response: $response")
 
-                // Verificar si la respuesta indica un inicio de sesión exitoso
                 if (response != null) {
-                    // Aquí adaptas la respuesta del servidor a tu modelo de datos en el cliente
-                    val userProfile = UserApiResponse(
+                    val userProfile = UserApiModel(
                         correoElectronico = response.correoElectronico,
                         nombre = response.nombre,
                         ubicacion = response.ubicacion,
-                        usuarioTasker = response.usuarioTasker,
+                        usuarioTasker = false, // Set usuarioTasker to false by default
                         tarjetasAsociadas = response.tarjetasAsociadas,
                         perfilTasker = response.perfilTasker
                     )
-                    Log.i("LoginViewModel", "User profile: $userProfile")
-                    loginState = true // Indicar que el inicio de sesión fue exitoso
+                    _userProfile.value = userProfile
+                    userApiViewModel.setCurrentUser(userProfile)
+                    loginState = true
                 } else {
                     errorMessage = "Error: Respuesta nula del servidor"
                 }
@@ -46,6 +51,6 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
-
-
 }
+
+

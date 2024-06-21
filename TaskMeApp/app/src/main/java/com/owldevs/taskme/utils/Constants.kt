@@ -2,7 +2,9 @@ package com.owldevs.taskme.constants
 
 object Constants{
     //api service
-    const val BASE_URL = "http://192.168.1.25:3000"
+    // ip kattia: 192.168.1.5 o 172.20.10.2
+    // ip jc: 192.168.1.25
+    const val BASE_URL = "http://192.168.1.5:3000"
     const val API_PATH = "/api"
 
     //post paths

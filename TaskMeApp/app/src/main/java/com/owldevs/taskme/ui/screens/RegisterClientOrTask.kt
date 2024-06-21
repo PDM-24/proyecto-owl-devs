@@ -63,13 +63,12 @@ fun RegisterClientOrTaskScreen(navController: NavController) {
                     modifier = Modifier.clickable { showPopup = true } // Mostrar el popup
                 )
             }
-            Spacer(modifier = Modifier.height(100.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             Image(
                 painter = painterResource(id = R.drawable.ic_taskme),
                 contentDescription = "Task Me Logo",
                 modifier = Modifier.size(200.dp)
             )
-            Spacer(modifier = Modifier.height(16.dp))
            /* Text(
                 text = "Task Me!",
                 fontSize = 32.sp,

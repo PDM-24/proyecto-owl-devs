@@ -1,6 +1,5 @@
 package com.owldevs.taskme.ui.screens
 
-import UserViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,6 +44,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -52,21 +52,26 @@ import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.AbilityChip
 import com.owldevs.taskme.ui.components.ReducedReviewCard
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
+import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ProfileScreen(
     navController: NavController,
-    userViewModel: UserViewModel = viewModel()
-
+    userApiViewModel: UserApiViewModel = viewModel()
 ) {
-    val currentUser by userViewModel.currentUser.observeAsState()
+    val currentUser by userApiViewModel.currentUser.observeAsState()
 
-    val userName = currentUser?.name?: "Unknown"
-    var tasksCompleted =  currentUser?.tasksCompleted
-    var userBio = currentUser?.taskerBio?: "No bio available"
-    var ratingMedia = currentUser?.ratingMedia
-    var taskerFounds = currentUser?.taskerFounds
+    // Extract data from currentUser
+    val userName = currentUser?.nombre ?: "Unknown"
+    val taskerProfile = currentUser?.perfilTasker
+    val tasksCompleted = taskerProfile?.trabajos_realizados ?: 0
+    val userBio = taskerProfile?.descripcion_personal ?: "No bio available"
+    val ratingMedia = taskerProfile?.promedio_calificaciones ?: 0
+    val taskerFounds = 0 // Assuming tasker funds to be 0 for now, as it's not present in DetallesPerfilTasker
 
     var isExpanded by remember { mutableStateOf(false) }
     var ratingValue by remember { mutableStateOf("") }
@@ -93,7 +98,7 @@ fun ProfileScreen(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Settings,
-                    contentDescription = "Back",
+                    contentDescription = "Settings",
                     tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
                         .size(32.dp)
@@ -132,7 +137,7 @@ fun ProfileScreen(
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
                         Text(
-                            text = "$ $taskerFounds",
+                            text = "Fondos: $ $taskerFounds",
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onPrimary
                         )
@@ -145,13 +150,14 @@ fun ProfileScreen(
             modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
             ) {
                 Text(
                     text = "Biografia: ",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
+                Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = userBio,
                     color = MaterialTheme.colorScheme.onBackground,
@@ -161,26 +167,26 @@ fun ProfileScreen(
             }
 
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
             ) {
                 Text(
-                    text = "Soy:",
+                    text = "Me dedico a:",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
+                Spacer(modifier = Modifier.height(6.dp))
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     maxItemsInEachRow = 4
                 ) {
-                    AbilityChip()
-                    AbilityChip()
-                    AbilityChip()
-                    AbilityChip()
-                    AbilityChip()
+                    taskerProfile?.habilidades?.forEach { habilidad ->
+                        AbilityChip(name = habilidad.nombre ?: "Unknown")
+                    }
                 }
             }
             Column(
+                modifier = Modifier.padding(horizontal = 15.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
@@ -191,45 +197,21 @@ fun ProfileScreen(
                 Row(
                     modifier = Modifier.horizontalScroll(rememberScrollState())
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_pic),
-                        contentDescription = "Trabajo realizado",
-                        modifier = Modifier
-                            .width(100.dp)
-                            .height(50.dp)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_pic),
-                        contentDescription = "Trabajo realizado",
-                        modifier = Modifier
-                            .width(100.dp)
-                            .height(50.dp)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_pic),
-                        contentDescription = "Trabajo realizado",
-                        modifier = Modifier
-                            .width(100.dp)
-                            .height(50.dp)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_pic),
-                        contentDescription = "Trabajo realizado",
-                        modifier = Modifier
-                            .width(100.dp)
-                            .height(50.dp)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_pic),
-                        contentDescription = "Trabajo realizado",
-                        modifier = Modifier
-                            .width(100.dp)
-                            .height(50.dp)
-                    )
+                    taskerProfile?.galeria_trabajos?.forEach { trabajo ->
+                        Image(
+                            painter = rememberImagePainter(data = trabajo.url),
+                            contentDescription = "Trabajo realizado",
+                            modifier = Modifier
+                                .width(100.dp)
+                                .height(50.dp)
+                        )
+                    }
                 }
             }
+            Spacer(modifier = Modifier.width(10.dp))
+
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -238,13 +220,20 @@ fun ProfileScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
+                    Row(horizontalArrangement = Arrangement.Start
                     ) {
-                        TextButton(onClick = { navController.navigate(SecondaryScreens.ReviewsScreen.route) }) {
                             Text(
-                                text = "Reseñas: $ratingMedia",
+                                text = "Reseñas",
                                 style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground
+                                color = MaterialTheme.colorScheme.onBackground,
+                                textDecoration = TextDecoration.Underline,
+                                modifier = Modifier.clickable { navController.navigate(SecondaryScreens.ReviewsScreen.route) }
+                            )
+                             Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                            text = "$ratingMedia",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Icon(
@@ -253,10 +242,10 @@ fun ProfileScreen(
                                 modifier = Modifier.size(16.dp),
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
-                        }
                     }
                     Box(
-                        modifier = Modifier.width(150.dp)
+                        modifier = Modifier.width(150.dp),
+                        contentAlignment = Alignment.BottomCenter
                     ) {
                         ExposedDropdownMenuBox(expanded = isExpanded,
                             onExpandedChange = { isExpanded = !isExpanded }) {
@@ -279,17 +268,19 @@ fun ProfileScreen(
                                 placeholder = {
                                     Text(
                                         text = "# Estrellas",
-                                        style = MaterialTheme.typography.bodyMedium
+                                        style = MaterialTheme.typography.bodySmall
                                     )
                                 },
                                 singleLine = true,
-                                textStyle = MaterialTheme.typography.bodyMedium,
+                                textStyle = MaterialTheme.typography.bodySmall,
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedContainerColor = MaterialTheme.colorScheme.onSecondary,
                                     focusedTextColor = MaterialTheme.colorScheme.onPrimary,
                                 ),
                                 shape = RoundedCornerShape(12.dp),
                                 modifier = Modifier.menuAnchor()
+                                    .width(150.dp)
+                                    .height(48.dp)
                             )
                             ExposedDropdownMenu(expanded = isExpanded,
                                 onDismissRequest = { isExpanded = false }) {
@@ -351,5 +342,16 @@ fun ProfileScreen(
                 ReducedReviewCard(navController)
             }
         }
+    }
+}
+
+@Composable
+fun AbilityChip(name: String) {
+    Box(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(16.dp))
+            .padding(horizontal = 8.dp, vertical = 2.dp)
+    ) {
+        Text(text = name, color = MaterialTheme.colorScheme.onBackground, style = MaterialTheme.typography.bodySmall)
     }
 }
