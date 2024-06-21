@@ -1,50 +1,20 @@
 package com.owldevs.taskme.ui.screens
 
-import UserViewModel
+
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,38 +23,40 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.AbilityChip
-import coil.compose.rememberAsyncImagePainter
+import com.owldevs.taskme.ui.viewmodels.CategoryViewModel
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun EditProfile(
     navController: NavController,
-    userViewModel: UserViewModel = viewModel(),
-    userImg: Int = R.drawable.ic_pfp,
-    initialUserBio: String = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum " +
-            "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum " +
-            "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-    initialCategorias: List<String> = listOf("Categoria 1", "Categoria 2")
+    userApiViewModel: UserApiViewModel = viewModel(),
+    categoryViewModel: CategoryViewModel = viewModel()
 ) {
-    val currentUserState = userViewModel.currentUser.observeAsState()
-    val currentUser = currentUserState.value
-    val initialUserName = currentUser?.name ?: "null"
-    val initialEmail = currentUser?.email ?: "null"
-    val currentRole = currentUser?.role
+    val currentUser by userApiViewModel.currentUser.observeAsState()
+    val initialUserName = currentUser?.nombre ?: ""
+    val initialEmail = currentUser?.correoElectronico ?: ""
+    val isTasker = currentUser?.usuarioTasker ?: false
+    val taskerProfile = currentUser?.perfilTasker
 
-    val cyan = colorResource(id = R.color.cyan)
+    val categories by categoryViewModel.categories.observeAsState(emptyList())
+
+
     var imageUri by remember { mutableStateOf<Uri?>(null) }
-    var image by remember { mutableStateOf(userImg) }
     var newName by remember { mutableStateOf(initialUserName) }
     var newEmail by remember { mutableStateOf(initialEmail) }
-    var descripcion by remember { mutableStateOf(initialUserBio) }
-    var categorias by remember { mutableStateOf("") }
+    var descripcion by remember { mutableStateOf(taskerProfile?.descripcion_personal ?: "") }
     var expanded by remember { mutableStateOf(false) }
-    val categoriasList = listOf("Categoria 1", "Categoria 2", "Categoria 3")
-    val selectedCategorias = remember { mutableStateListOf(*initialCategorias.toTypedArray()) }
+    var categorias by remember { mutableStateOf("") }
+    val selectedCategorias = remember { mutableStateListOf<String>() }
     val scrollState = rememberLazyListState()
+
+    LaunchedEffect(Unit) {
+        categoryViewModel.fetchCategories()
+    }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -93,15 +65,14 @@ fun EditProfile(
     }
 
     fun saveProfile() {
-       /* if (newName.isNotBlank() && isValidEmail(newEmail)) {
-            userViewModel.updateProfile(
+        if (newName.isNotBlank() && isValidEmail(newEmail)) {
+            userApiViewModel.updateProfile(
                 name = newName,
                 email = newEmail,
                 bio = descripcion,
-                categories = selectedCategorias.toList(),
-                imageUri = imageUri
+                categories = selectedCategorias.toList()
             )
-        }*/
+        }
     }
 
     Scaffold(
@@ -143,7 +114,7 @@ fun EditProfile(
                     modifier = Modifier.size(60.dp)
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                Row (
+                Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (imageUri != null) {
@@ -154,7 +125,7 @@ fun EditProfile(
                         )
                     } else {
                         Icon(
-                            painter = painterResource(id = image),
+                            painter = painterResource(id = R.drawable.ic_pfp),
                             contentDescription = "Profile picture container",
                             tint = Color.Unspecified,
                             modifier = Modifier.size(60.dp)
@@ -164,7 +135,7 @@ fun EditProfile(
                     Button(
                         onClick = { imagePickerLauncher.launch("image/*") },
                         shape = RoundedCornerShape(8.dp),
-                        colors = ButtonDefaults.buttonColors(cyan)
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                     ) {
                         Text(text = "Agregar o cambiar foto de perfil")
                     }
@@ -215,16 +186,14 @@ fun EditProfile(
                         isError = !isValidEmail(newEmail), // Check if email is invalid
                         singleLine = true // Ensure it's a single line input
                     )
-
                 }
                 Spacer(modifier = Modifier.height(15.dp))
             }
 
-            if (currentRole == "tasker") {
+            if (isTasker) {
                 item {
                     Column(
-                        modifier = Modifier
-                            .padding(15.dp)
+                        modifier = Modifier.padding(15.dp)
                     ) {
                         Text(
                             text = "Descripcion personal",
@@ -282,12 +251,12 @@ fun EditProfile(
                                 expanded = expanded,
                                 onDismissRequest = { expanded = false }
                             ) {
-                                categoriasList.forEach { categoria ->
+                                categories.forEach { category ->
                                     DropdownMenuItem(
-                                        text = { Text(categoria) },
+                                        text = { Text(category.nombre) },
                                         onClick = {
-                                            if (categoria !in selectedCategorias) {
-                                                selectedCategorias.add(categoria)
+                                            if (category.nombre !in selectedCategorias) {
+                                                selectedCategorias.add(category.nombre)
                                             }
                                             expanded = false
                                         }
@@ -330,7 +299,7 @@ fun EditProfile(
                 Button(
                     onClick = { saveProfile() },
                     shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(cyan)
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                 ) {
                     Text(text = "Guardar")
                 }

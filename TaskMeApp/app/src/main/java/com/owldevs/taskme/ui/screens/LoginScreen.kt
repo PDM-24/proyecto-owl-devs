@@ -15,31 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.lifecycle.viewModelScope
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.LoginRequest
 import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.viewmodels.LoginViewModel
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel()) {
-
-    val navy = colorResource(id = R.color.navy)
-    val cyan = colorResource(id = R.color.cyan)
-    val latoBold = FontFamily(Font(R.font.lato_bold))
+fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel(), userApiViewModel: UserApiViewModel = viewModel()) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -52,24 +40,31 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
         }
     }
 
-    Box(modifier = Modifier.background(color = navy)) {
-        Row{
-            IconButton(
-                onClick = { navController.popBackStack() },
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = MaterialTheme.colorScheme.onBackground)
-            }
-        }
+    Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
+
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-
             item {
-                Spacer(modifier = Modifier.height(100.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Icon(
+                        Icons.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clickable { navController.navigateUp() }
+                    )
+                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(20.dp))
 
                 // Add Image
                 Icon(
@@ -95,24 +90,32 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.Start) {
-                        Text(text = "Correo",
+                        Text(
+                            text = "Correo",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground)
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
 
                         Spacer(modifier = Modifier.height(8.dp))
 
                         TextField(
+                            modifier = Modifier.width(300.dp),
                             value = email,
                             onValueChange = { email = it },
-                            label = { Text(text = "",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onPrimary ) },
+                            label = {
+                                Text(
+                                    text = "",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            },
                             textStyle = MaterialTheme.typography.bodyMedium,
                             colors = TextFieldDefaults.colors(
                                 focusedContainerColor = MaterialTheme.colorScheme.onBackground,
                                 unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
                                 focusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimary)
+                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimary
+                            )
                         )
                     }
                 }
@@ -124,22 +127,32 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.Start) {
-                        Text(text = "Contraseña", color = Color.White, fontFamily = latoBold, fontSize = 16.sp)
+                        Text(
+                            text = "Contraseña",
+                            color = Color.White,
+                            style = MaterialTheme.typography.titleMedium
+                        )
 
                         Spacer(modifier = Modifier.height(8.dp))
 
                         TextField(
+                            modifier = Modifier.width(300.dp),
                             value = password,
                             onValueChange = { password = it },
-                            label = { Text(text = "",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onPrimary ) },
+                            label = {
+                                Text(
+                                    text = "",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            },
                             textStyle = MaterialTheme.typography.bodyMedium,
                             colors = TextFieldDefaults.colors(
                                 focusedContainerColor = MaterialTheme.colorScheme.onBackground,
                                 unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
                                 focusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimary),
+                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimary
+                            ),
                             visualTransformation = PasswordVisualTransformation()
                         )
                     }
@@ -157,22 +170,22 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
 
                 Button(
                     onClick = {
-                        val loginRequest = LoginRequest(correoElectronico = email, contrasenia = password)
+                        val loginRequest =
+                            LoginRequest(correoElectronico = email, contrasenia = password)
                         Log.i("LoginViewModel", "Login request: $loginRequest")
-                        loginViewModel.loginUser(loginRequest)
+                        loginViewModel.loginUser(loginRequest, userApiViewModel) // Pass userApiViewModel here
                         Log.i("LoginViewModel", "Login request: $loginRequest")
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 50.dp, end = 50.dp, top = 30.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = cyan),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text(
                         text = "Ingresar",
-                        color = Color.Black,
-                        fontFamily = latoBold,
-                        fontSize = 18.sp,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.padding(8.dp)
                     )
                 }
@@ -200,9 +213,11 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(text = "O ingresar con",
+                Text(
+                    text = "O ingresar con",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onBackground)
+                    color = MaterialTheme.colorScheme.onBackground
+                )
 
                 Row(
                     modifier = Modifier

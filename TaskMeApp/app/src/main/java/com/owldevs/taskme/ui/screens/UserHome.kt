@@ -1,27 +1,20 @@
 package com.owldevs.taskme.ui.screens
 
-import UserViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,34 +24,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.CategoryCard
-
-// for a 'val' variable
-import androidx.compose.runtime.getValue
-
-// for a `var` variable also add
-import androidx.compose.runtime.setValue
+import com.owldevs.taskme.ui.viewmodels.CategoryViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun UserHome(
     navController: NavController,
-    userViewModel: UserViewModel = viewModel()
+    categoryViewModel: CategoryViewModel = viewModel()
 ) {
-
-
-    val currentUserState = userViewModel.currentUser.observeAsState()
-    val currentUser = currentUserState.value
-    val name = currentUser?.name
-
-    // Lista de categorías con sus respectivos iconos (ID de recurso)
-    val categories = listOf(
-        "Electrician" to R.drawable.ic_bulb,
-        "Plumber" to R.drawable.ic_plumbering,
-        "Carpenter" to R.drawable.ic_carpentery,
-        "Gardener" to R.drawable.ic_scissors,
-        "Painter" to R.drawable.ic_paintroll
-        // Agrega más categorías según sea necesario
-    )
+    val categories by categoryViewModel.categories.observeAsState(emptyList())
 
     // State for filter text and filtered categories
     var filterText by remember { mutableStateOf("") }
@@ -66,25 +40,30 @@ fun UserHome(
     val filteredCategories = if (filterText.isBlank()) {
         categories
     } else {
-        categories.filter { (categoryName, _) ->
-            categoryName.contains(filterText, ignoreCase = true)
+        categories.filter { category ->
+            category.nombre.contains(filterText, ignoreCase = true)
         }
     }
 
+    // Group categories into pairs
+    val groupedCategories = filteredCategories.chunked(2)
 
+    LaunchedEffect(Unit) {
+        categoryViewModel.fetchCategories()
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Box() {
+        Box {
             Image(
-                painter = painterResource(id = R.drawable.img_homebg), // Replace with your image resource ID
+                painter = painterResource(id = R.drawable.img_homebg),
                 contentDescription = "Background Image",
                 modifier = Modifier
                     .fillMaxHeight(0.3f)
                     .fillMaxWidth(),
-                contentScale = ContentScale.FillBounds // Scale the image to fill the bounds of the Box
+                contentScale = ContentScale.FillBounds
             )
 
             Column(
@@ -112,13 +91,6 @@ fun UserHome(
                     color = Color.White,
                     textAlign = TextAlign.Center
                 )
-
-                Text(
-                    text = name ?: "No name",
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Transparent
-                )
             }
         }
         Spacer(modifier = Modifier.height(10.dp))
@@ -139,14 +111,13 @@ fun UserHome(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                // TextField for category lookup
                 TextField(
                     value = filterText,
                     onValueChange = { filterText = it },
                     modifier = Modifier
-                        .fillMaxWidth(.9f)
+                        .fillMaxWidth(0.9f)
                         .padding(horizontal = 16.dp)
-                        .background(color = Color.White, shape = RoundedCornerShape(8.dp)), // Adjust background color as needed
+                        .background(color = Color.White, shape = RoundedCornerShape(8.dp)),
                     placeholder = { Text(text = "Buscar categoría...") },
                     leadingIcon = {
                         Icon(
@@ -154,59 +125,47 @@ fun UserHome(
                             contentDescription = "Search Icon"
                         )
                     },
-                    singleLine = true, // Adjust based on your design,
-                            textStyle = MaterialTheme.typography.bodyMedium,
+                    singleLine = true,
+                    textStyle = MaterialTheme.typography.bodyMedium,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = MaterialTheme.colorScheme.onBackground,
                         unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
                         focusedTextColor = MaterialTheme.colorScheme.onPrimary,
                         unfocusedTextColor = MaterialTheme.colorScheme.onPrimary
                     )
-
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
-
-                // Debugging: Show current user role
-                Text(
-                    text = "Role: ${currentUser?.role ?: "No role"}",
-                    fontSize = 16.sp,
-                    color = Color.White
-                )
-
-                Column(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .wrapContentWidth()
-                ) {
-                    FlowRow(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        filteredCategories.forEach { (categoryName, iconResId) ->
-                            CategoryCard(
-                                categoryName = categoryName,
-                                categoryImg = iconResId,
-                                navController = navController,
-                                onClick = {
-                                    navController.navigate("category/${categoryName}")
-                                },
-                            )
-                            Spacer(modifier = Modifier.width(5.dp)) // Horizontal spacing between cards
-                        }
-                    }
-
-                }
-
             }
 
+            items(groupedCategories) { pair ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    pair.forEachIndexed { index, category ->
+                        CategoryCard(
+                            categoryName = category.nombre,
+                            categoryImg = R.drawable.ic_broom, // Replace with actual icon if available
+                            navController = navController,
+                            onClick = {
+                                navController.navigate("category/${category.nombre}")
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(end = if (index == 0) 8.dp else 0.dp) // Add space only for the first card
+                        )
+                    }
+                    // Add a spacer if there's only one item in the row
+                    if (pair.size == 1) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+            }
 
         }
-
     }
-
-
 }

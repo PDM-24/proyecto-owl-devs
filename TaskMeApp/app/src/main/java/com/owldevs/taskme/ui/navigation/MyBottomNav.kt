@@ -1,38 +1,41 @@
 package com.owldevs.taskme.ui.navigation
 
-import UserViewModel
+import android.util.Log
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.owldevs.taskme.ui.theme.TaskMeTheme
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
 @Composable
-fun MyBottomNav(navController: NavController = rememberNavController(), userViewModel: UserViewModel) {
-
-
+fun MyBottomNav(navController: NavController = rememberNavController(), userApiViewModel: UserApiViewModel = viewModel()) {
     val currentRoute = navController.currentDestination?.route ?: " "
-    val currentUser by userViewModel.currentUser.observeAsState()
-    val role = currentUser?.role
+    val currentUser by userApiViewModel.currentUser.observeAsState()
+    val isClient = currentUser?.usuarioTasker == false
+
+
+    LaunchedEffect(currentUser) {
+        Log.i("MyBottomNav", "Role: ${if (currentUser?.usuarioTasker == true) "Tasker" else "Client"}")
+    }
+
 
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.secondary,
         contentColor = MaterialTheme.colorScheme.onSecondary
     ) {
-        if (role == "client") {
-
-
+        if (isClient) {
             NavigationBarItem(
                 selected = currentRoute == MainScreens.UserHome.route,
                 onClick = { navController.navigate(MainScreens.UserHome.route) },
@@ -50,9 +53,8 @@ fun MyBottomNav(navController: NavController = rememberNavController(), userView
                         color = MaterialTheme.colorScheme.onSecondary
                     )
                 }
-
             )
-        }else{
+        } else {
             NavigationBarItem(
                 selected = currentRoute == MainScreens.TaskerHome.route,
                 onClick = { navController.navigate(MainScreens.TaskerHome.route) },
@@ -70,7 +72,6 @@ fun MyBottomNav(navController: NavController = rememberNavController(), userView
                         color = MaterialTheme.colorScheme.onSecondary
                     )
                 }
-
             )
         }
 
@@ -91,7 +92,6 @@ fun MyBottomNav(navController: NavController = rememberNavController(), userView
                     color = MaterialTheme.colorScheme.onSecondary
                 )
             }
-
         )
 
         NavigationBarItem(
@@ -111,10 +111,9 @@ fun MyBottomNav(navController: NavController = rememberNavController(), userView
                     color = MaterialTheme.colorScheme.onSecondary
                 )
             }
-
         )
 
-        if(role=="client"){
+        if (isClient) {
             NavigationBarItem(
                 selected = currentRoute == MainScreens.UserProfile.route,
                 onClick = { navController.navigate(MainScreens.UserProfile.route) },
@@ -132,9 +131,8 @@ fun MyBottomNav(navController: NavController = rememberNavController(), userView
                         color = MaterialTheme.colorScheme.onSecondary
                     )
                 }
-
             )
-        }else{
+        } else {
             NavigationBarItem(
                 selected = currentRoute == MainScreens.TaskerProfile.route,
                 onClick = { navController.navigate(MainScreens.TaskerProfile.route) },
@@ -152,12 +150,7 @@ fun MyBottomNav(navController: NavController = rememberNavController(), userView
                         color = MaterialTheme.colorScheme.onSecondary
                     )
                 }
-
             )
         }
-
     }
-
-
 }
-

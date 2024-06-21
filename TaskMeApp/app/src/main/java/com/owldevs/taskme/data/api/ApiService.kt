@@ -39,5 +39,10 @@ interface ApiService {
     @POST(value = Constants.API_PATH + Constants.GET_USER_LOGIN_PATH)
     suspend fun loginUser(@Body loginRequest: LoginRequest): ApiUserSuccessful
 
+    // get category
+    @Headers(value = ["Content-Type: application/json"])
+    @GET(value = Constants.API_PATH + "/categories")
+    suspend fun getCategories(): List<CategoryApi>
+
 
 }

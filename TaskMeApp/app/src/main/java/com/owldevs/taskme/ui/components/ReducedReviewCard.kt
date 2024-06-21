@@ -43,7 +43,7 @@ fun ReducedReviewCard(
 ) {
     Card(
         modifier = Modifier
-            .fillMaxWidth(0.9f)
+            .fillMaxWidth()
             .wrapContentHeight()
             .clickable { navController.navigate(SecondaryScreens.ReviewsScreen.route) },
         colors = CardDefaults.cardColors(

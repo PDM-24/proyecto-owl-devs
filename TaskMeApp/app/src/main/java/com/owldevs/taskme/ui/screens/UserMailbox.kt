@@ -59,16 +59,6 @@ fun UserMailbox(navController: NavController) {
                     Spacer(modifier = Modifier.height(5.dp))
 
                     Text(
-                        text = "(box de filtro)",
-                        fontSize = 16.sp,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(start = 25.dp, top = 10.dp, bottom = 10.dp)
-                    )
-
-                    Spacer(modifier = Modifier.height(5.dp))
-
-                    Text(
                         text = "Recientes",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onBackground,
