@@ -44,6 +44,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -213,34 +215,42 @@ fun UsertoTaskerScreen(
                             modifier = Modifier.padding(end = 8.dp)
                         )
                         ClickableText(
-                            text =
-                            AnnotatedString(
-                                text = "He leído y acepto los términos y condiciones",
-                            ),
-                            style = MaterialTheme.typography.labelLarge,
+
+                            text = AnnotatedString.Builder().apply {
+                                withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSecondary)) {
+                                    append("He leído y acepto los ")
+                                }
+
+                                withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                                    append("términos y condiciones")
+                                }
+                            }.toAnnotatedString(),
                             onClick = { offset ->
                                 navController.navigate(SecondaryScreens.TermsConditions.route)
-                            }
-                        )
+                            },
+                            modifier = Modifier.padding(start = 8.dp),
+
+
+                            )
                     }
 
-
-                    Spacer(modifier = Modifier.width(30.dp))
-
-                    Button(
-                        onClick = { /*TODO*/ },
-                        shape = RoundedCornerShape(8.dp),
-                        colors = ButtonDefaults.buttonColors(cyan),
-                        enabled = agreedToTerms // Enable button based on checkbox
-                    )
-                    {
-                        Text(
-                            text = "Convertirme en tasker",
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(20.dp))
 
                 }
+
+                Spacer(modifier = Modifier.width(30.dp))
+
+                Button(
+                    onClick = { /*TODO*/ },
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(cyan),
+                    enabled = agreedToTerms // Enable button based on checkbox
+                )
+                {
+                    Text(
+                        text = "Convertirme en tasker",
+                    )
+                }
+                Spacer(modifier = Modifier.height(20.dp))
 
 
             }
