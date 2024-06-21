@@ -21,6 +21,7 @@ const registerUser = async (req, res) => {
             nombreCompleto,
             correoElectronico,
             contrasenia,
+            fotoPerfil,
             ubicacion,
             usuarioTasker,
             tarjetasAsociadas,
@@ -37,6 +38,7 @@ const registerUser = async (req, res) => {
             nombre_completo: nombreCompleto,
             correo_electronico: correoElectronico,
             contrasenia: contrasenia,
+            foto_perfil: fotoPerfil,
             ubicacion: ubicacion,
             usuario_tasker: usuarioTasker,
             tarjetas_asociadas: tarjetasAsociadas,
@@ -203,6 +205,7 @@ const getUser = async (req, res) => {
             id: user.id,
             correoElectronico: user.correo_electronico,
             nombre: user.nombre_completo,
+            fotoPerfil: user.foto_perfil,
             ubicacion: user.ubicacion,
             usuarioTasker: user.usuario_tasker,
             tarjetasAsociadas: user.tarjetas_asociadas,
@@ -302,6 +305,7 @@ const getTaskById = async (req, res) => {
             select: {
                 nombre_completo: 1,
                 correo_electronico: 1,
+                foto_perfil: 1,
                 ubicacion: 1
             }
         }).populate({
@@ -309,6 +313,7 @@ const getTaskById = async (req, res) => {
             select: {
                 nombre_completo: 1,
                 correo_electronico: 1,
+                foto_perfil: 1,
                 ubicacion: 1
             }
         });
