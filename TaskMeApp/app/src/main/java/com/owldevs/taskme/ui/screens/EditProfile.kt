@@ -25,6 +25,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.api.Habilidad
+import com.owldevs.taskme.model.UpdateUserRequest
 import com.owldevs.taskme.ui.components.AbilityChip
 import com.owldevs.taskme.ui.viewmodels.CategoryViewModel
 import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
@@ -37,8 +39,8 @@ fun EditProfile(
     categoryViewModel: CategoryViewModel = viewModel()
 ) {
     val currentUser by userApiViewModel.currentUser.observeAsState()
-    val initialUserName = currentUser?.nombre ?: ""
-    val initialEmail = currentUser?.correoElectronico ?: ""
+    val initialUserName = currentUser?.nombre_completo ?: ""
+    val initialEmail = currentUser?.correo_electronico ?: ""
     val isTasker = currentUser?.usuarioTasker ?: false
     val taskerProfile = currentUser?.perfilTasker
 
@@ -53,6 +55,10 @@ fun EditProfile(
     var categorias by remember { mutableStateOf("") }
     val selectedCategorias = remember { mutableStateListOf<String>() }
     val scrollState = rememberLazyListState()
+    val errorMessage by userApiViewModel::errorMessage
+    val snackbarHostState = remember { SnackbarHostState() }
+    var showSnackbar by remember { mutableStateOf(false) }
+
 
     LaunchedEffect(Unit) {
         categoryViewModel.fetchCategories()
@@ -64,16 +70,15 @@ fun EditProfile(
         imageUri = uri
     }
 
-    fun saveProfile() {
-        if (newName.isNotBlank() && isValidEmail(newEmail)) {
-            userApiViewModel.updateProfile(
-                name = newName,
-                email = newEmail,
-                bio = descripcion,
-                categories = selectedCategorias.toList()
-            )
+    LaunchedEffect(showSnackbar) {
+        if (showSnackbar) {
+            snackbarHostState.showSnackbar("Datos actualizados correctamente")
+            showSnackbar = false
+            navController.popBackStack()
+            navController.navigate("editProfile")
         }
     }
+
 
     Scaffold(
         topBar = {
@@ -297,7 +302,21 @@ fun EditProfile(
 
             item {
                 Button(
-                    onClick = { saveProfile() },
+                    onClick = {
+                        val habilidadesList = selectedCategorias.map { categoriaNombre ->
+                            Habilidad(nombre = categoriaNombre)
+                        }
+                              val updateRequest =
+                                  UpdateUserRequest(
+                                      id = currentUser?.id,
+                                      nombre_completo = newName,
+                                      correo_electronico = newEmail,
+                                      fotoPerfil = imageUri.toString(),
+                                      habilidades = habilidadesList
+                                  )
+                        userApiViewModel.updateProfile(updateRequest)
+                        showSnackbar = true
+                    },
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                 ) {

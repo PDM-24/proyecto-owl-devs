@@ -66,7 +66,7 @@ fun ProfileScreen(
     val currentUser by userApiViewModel.currentUser.observeAsState()
 
     // Extract data from currentUser
-    val userName = currentUser?.nombre ?: "Unknown"
+    val userName = currentUser?.nombre_completo ?: "Unknown"
     val taskerProfile = currentUser?.perfilTasker
     val tasksCompleted = taskerProfile?.trabajos_realizados ?: 0
     val userBio = taskerProfile?.descripcion_personal ?: "No bio available"

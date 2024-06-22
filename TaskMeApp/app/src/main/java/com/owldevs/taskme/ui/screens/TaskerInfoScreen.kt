@@ -64,7 +64,7 @@ fun TaskerInfoScreen(
     val currentUser by userViewModel.currentUser.observeAsState()
 
     val userName = currentUser?.name?: "Unknown"
-    val userImg = R.drawable.ic_pfp
+    val userImg =  currentUser?.userImg?: R.drawable.ic_pfp
     var tasksCompleted =  currentUser?.tasksCompleted
     var userBio = currentUser?.taskerBio?: "No bio available"
     var ratingMedia = currentUser?.ratingMedia
