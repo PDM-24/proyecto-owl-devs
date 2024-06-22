@@ -25,7 +25,13 @@ object Constants{
     //post a category
     const val POST_CATEGORY_PATH = "/postCategory"
 
+    //patch paths
+    const val UPDATE_USER_PATH = "/users/{usuarioId}"
+
+
+
     //get paths
+
     const val GET_USER_LOGIN_PATH = "/users/login"
 
     //api responses
@@ -34,7 +40,7 @@ object Constants{
 
 
     //values of data classes
-    const val ID_USUARIO = "id_usuario"
+    const val ID_USUARIO = "id"
     const val TIPO = "tipo"
     const val MENSAJE = "mensaje"
     const val ESTADO = "estado"
@@ -65,7 +71,7 @@ object Constants{
     const val FECHA_UNION = "fecha_unión"
     const val TRABAJOS_REALIZADOS = "trabajos_realizados"
     const val PROMEDIO_CALIFIACIONES = "calificacion"
-    const val FOTO = "foto"
+    const val FOTO = "foto_perfil"
     const val ID_CATEGORIA = "id_categoria"
     const val URL = "url"
     const val DESCRIPCION = "descripcion"

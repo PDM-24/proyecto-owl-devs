@@ -14,12 +14,17 @@ data class ApiResponseSuccessful(
 
 
 data class ApiUserSuccessful(
+    @SerializedName(value = Constants.ID_USUARIO)
+    val id: String,
 
     @SerializedName("correoElectronico")
     val correoElectronico: String,
 
     @SerializedName("nombre")
     val nombre: String,
+
+    @SerializedName("fotoPerfil")
+    val fotoPerfil: String,
 
     @SerializedName("ubicacion")
     val ubicacion: String,
@@ -38,5 +43,24 @@ data class ApiResponseError(
     @SerializedName(value = Constants.RESPONSE_ERROR)
     val message : String
 
+)
+
+
+data class ApiUpdateSuccessful(
+    @SerializedName(value = Constants.ID_USUARIO)
+    val id: String,
+
+    @SerializedName("correo_electronico")
+    val correoElectronico: String,
+
+    @SerializedName("nombre_completo")
+    val nombre: String,
+
+    @SerializedName("foto_perfil")
+    val fotoPerfil: String,
+
+
+    @SerializedName("habilidades")
+    val habilidades: List<Habilidad>
 )
 

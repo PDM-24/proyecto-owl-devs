@@ -1,10 +1,14 @@
 package com.owldevs.taskme.data.api
 
 import com.owldevs.taskme.constants.Constants
+import com.owldevs.taskme.model.UpdateUserRequest
+import com.owldevs.taskme.model.UserApiModel
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     //post user
@@ -39,10 +43,23 @@ interface ApiService {
     @POST(value = Constants.API_PATH + Constants.GET_USER_LOGIN_PATH)
     suspend fun loginUser(@Body loginRequest: LoginRequest): ApiUserSuccessful
 
+
+
+
+
     // get category
     @Headers(value = ["Content-Type: application/json"])
     @GET(value = Constants.API_PATH + "/categories")
     suspend fun getCategories(): List<CategoryApi>
+
+
+    //update user
+    @Headers(value = ["Content-Type: application/json"])
+    @PATCH(value= Constants.API_PATH + Constants.UPDATE_USER_PATH)
+    suspend fun updateUser(
+        @Path("usuarioId") usuarioId: String?,
+        @Body updateUserRequest: UpdateUserRequest
+    ): ApiUpdateSuccessful
 
 
 }
