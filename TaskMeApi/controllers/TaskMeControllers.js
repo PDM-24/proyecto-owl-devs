@@ -230,7 +230,7 @@ const getAllUsersByCatgory = async (req, res) => {
 
         const users = await User.find({
             "perfil_tasker.habilidades.id_categoria": categoryId
-        });
+        }).select('-contrasenia');
 
         res.status(200).json({
             "category": category.nombre,
@@ -242,6 +242,29 @@ const getAllUsersByCatgory = async (req, res) => {
     }
 };
 
+//Obtener todas las reviews de un tasker
+const getAllReviewsByUser = async (req, res) => {
+    try {
+
+        const { usuarioId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(usuarioId)) {
+            return res.status(404).json({ "message": "Usuario invalido" });
+        };
+
+        const reviews = await Review.find({ tasker_id: usuarioId }).populate({
+            path: 'autor_id',
+            select: {
+                nombre_completo: 1,
+                foto_perfil: 1
+            }
+        });
+
+        res.status(200).json({ reviews });
+    } catch (error) {
+        res.status(500).json({ "message": error.message });
+    }
+};
 
 //Obtener todas las tareas de un usuario segun su rol en la app
 const getAllTaskByRole = async (req, res) => {
@@ -507,6 +530,7 @@ module.exports = {
     getUser,
     getAllUsersByCatgory,
     getAllTaskByRole,
+    getAllReviewsByUser,
     getTaskById,
     getAllNotificationsByUser,
     getAllCategories,

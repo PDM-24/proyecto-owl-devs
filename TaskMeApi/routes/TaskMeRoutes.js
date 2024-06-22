@@ -10,6 +10,7 @@ const {
     getUser,
     getAllUsersByCatgory,
     getAllTaskByRole,
+    getAllReviewsByUser,
     getTaskById,
     getAllNotificationsByUser,
     getAllCategories,
@@ -33,6 +34,7 @@ router.post('/notifications', postNotification);                        //FUNCIO
 router.post('/users/login', getUser);                                   //FUNCIONA
 router.get('/users/:categoryId', getAllUsersByCatgory);                 //FUNCIONA
 router.get('/tasks/role', getAllTaskByRole);                            //FUNCIONA
+router.get('/reviews/:usuarioId', getAllReviewsByUser);                 //FUNCIONA
 router.get('/tasks/:taskId', getTaskById);                              //FUNCIONA
 router.get('/notifications/:usuarioId', getAllNotificationsByUser);     //FUNCIONA
 router.get('/categories', getAllCategories);                           //FUNCIONA

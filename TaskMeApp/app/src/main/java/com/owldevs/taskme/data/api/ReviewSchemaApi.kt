@@ -6,10 +6,11 @@ import java.sql.Date
 
 data class ReviewSchemaApi(
     @SerializedName(value = Constants.TASKER_ID)
-    val tasker_id: String = "",
+    val taskerId: String = "",
 
     @SerializedName(value = Constants.AUTOR_ID)
-    val autor_id: String= "",
+    val autorId: String= "",
+
     @SerializedName(value = Constants.TEXTO)
     val texto: String = "",
 

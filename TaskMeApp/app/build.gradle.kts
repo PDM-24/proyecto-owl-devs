@@ -57,8 +57,8 @@ dependencies {
 
 
     //Retrofit
-    implementation ("com.squareup.retrofit2:retrofit:$retrofit_version")
-    implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
 
     //Animacion
     implementation(libs.androidx.animation)
