@@ -1,5 +1,6 @@
 package com.owldevs.taskme.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,29 +51,49 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.api.ApiClient
+import com.owldevs.taskme.data.api.ApiService
+import com.owldevs.taskme.data.api.DetallesPerfilTasker
+import com.owldevs.taskme.data.api.Habilidad
+import com.owldevs.taskme.data.api.UserApi
 import com.owldevs.taskme.ui.components.AbilityChip
+import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
+import com.owldevs.taskme.ui.viewmodels.CategoryViewModel
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun UsertoTaskerScreen(
-    navController: NavController
+    navController: NavController,
+    userApiViewModel: UserApiViewModel = viewModel(),
+    categoryViewModel: CategoryViewModel = viewModel()
 ) {
-    val cyan = colorResource(id = R.color.cyan)
-    var descripcion by remember { mutableStateOf("") }
-    var categorias by remember { mutableStateOf("") }
-    var expanded by remember { mutableStateOf(false) }
-    val categoriasList = listOf("Categoria 1", "Categoria 2", "Categoria 3")
     val selectedCategorias = remember { mutableStateListOf<String>() }
-    var agreedToTerms by remember { mutableStateOf(false) } // State for checkbox
+    val categories by categoryViewModel.categories.observeAsState(emptyList())
+    LaunchedEffect(Unit) {
+        categoryViewModel.fetchCategories()
+    }
 
-    Box() {
+    val cyan = colorResource(id = R.color.cyan)
+    var num_tel by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+    var habilidades by remember { mutableStateOf("") }
+    var expanded by remember { mutableStateOf(false) }
+    var agreedToTerms by remember { mutableStateOf(false) }
+
+    Box {
         Row {
             IconButton(
-                onClick = { /*navController.popBackStack()*/ },
+                onClick = { navController.popBackStack() },
                 modifier = Modifier.padding(16.dp)
             ) {
                 Icon(
@@ -86,7 +109,6 @@ fun UsertoTaskerScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             item {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_taskme),
@@ -103,19 +125,32 @@ fun UsertoTaskerScreen(
                 Spacer(modifier = Modifier.height(50.dp))
 
                 Column {
+                    Text(
+                        text = "Telefono",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    TextField(
+                        value = num_tel,
+                        onValueChange = { num_tel = it },
+                        modifier = Modifier.width(300.dp),
+                        textStyle = MaterialTheme.typography.bodyMedium,
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.onBackground,
+                            focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    )
 
                     Text(
                         text = "Acerca de ti",
                         style = MaterialTheme.typography.titleMedium
                     )
-
                     Spacer(modifier = Modifier.height(8.dp))
-
                     TextField(
-                        value = descripcion,
-                        onValueChange = { descripcion = it },
+                        value = description,
+                        onValueChange = { description = it },
                         modifier = Modifier.width(300.dp),
-
                         textStyle = MaterialTheme.typography.bodyMedium,
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.onBackground,
@@ -140,7 +175,7 @@ fun UsertoTaskerScreen(
                         onExpandedChange = { expanded = !expanded }
                     ) {
                         TextField(
-                            value = categorias,
+                            value = habilidades,
                             onValueChange = { },
                             readOnly = true,
                             textStyle = MaterialTheme.typography.bodyMedium,
@@ -155,18 +190,18 @@ fun UsertoTaskerScreen(
                             },
                             modifier = Modifier
                                 .menuAnchor()
-                                .width(300.dp), // Fixed width
+                                .width(300.dp)
                         )
                         ExposedDropdownMenu(
                             expanded = expanded,
                             onDismissRequest = { expanded = false }
                         ) {
-                            categoriasList.forEach { categoria ->
+                            categories.forEach { categoria ->
                                 DropdownMenuItem(
-                                    text = { Text(categoria) },
+                                    text = { Text(categoria.nombre) },
                                     onClick = {
-                                        if (categoria !in selectedCategorias) {
-                                            selectedCategorias.add(categoria)
+                                        if (categoria.nombre !in selectedCategorias) {
+                                            selectedCategorias.add(categoria.nombre)
                                         }
                                         expanded = false
                                     }
@@ -198,16 +233,14 @@ fun UsertoTaskerScreen(
                             Spacer(modifier = Modifier.width(8.dp))
                         }
                     }
-
                 }
+
                 Spacer(modifier = Modifier.width(30.dp))
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .width(300.dp)
+                    modifier = Modifier.width(300.dp)
                 ) {
-                    // Checkbox for terms and conditions
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(
                             checked = agreedToTerms,
@@ -215,54 +248,50 @@ fun UsertoTaskerScreen(
                             modifier = Modifier.padding(end = 8.dp)
                         )
                         ClickableText(
-
                             text = AnnotatedString.Builder().apply {
                                 withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSecondary)) {
                                     append("He leído y acepto los ")
                                 }
-
                                 withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
                                     append("términos y condiciones")
                                 }
                             }.toAnnotatedString(),
-                            onClick = { offset ->
+                            onClick = {
                                 navController.navigate(SecondaryScreens.TermsConditions.route)
                             },
                             modifier = Modifier.padding(start = 8.dp),
-
-
-                            )
+                        )
                     }
-
-
                 }
 
                 Spacer(modifier = Modifier.width(30.dp))
 
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        userApiViewModel.updateUser(
+                            UserApi(
+                                usuario_tasker = true,
+                                PerfilTasker = (DetallesPerfilTasker(
+                                    telefono = num_tel,
+                                    descripcion_personal = description,
+                                    //habilidades = selectedCategorias
+                                )
+
+                                        )
+                            )
+                        )
+                        navController.navigate(MainScreens.TaskerProfile.route)
+                    },
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(cyan),
                     enabled = agreedToTerms // Enable button based on checkbox
-                )
-                {
-                    Text(
-                        text = "Convertirme en tasker",
-                    )
+                ) {
+                    Text(text = "Convertirme en tasker")
                 }
+
                 Spacer(modifier = Modifier.height(20.dp))
-
-
             }
         }
-
-
     }
-
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun DefaultPreview() {
-    //UsertoTaskerScreen()
-}

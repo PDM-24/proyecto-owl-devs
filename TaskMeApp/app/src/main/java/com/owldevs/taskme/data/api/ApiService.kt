@@ -4,7 +4,9 @@ import com.owldevs.taskme.constants.Constants
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
     //post user
@@ -43,6 +45,10 @@ interface ApiService {
     @Headers(value = ["Content-Type: application/json"])
     @GET(value = Constants.API_PATH + "/categories")
     suspend fun getCategories(): List<CategoryApi>
+
+    @Headers(value = ["Content-Type: application/json"])
+    @PATCH(value = Constants.API_PATH + Constants.UPDATE_USER)
+    suspend fun updateUser(@Query("id") id : String, @Body updateUserRequest: UserApi): ApiUserSuccessful
 
 
 }

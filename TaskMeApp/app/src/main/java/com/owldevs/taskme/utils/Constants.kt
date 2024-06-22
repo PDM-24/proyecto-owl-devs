@@ -31,6 +31,9 @@ object Constants{
     const val RESPONSE_SUCCESSFUL = "result"
     const val RESPONSE_ERROR = "message"
 
+    //update user data
+    const val UPDATE_USER = "/users/:usuarioId"
+
 
     //values of data classes
     const val ID_USUARIO = "id_usuario"

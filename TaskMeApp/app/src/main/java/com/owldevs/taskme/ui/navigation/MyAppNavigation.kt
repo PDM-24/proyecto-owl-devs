@@ -179,7 +179,7 @@ fun MyAppNavigation() {
             }
 
             composable(SecondaryScreens.UsertoTasker.route) {
-                UsertoTaskerScreen(navController = navController)
+                UsertoTaskerScreen(navController = navController, userApiViewModel)
             }
 
 
