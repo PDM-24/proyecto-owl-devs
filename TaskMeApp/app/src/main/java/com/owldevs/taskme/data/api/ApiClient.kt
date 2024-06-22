@@ -5,8 +5,8 @@ import com.owldevs.taskme.constants.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitClient{
-    val retrofit : Retrofit by lazy {
+object RetrofitClient {
+    val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -14,8 +14,8 @@ object RetrofitClient{
     }
 }
 
-object ApiClient{
-    val apiService : ApiService by lazy {
+object ApiClient {
+    val apiService: ApiService by lazy {
         RetrofitClient.retrofit.create(ApiService::class.java)
     }
 

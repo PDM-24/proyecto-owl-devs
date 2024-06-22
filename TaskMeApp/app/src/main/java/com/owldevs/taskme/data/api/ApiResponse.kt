@@ -10,9 +10,6 @@ data class ApiResponseSuccessful(
     @SerializedName(value = Constants.RESPONSE_SUCCESSFUL)
     val result: String,
 
-    @SerializedName(value = Constants.RESPONSE_ERROR)
-    val message : String,
-
 )
 
 
