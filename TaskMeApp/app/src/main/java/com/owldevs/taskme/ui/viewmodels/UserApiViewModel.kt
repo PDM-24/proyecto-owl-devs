@@ -14,14 +14,32 @@ import com.owldevs.taskme.data.api.DetallesPerfilTasker
 import com.owldevs.taskme.model.UserApiModel
 import com.owldevs.taskme.data.api.Habilidad
 import com.owldevs.taskme.data.api.LoginRequest
+import com.owldevs.taskme.data.api.ReviewSchemaApi
+import com.owldevs.taskme.data.categoryId
+import com.owldevs.taskme.data.currentCategory
+import com.owldevs.taskme.data.currentUserId
+import com.owldevs.taskme.data.taskId
+import com.owldevs.taskme.data.taskerId
+import com.owldevs.taskme.data.userReviewsList
+import com.owldevs.taskme.data.usersCategoryList
+import com.owldevs.taskme.data.usersNotificationsList
 import com.owldevs.taskme.model.UpdateUserRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.io.IOException
 
 
 class UserApiViewModel : ViewModel() {
+
+    private val _uiState = MutableStateFlow<UiState>(UiState.Ready)
+    var uiState: StateFlow<UiState> = _uiState
+
     private val _currentUser = MutableLiveData<UserApiModel?>()
     val currentUser: LiveData<UserApiModel?> = _currentUser
+
     var errorMessage by mutableStateOf("")
         private set
 
@@ -38,7 +56,8 @@ class UserApiViewModel : ViewModel() {
     fun updateProfile(updatedProfile: UpdateUserRequest) {
         viewModelScope.launch {
             try {
-                val response = ApiClient.apiService.updateUser(_currentUser.value?.id, updatedProfile)
+                val response =
+                    ApiClient.apiService.updateUser(_currentUser.value?.id, updatedProfile)
                 Log.i("Updated Profile", "Login response: $response")
 
                 if (response != null) {
@@ -58,7 +77,8 @@ class UserApiViewModel : ViewModel() {
                                 habilidades = response.habilidades
                             ) ?: DetallesPerfilTasker(
                                 habilidades = response.habilidades,
-                                descripcion_personal = _currentUser.value?.perfilTasker?.descripcion_personal ?: ""
+                                descripcion_personal = _currentUser.value?.perfilTasker?.descripcion_personal
+                                    ?: ""
                             )
                         )
                     } else {
@@ -73,6 +93,165 @@ class UserApiViewModel : ViewModel() {
             }
         }
     }
+
+    fun getAllReviewsByUser() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            try {
+                _uiState.value = UiState.Loading
+
+                val response = ApiClient.apiService.getAllReviewsByUser(taskerId)
+                val reviewsList = response.reviews
+
+                userReviewsList.clear()
+                userReviewsList.addAll(reviewsList)
+
+                Log.i("UserApiVM", "Reseñas obtenidas exitosamente")
+                _uiState.value = UiState.Ready
+
+            } catch (e: Exception) {
+                when (e) {
+                    is HttpException -> {
+                        Log.i("MainViewModel (GetAllReviews) http", e.message())
+                        _uiState.value = UiState.Error(e.message())
+                    }
+
+                    else -> {
+                        Log.i("MainViewModel (GetAllReviews) else", e.toString())
+                        _uiState.value = UiState.Error(e.toString())
+                    }
+                }
+            }
+
+        }
+    }
+
+    fun postReview(review: ReviewSchemaApi) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            try {
+                _uiState.value = UiState.Loading
+
+                val response = ApiClient.apiService.postReview(review)
+
+                Log.i("UserApiVM", "Reseña publicada exitosamente: ${response.result}")
+
+                _uiState.value = UiState.Ready
+
+            } catch (e: Exception) {
+                when (e) {
+                    is HttpException -> {
+                        Log.i("MainViewModel (PostReview) http", e.message())
+                        _uiState.value = UiState.Error(e.message())
+                    }
+
+                    else -> {
+                        Log.i("MainViewModel (PostReview) else", e.toString())
+                        _uiState.value = UiState.Error(e.toString())
+                    }
+                }
+            }
+
+        }
+    }
+
+    fun getAllUsersByCategory() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _uiState.value = UiState.Loading
+
+                val response = ApiClient.apiService.getAllUsersByCategory(categoryId)
+                val usersByCategory = response.usuarios
+
+                currentCategory = ""
+                currentCategory = response.categoria
+
+                usersCategoryList.clear()
+                usersCategoryList.addAll(usersByCategory)
+
+                _uiState.value = UiState.Ready
+
+            } catch (e: Exception) {
+                when (e) {
+                    is HttpException -> {
+                        Log.i("MainViewModel (GetAllUsersCategory) http", e.message())
+                        _uiState.value = UiState.Error(e.message())
+                    }
+
+                    else -> {
+                        Log.i("MainViewModel (GetAllUsersCategory) else", e.toString())
+                        _uiState.value = UiState.Error(e.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    fun getTaskById() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _uiState.value = UiState.Loading
+
+                val response = ApiClient.apiService.getTasksById(taskId)
+                /*Utilizar una variable global para pasarla a la pantalla*/
+
+
+                _uiState.value = UiState.Ready
+
+            } catch (e: Exception) {
+                when (e) {
+                    is HttpException -> {
+                        Log.i("MainViewModel (GetTask) http", e.message())
+                        _uiState.value = UiState.Error(e.message())
+                    }
+
+                    else -> {
+                        Log.i("MainViewModel (GetTask) else", e.toString())
+                        _uiState.value = UiState.Error(e.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    fun getAllNotificationsByUser() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _uiState.value = UiState.Loading
+
+                val response = ApiClient.apiService.getAllNotificationsByUser(currentUserId)
+                val notifications = response.notifications
+
+                usersNotificationsList.clear()
+                usersNotificationsList.addAll(notifications)
+
+                _uiState.value = UiState.Ready
+            } catch (e: Exception) {
+                when (e) {
+                    is HttpException -> {
+                        Log.i("MainViewModel (GetNotifications) http", e.message())
+                        _uiState.value = UiState.Error(e.message())
+                    }
+
+                    else -> {
+                        Log.i("MainViewModel (GetNotifications) else", e.toString())
+                        _uiState.value = UiState.Error(e.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    fun setStateToReady() {
+        _uiState.value = UiState.Ready
+    }
+}
+
+sealed class UiState {
+    data object Loading : UiState()
+    data object Ready : UiState()
+    data class Success(val message: String) : UiState()
+    data class Error(val message: String) : UiState()
 }
 
 

@@ -5,7 +5,7 @@ object Constants{
     // ip kattia: 192.168.1.5 o 172.20.10.2
     // ip jc: 192.168.1.25
     // ip fede: 192.168.1.35 o 192.168.1.16
-    const val BASE_URL = "http://192.168.1.16:3000"
+    const val BASE_URL = "http://192.168.1.35:3000"
     const val API_PATH = "/api"
 
     //post paths
@@ -14,7 +14,7 @@ object Constants{
     const val POST_USER_PATH = "/users/register"
 
     //post a review
-    const val POST_REVIEW_PATH = "/postReview"
+    const val POST_REVIEW_PATH = "/reviews"
 
     //post a task
     const val POST_TASK_PATH = "/postTask"
@@ -31,8 +31,11 @@ object Constants{
 
 
     //get paths
-
     const val GET_USER_LOGIN_PATH = "/users/login"
+    const val GET_ALL_REVIEWS_BY_USER_PATH = "/reviews/{usuarioId}"
+    const val GET_ALL_USERS_BY_CATEGORY_PATH = "/users/{categoryId}"
+    const val GET_TASK_BY_ID_PATH = "/tasks/{taskId}"
+    const val GET_ALL_NOTIFICATIONS_BY_USER_PATH = "/notifications/{usuarioId}"
 
     //api responses
     const val RESPONSE_SUCCESSFUL = "result"

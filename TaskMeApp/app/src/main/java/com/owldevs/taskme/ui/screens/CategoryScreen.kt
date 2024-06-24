@@ -54,6 +54,7 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.ui.components.UserInfoCard
 import com.owldevs.taskme.ui.navigation.MyBottomNav
 import com.owldevs.taskme.ui.theme.TaskMeTheme

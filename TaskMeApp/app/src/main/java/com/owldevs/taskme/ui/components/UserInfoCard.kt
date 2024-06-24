@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.taskerId
 import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.screens.CategoryScreen
@@ -36,6 +37,7 @@ import com.owldevs.taskme.ui.theme.TaskMeTheme
 @Composable
 fun UserInfoCard(
     navController: NavController,
+    userId: String = "",
     userImg: Int = R.drawable.ic_pfp,
     userName: String = "Jhon Doe",
     tasksCompleted: Int = 0,
@@ -51,6 +53,7 @@ fun UserInfoCard(
             .wrapContentHeight()
             .clickable {
                 navController.navigate(SecondaryScreens.TaskerInfoScreen.route)
+                taskerId = userId
             },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,

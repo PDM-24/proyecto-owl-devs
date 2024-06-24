@@ -10,8 +10,14 @@ data class ApiResponseSuccessful(
     @SerializedName(value = Constants.RESPONSE_SUCCESSFUL)
     val result: String,
 
-)
+    )
 
+data class ApiUsersByCategoryResponse(
+    @SerializedName(value = "category")
+    val categoria: String,
+    @SerializedName(value = "users")
+    val usuarios: List<ApiUserSuccessful>
+)
 
 data class ApiUserSuccessful(
     @SerializedName(value = Constants.ID_USUARIO)
@@ -41,7 +47,7 @@ data class ApiUserSuccessful(
 
 data class ApiResponseError(
     @SerializedName(value = Constants.RESPONSE_ERROR)
-    val message : String
+    val message: String
 
 )
 

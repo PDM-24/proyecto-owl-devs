@@ -360,7 +360,7 @@ const getAllNotificationsByUser = async (req, res) => {
 
         const notifications = await Notification.find({ id_usuario: usuarioId });
 
-        res.status(200).json(notifications);
+        res.status(200).json({ "notifications": notifications });
     } catch (error) {
         res.status(500).json({ "message": error.message });
     }
@@ -405,7 +405,7 @@ const updateUser = async (req, res) => {
         }
 
         res.status(200).json({
-            "message": "Usuario actualizado",
+            "result": "Usuario actualizado",
             updatedUser: updatedUser
         });
     } catch (error) {
@@ -439,7 +439,7 @@ const updateTaskState = async (req, res) => {
         };
 
         res.status(200).json({
-            message: "Estado de la tarea actualizado",
+            "result": "Estado de la tarea actualizado",
             updatedTask
         });
     } catch (error) {
@@ -473,7 +473,7 @@ const updateNotificationState = async (req, res) => {
         };
 
         res.status(200).json({
-            message: "Estado de la notificación actualizado",
+            "result": "Estado de la notificación actualizado",
             updatedNotification
         });
     } catch (error) {
@@ -499,7 +499,7 @@ const deleteNotification = async (req, res) => {
             return res.status(404).json({ message: "Notificación no encontrada" });
         };
 
-        res.status(200).json({ message: "Notificación eliminada" });
+        res.status(200).json({ "result": "Notificación eliminada" });
     } catch (error) {
         res.status(500).json({ "message": error.message });
     }
