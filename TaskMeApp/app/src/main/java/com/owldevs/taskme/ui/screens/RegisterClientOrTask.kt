@@ -96,7 +96,7 @@ fun RegisterClientOrTaskScreen(navController: NavController) {
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { /* Handle Register as Tasker */ },
+                onClick = { navController.navigate(SecondaryScreens.RegisterTasker.route) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 50.dp, end = 50.dp, top = 30.dp),
