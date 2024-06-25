@@ -105,6 +105,10 @@ interface ApiService {
         @Query("currentRole") role: String,
     ): List<ApiTaskUserSuccessful>
 
+
+    //get a task
+
+
     //PATCH
 
     //update user

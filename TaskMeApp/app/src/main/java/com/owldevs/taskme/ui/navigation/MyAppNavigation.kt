@@ -102,7 +102,7 @@ fun MyAppNavigation() {
                 UserMailbox(navController, userApiViewModel)
             }
             composable(route = SecondaryScreens.TaskScreen.route) {
-                UserTaskScreen(navController)
+                UserTaskScreen(navController, taskApiViewModel)
             }
 
             composable(route = SecondaryScreens.RegisterClientOrTask.route) {

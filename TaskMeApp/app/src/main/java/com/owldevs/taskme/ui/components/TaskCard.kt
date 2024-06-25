@@ -32,15 +32,25 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.ApiUserBySuccessful
 import com.owldevs.taskme.data.api.ApiTaskUserSuccessful
+import com.owldevs.taskme.data.categoria
+import com.owldevs.taskme.data.estado
+import com.owldevs.taskme.data.metodo_pago
+import com.owldevs.taskme.data.precio
+import com.owldevs.taskme.data.taskId
+import com.owldevs.taskme.data.taskernombre
+import com.owldevs.taskme.data.ubicacion
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.viewmodels.TaskApiViewModel
 import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
+import java.time.Instant
+import java.time.ZoneId
 
 @Composable
 fun TaskCard(
     navController: NavController,
-    taskApiViewModel: TaskApiViewModel
+    task: ApiTaskUserSuccessful
 ) {
     Card(
         modifier = Modifier
@@ -60,7 +70,7 @@ fun TaskCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = "Task N°: ", style = MaterialTheme.typography.bodyMedium)
-                Text(text = "", style = MaterialTheme.typography.bodySmall)
+                Text(text = task.id, style = MaterialTheme.typography.bodySmall)
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -71,7 +81,7 @@ fun TaskCard(
                     contentDescription = "Task Status",
                     modifier = Modifier.size(32.dp)
                 )
-                Text(text = "", style = MaterialTheme.typography.bodyMedium)
+                Text(text = task.estado, style = MaterialTheme.typography.bodyMedium)
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -82,7 +92,7 @@ fun TaskCard(
                     contentDescription = "Task Category",
                     modifier = Modifier.size(32.dp)
                 )
-                Text(text = "", style = MaterialTheme.typography.bodyMedium)
+                Text(text = task.categoria.nombre, style = MaterialTheme.typography.bodyMedium)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -98,10 +108,15 @@ fun TaskCard(
                         contentDescription = "Tasker Img",
                         modifier = Modifier.size(32.dp)
                     )
-                    Text(text = "taskerName", style = MaterialTheme.typography.bodyMedium)
+                    Text(text = task.cliente_id.nombreCompleto, style = MaterialTheme.typography.bodyMedium)
                 }
                 Button(
-                    onClick = { navController.navigate(SecondaryScreens.UserTaskScreen.route) },
+                    onClick = {
+
+
+
+                        navController.navigate(SecondaryScreens.UserTaskScreen.route)
+                              },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.secondary,
                         contentColor = MaterialTheme.colorScheme.onSecondary

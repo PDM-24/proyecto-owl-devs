@@ -10,6 +10,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.LoginRequest
+
+import com.owldevs.taskme.data.currentRole
+
 import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.model.UserApiModel
 import kotlinx.coroutines.launch
@@ -29,6 +32,7 @@ class LoginViewModel : ViewModel() {
             try {
                 val response = ApiClient.apiService.loginUser(loginRequest)
                 Log.i("LoginViewModel", "Login response: $response")
+
 
                 currentUserId = response.id
 

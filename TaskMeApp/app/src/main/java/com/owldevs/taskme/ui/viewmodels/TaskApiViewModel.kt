@@ -10,10 +10,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.ApiTaskUserSuccessful
+import com.owldevs.taskme.data.currentRole
+import com.owldevs.taskme.data.currentUserId
+import com.owldevs.taskme.data.currentUserRole
+import com.owldevs.taskme.data.taskId
+import com.owldevs.taskme.data.userTaskList
 import com.owldevs.taskme.model.UserApiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class TaskApiViewModel : ViewModel(){
@@ -31,28 +39,29 @@ class TaskApiViewModel : ViewModel(){
     var errorMessage by mutableStateOf("")
         private set
 
-    fun getRole(userProfile: UserApiModel?) {
-        _currentUser.value = userProfile
-        if (_currentUser.value!!.usuarioTasker == true) {
-            role = "tasker"
-        }else{
-            role = "cliente"
-
-        }
-    }
+    private val userTaskList = MutableStateFlow<List<ApiTaskUserSuccessful>>(emptyList())
 
 
    fun getUserTasks(){
       // getRole(_currentUser.value)
        viewModelScope.launch(Dispatchers.IO){
            try {
-              // _uiState.value = UiState.Loading
-              // val response = ApiClient.apiService.getTaskbyUser(_currentUser.value?.id, role)
-               val response = ApiClient.apiService.getTaskbyUser("6670d91ba9935d6f0c50a7c7", "tasker")
-               Log.i("Task adquire", "holaaaa")
-               Log.i("Task adquire", response.toString())
+               _uiState.value = UiState.Loading
 
-              // _tasks.value = response // Esto establece la lista de tareas en el LiveData
+               Log.i("Task adquire", currentUserId)
+               Log.i("Task adquire", currentUserId)
+
+
+
+               Log.i("Task adquire", currentUserRole)
+             val response = ApiClient.apiService.getTaskbyUser(currentUserId,currentUserRole)
+              // val response = ApiClient.apiService.getTaskbyUser("6670d91ba9935d6f0c50a7c7", "tasker")
+               val taskList = response
+               Log.i("Task adquire", taskList.toString())
+               userTaskList.value = taskList
+               Log.i("Task adquire", "Task añadidas exitosamente")
+               _uiState.value = UiState.Ready
+               //val response = ApiClient.apiService.getTaskbyUser("6670d91ba9935d6f0c50a7c7", "tasker")
            }catch(e: Exception){
                errorMessage = "Error al actualizar el perfil: ${e.message}"
                Log.e("UpdateProfile", "Error al actualizar el perfil", e)
@@ -61,4 +70,21 @@ class TaskApiViewModel : ViewModel(){
 
        }
    }
+
+
+    fun filteredTasks(filter: String): StateFlow<List<ApiTaskUserSuccessful>> {
+        return userTaskList.map { tasks ->
+            if (filter.isEmpty()) {
+                tasks
+            } else {
+                tasks.filter { it.estado == filter }
+            }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+    }
+
+
+
+
+
+
 }

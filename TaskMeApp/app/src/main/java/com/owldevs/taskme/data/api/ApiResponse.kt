@@ -109,10 +109,6 @@ data class ApiTaskUserSuccessful(
     val metodo_pago: String
 )
 
-
-
-
-
 data class ApiUserByCategorySuccessful(
     @SerializedName(value = "_id")
     val id: String = "",
