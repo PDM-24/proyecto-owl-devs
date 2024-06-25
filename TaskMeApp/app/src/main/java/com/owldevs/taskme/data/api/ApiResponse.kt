@@ -87,3 +87,30 @@ data class ApiUserUpdatedSuccessful(
     val perfilTasker: DetallesPerfilTasker? = null
 )
 
+data class ApiTaskUserSuccessful(
+    @SerializedName(value = "_id")
+    val id: String,
+    @SerializedName(value = "categoria")
+    val categoria: TaskCategoria,
+    @SerializedName(value = "cliente_id")
+    val cliente_id: Cliente_id,
+    @SerializedName(value = "tasker_id")
+    val tasker_id: String,
+    @SerializedName(value = "hora")
+    val fecha: String,
+    @SerializedName(value = "fecha")
+    val hora: String,
+    @SerializedName(value = "ubicacion")
+    val ubicacion: String,
+    @SerializedName(value = "precio")
+    val precio: Number,
+    @SerializedName(value = "estado")
+    val estado: String,
+    @SerializedName(value = "metodo_pago")
+    val metodo_pago: String
+)
+
+
+
+
+

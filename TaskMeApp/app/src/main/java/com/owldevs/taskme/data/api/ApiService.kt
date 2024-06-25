@@ -8,6 +8,7 @@ import retrofit2.http.Headers
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     //post user
@@ -74,6 +75,14 @@ interface ApiService {
         @Path("usuarioId") usuarioId: String
     ): NotificationsApiResponseList
 
+
+    //getTasks
+    @Headers("Content-Type: application/json")
+    @GET(Constants.API_PATH + "/tasks/role")
+    suspend fun getTaskbyUser(
+        @Query("usuarioId") usuarioId: String,
+        @Query("currentRole") role: String,
+    ): List<ApiTaskUserSuccessful>
 
     //PATCH
 
