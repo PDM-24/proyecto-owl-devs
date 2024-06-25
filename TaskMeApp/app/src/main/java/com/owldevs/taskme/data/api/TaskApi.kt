@@ -47,7 +47,7 @@ data class TaskApiIdResponse(
     val tasker_id: User,
 
     @SerializedName(value = Constants.FECHA)
-    val fecha: Date,
+    val fecha: java.util.Date,
 
     @SerializedName(value = Constants.HORA)
     val hora: String,
@@ -103,4 +103,37 @@ data class User(
     val correoElectronico: String,
     @SerializedName(value = "ubicacion")
     val ubicacion: String
+)
+
+
+data class TaskAApiIdResponse(
+    @SerializedName(value = "_id")
+    var id: String  = "",
+
+    @SerializedName(value = Constants.CATEGORIA)
+    var categoria: Categoria  ,
+
+    @SerializedName(value = Constants.CLIENTE_ID)
+    var cliente_id: User,
+
+    @SerializedName(value = Constants.TASKER_ID)
+    var tasker_id: User,
+
+    @SerializedName(value = Constants.FECHA)
+    val fecha: java.util.Date,
+
+    @SerializedName(value = Constants.HORA)
+    val hora: String,
+
+    @SerializedName(value = Constants.UBICACION)
+    val ubicacion: String,
+
+    @SerializedName(value = Constants.PRECIO)
+    val precio: String,
+
+    @SerializedName(value = Constants.ESTADO)
+    val estado: String,
+
+    @SerializedName(value = Constants.METODO_PAGO)
+    val metodo_pago: String
 )

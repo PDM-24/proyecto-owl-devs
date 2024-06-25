@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.UserManager
+import com.owldevs.taskme.data.currentUserRole
 import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.TaskMeTheme
@@ -135,6 +136,7 @@ fun UserProfile(
                     onClick = {
                         userApiViewModel.changeUserRole("tasker")
                         navController.navigate(MainScreens.TaskerProfile.route)
+                        currentUserRole = "tasker"
                     },
                     modifier = Modifier
                         .fillMaxWidth()

@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.LoginRequest
+import com.owldevs.taskme.data.currentRole
+import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.model.UserApiModel
 import com.owldevs.taskme.model.UserApiResponse
 import kotlinx.coroutines.launch
@@ -42,6 +44,7 @@ class LoginViewModel : ViewModel() {
                         perfilTasker = response.perfilTasker
                     )
                     _userProfile.value = userProfile
+                    currentUserId = userProfile.id
                     userApiViewModel.setCurrentUser(userProfile)
                     loginState = true
                 } else {

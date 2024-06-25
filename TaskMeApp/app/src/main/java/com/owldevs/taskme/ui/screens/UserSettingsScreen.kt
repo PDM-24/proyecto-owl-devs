@@ -21,6 +21,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.currentRole
+import com.owldevs.taskme.data.currentUserRole
 import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.TaskMeTheme
@@ -132,6 +134,7 @@ fun UserSettingsScreen(
                     onClick = {
                         userApiViewModel.changeUserRole("client")
                         navController.navigate(MainScreens.UserProfile.route)
+                        currentUserRole = "cliente"
                     },
                     modifier = Modifier
                         .fillMaxWidth()

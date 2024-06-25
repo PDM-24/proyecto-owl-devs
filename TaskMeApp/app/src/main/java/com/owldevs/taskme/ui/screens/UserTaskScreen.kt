@@ -16,14 +16,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,14 +45,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.categoria
+import com.owldevs.taskme.data.estado
+import com.owldevs.taskme.data.metodo_pago
+import com.owldevs.taskme.data.precio
+import com.owldevs.taskme.data.taskernombre
+import com.owldevs.taskme.data.ubicacion
+import com.owldevs.taskme.data.userTaskList
+import com.owldevs.taskme.data.usersCategoryList
+import com.owldevs.taskme.ui.components.TaskCard
+import com.owldevs.taskme.ui.components.UserInfoCard
 import com.owldevs.taskme.ui.theme.TaskMeTheme
+import com.owldevs.taskme.ui.viewmodels.TaskApiViewModel
+
 
 @Composable
-fun UserTaskScreen(navController: NavController) {
+fun UserTaskScreen(navController: NavController,taskApiViewModel: TaskApiViewModel = viewModel()) {
     val navy = colorResource(id = R.color.navy);
+
+
+
 
 
     Box(
@@ -87,13 +107,13 @@ fun UserTaskScreen(navController: NavController) {
                 Spacer(modifier = Modifier.width(30.dp))
                 Column {
                     Text(
-                        text = "Jhon Doe",
+                        text = "",
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                         fontSize = 25.sp
                     )
                     Text(
-                        text = "En proceso",
+                        text = "estado",
                         color = Color.White,
                         fontSize = 15.sp,
                         modifier = Modifier.padding(
@@ -190,9 +210,9 @@ fun OrderDetails() {
                     Column(
                         modifier = Modifier.padding(top = 20.dp)
                     ) {
-                        Text(text = "ID", color = Color.White)
-                        Text(text = "Fontaneria", color = Color.White)
-                        Text(text = "$20.00", color = Color.White)
+                        Text(text = "taskid", color = Color.White)
+                        Text(text = "categoria", color = Color.White)
+                        Text(text = "$ + ${"precio"}", color = Color.White)
                     }
                 }
                 Text(
@@ -208,7 +228,7 @@ fun OrderDetails() {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = "productos", color = Color.White)
-                    Text(text = "US" + "$" + "0.00", color = Color.White)
+                    Text(text = "US" + "$" +  "precio", color = Color.White)
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
@@ -217,7 +237,7 @@ fun OrderDetails() {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = "tarifa de servicio", color = Color.White)
-                    Text(text = "US" + "$" + "0.00", color = Color.White)
+                    Text(text = "US" + "$" + 0.10, color = Color.White)
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
@@ -279,9 +299,9 @@ fun PaymentMethod() {
                             contentDescription = "payment Method"
                         )
                         Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = "Efectivo", color = Color.White)
+                        Text(text = metodo_pago, color = Color.White)
                     }
-                    Text(text = "US" + "$" + "0.00", color = Color.White)
+                    Text(text = "US" + "$" + "precio", color = Color.White)
                 }
             }
         }
@@ -327,7 +347,7 @@ fun DeliveryDetail() {
                         contentDescription = "payment Method"
                     )
                     Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "Direccion", color = Color.White)
+                    Text(text = "ubicacion", color = Color.White)
                 }
             }
 
