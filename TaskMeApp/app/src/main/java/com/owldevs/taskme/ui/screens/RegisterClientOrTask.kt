@@ -1,5 +1,6 @@
 package com.owldevs.taskme.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,7 +30,9 @@ import com.owldevs.taskme.ui.theme.AzulMarino
 
 @Composable
 fun RegisterClientOrTaskScreen(navController: NavController) {
-
+    LaunchedEffect(Unit) {
+        Log.i("RegisterTask"," Check!")
+    }
     val cyan = colorResource(id = R.color.cyan)
     val latoBold = FontFamily(Font(R.font.lato_bold))
 
