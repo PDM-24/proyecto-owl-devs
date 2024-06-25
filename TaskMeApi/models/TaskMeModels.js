@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema({
         telefono: {
             type: String,
             required: false,
-            match: [/^\d{10}$/, 'El teléfono debe tener 10 dígitos']
+            match: [/^\d{8}$/, 'El teléfono debe tener 8 dígitos']
         },
         descripcion_personal: {
             type: String,
@@ -288,17 +288,40 @@ const notificationSchema = new mongoose.Schema({
     }
 }, { _id: true });
 
+const chatPreviewSchema = new mongoose.Schema({
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    taskerId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    taskName: {
+        type: String,
+        required: true
+    },
+    timestamp: {
+        type: Date,
+        default: Date.now
+    }
+}, { _id: true });
+
 
 const User = mongoose.model('User', userSchema);
 const Review = mongoose.model('Review', reviewSchema);
 const Category = mongoose.model('Category', categorySchema);
 const Task = mongoose.model('Task', taskSchema);
 const Notification = mongoose.model('Notification', notificationSchema);
+const ChatPreview = mongoose.model('ChatPreview', chatPreviewSchema);
 
 module.exports = {
     User,
     Review,
     Category,
     Task,
-    Notification
+    Notification,
+    ChatPreview
 };

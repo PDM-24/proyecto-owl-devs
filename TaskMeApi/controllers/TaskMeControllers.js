@@ -6,8 +6,10 @@ const {
     Review,
     Category,
     Task,
-    Notification
+    Notification,
+    ChatPreview
 } = require('../models/TaskMeModels');
+
 const { default: mongoose } = require('mongoose');
 
 
@@ -177,6 +179,21 @@ const postNotification = async (req, res) => {
         res.status(500).json({ "message": error.message })
     }
 };
+
+// Crear una nueva entrada de chat
+const createChatPreview = async (req, res) => {
+    try {
+        const { usuarioId, taskerId, taskName } = req.body;
+
+        const chatPreview = new ChatPreview({ usuarioId, taskerId, taskName });
+
+        await chatPreview.save();
+        res.status(201).json({ result: "ok", chatPreview });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
 /*METODOS GET*/
 
@@ -381,6 +398,19 @@ const getAllCategories = async (req, res) => {
     }
 };
 
+// Obtener el chat preview
+const getChatPreviewsByUser = async (req, res) => {
+    try {
+        const { usuarioId } = req.params;
+
+        const chatPreviews = await ChatPreview.find({ usuarioId }).populate('taskerId', 'nombre_completo', 'foto_perfil');
+
+        res.status(200).json(chatPreviews);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
 /*METODOS PUT/PATCH*/
 
@@ -538,5 +568,7 @@ module.exports = {
     updateTaskState,
     updateNotificationState,
     deleteNotification,
-    getAllUsers
+    getAllUsers,
+    createChatPreview,
+    getChatPreviewsByUser
 };

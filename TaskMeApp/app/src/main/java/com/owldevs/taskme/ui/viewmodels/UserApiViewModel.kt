@@ -9,10 +9,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.owldevs.taskme.data.api.ApiChatPreviewsResponse
 import com.owldevs.taskme.data.api.ApiClient
+import com.owldevs.taskme.data.api.ApiResponseSuccessful
+import com.owldevs.taskme.data.api.ApiUserByCategorySuccessful
 import com.owldevs.taskme.data.api.ApiUserSuccessful
 import com.owldevs.taskme.data.api.ApiUserUpdatedSuccessful
+import com.owldevs.taskme.data.api.ChatPreviewApi
 import com.owldevs.taskme.data.api.DetallesPerfilTasker
+import com.owldevs.taskme.data.api.DetallesPerfilTaskerCategory
 import com.owldevs.taskme.model.UserApiModel
 import com.owldevs.taskme.data.api.Habilidad
 import com.owldevs.taskme.data.api.LoginRequest
@@ -50,6 +55,13 @@ class UserApiViewModel : ViewModel() {
 
     var errorMessage by mutableStateOf("")
         private set
+
+    private val _mailbox = MutableLiveData<List<ApiUserByCategorySuccessful>>()
+    val mailbox: LiveData<List<ApiUserByCategorySuccessful>> = _mailbox
+
+    init {
+        _mailbox.value = mutableListOf()
+    }
 
 
     fun setCurrentUser(userProfile: UserApiModel?) {
@@ -230,6 +242,41 @@ class UserApiViewModel : ViewModel() {
                         _uiState.value = UiState.Error(e.toString())
                     }
                 }
+            }
+        }
+    }
+
+    fun createChatPreview(usuarioId: String, taskerId: String, taskName: String) {
+        viewModelScope.launch {
+            try {
+                val response = ApiClient.apiService.createChatPreview(ChatPreviewApi(usuarioId, taskerId, taskName, ""))
+                // Handle the response as needed
+                Log.i("ChatPreview", "Chat preview created: ${response.result}")
+            } catch (e: HttpException) {
+                // Handle the error as needed
+                Log.e("ChatPreview", "Error creating chat preview", e)
+            }
+        }
+    }
+
+    fun getChatPreviewsByUser(usuarioId: String) {
+        viewModelScope.launch {
+            try {
+                val response: ApiChatPreviewsResponse = ApiClient.apiService.getChatPreviewsByUser(usuarioId)
+                _mailbox.value = response.chatPreviews.map {
+                    ApiUserByCategorySuccessful(
+                        id = it.taskerId,
+                        nombre = it.taskName,
+                        fotoPerfil = "",
+                        ubicacion = "",
+                        usuarioTasker = true,
+                        tarjetasAsociadas = emptyList(),
+                        perfilTasker = DetallesPerfilTaskerCategory()
+                    )
+                }
+                Log.i("ChatPreview", "Chat previews fetched: ${response.chatPreviews}")
+            } catch (e: HttpException) {
+                Log.e("ChatPreview", "Error fetching chat previews", e)
             }
         }
     }

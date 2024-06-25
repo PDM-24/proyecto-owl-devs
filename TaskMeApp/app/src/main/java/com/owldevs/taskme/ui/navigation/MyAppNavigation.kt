@@ -99,7 +99,7 @@ fun MyAppNavigation() {
                 UserOrder(navController)
             }
             composable(route = SecondaryScreens.UserMailbox.route) {
-                UserMailbox(navController)
+                UserMailbox(navController, userApiViewModel)
             }
             composable(route = SecondaryScreens.TaskScreen.route) {
                 UserTaskScreen(navController)
@@ -121,7 +121,7 @@ fun MyAppNavigation() {
                 route = SecondaryScreens.ChatScreen.route
             ) {
                 val chatViewModel = viewModel<ChatViewModel>()
-                ChatScreen(navController, chatViewModel, userViewModel)
+                ChatScreen(navController, chatViewModel, userApiViewModel)
             }
             composable(SecondaryScreens.ScheduleScreen.route) {
 
