@@ -1,4 +1,4 @@
-package com.owldevs.taskme.constants
+package com.owldevs.taskme.utils
 
 object Constants{
     //api service
@@ -6,7 +6,8 @@ object Constants{
     // ip jc: 192.168.1.25
     // ip fede: 192.168.1.35 o 192.168.1.16
     // ip vale:  192.168.1.22
-    const val BASE_URL = "http://192.168.1.22:3000"
+    const val BASE_URL = "http://192.168.1.5:3000"
+
     const val API_PATH = "/api"
 
     //post paths
@@ -29,6 +30,10 @@ object Constants{
     //patch paths
     const val UPDATE_USER_PATH = "/users/{usuarioId}"
 
+    //post chat preview
+    const val POST_CHAT_PREVIEW_PATH = "/chats"
+
+
 
 
     //get paths
@@ -37,6 +42,7 @@ object Constants{
     const val GET_ALL_USERS_BY_CATEGORY_PATH = "/users/{categoryId}"
     const val GET_TASK_BY_ID_PATH = "/tasks/{taskId}"
     const val GET_ALL_NOTIFICATIONS_BY_USER_PATH = "/notifications/{usuarioId}"
+    const val GET_CHAT_PREVIEWS_BY_USER_PATH = "/chats/{usuarioId}"
 
     //api responses
     const val RESPONSE_SUCCESSFUL = "result"

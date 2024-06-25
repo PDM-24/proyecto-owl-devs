@@ -8,8 +8,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.owldevs.taskme.data.api.ApiChatPreviewsResponse
 import com.owldevs.taskme.data.api.ApiClient
+import com.owldevs.taskme.data.api.ApiResponseSuccessful
+import com.owldevs.taskme.data.api.ApiUserByCategorySuccessful
+import com.owldevs.taskme.data.api.ApiUserSuccessful
 import com.owldevs.taskme.data.api.ApiUserUpdatedSuccessful
+import com.owldevs.taskme.data.api.ChatPreviewApi
+import com.owldevs.taskme.data.api.DetallesPerfilTasker
+import com.owldevs.taskme.data.api.DetallesPerfilTaskerCategory
 import com.owldevs.taskme.model.UserApiModel
 import com.owldevs.taskme.data.api.ReviewSchemaApi
 import com.owldevs.taskme.data.categoryId
@@ -43,6 +50,13 @@ class UserApiViewModel : ViewModel() {
     var errorMessage by mutableStateOf("")
         private set
 
+    private val _mailbox = MutableLiveData<List<ApiUserByCategorySuccessful>>()
+    val mailbox: LiveData<List<ApiUserByCategorySuccessful>> = _mailbox
+
+    init {
+        _mailbox.value = mutableListOf()
+    }
+
 
     fun setCurrentUser(userProfile: UserApiModel?) {
         _currentUser.value = userProfile
@@ -56,7 +70,8 @@ class UserApiViewModel : ViewModel() {
     fun updateProfile(updatedProfile: UpdateUserRequest) {
         viewModelScope.launch {
             try {
-                val response = ApiClient.apiService.updateUser(_currentUser.value?.id, updatedProfile)
+                val response =
+                    ApiClient.apiService.updateUser(_currentUser.value?.id, updatedProfile)
                 Log.i("Updated Profile", "Login response: ${response.result}")
                 Log.i("Updated Profile", "Updated User: ${response.usuarioUpdated}")
                 _currentUser.value = response.usuarioUpdated.toUserApiModel()
@@ -84,44 +99,36 @@ class UserApiViewModel : ViewModel() {
     }
 
 
-    fun getAllReviewsByUser(taskerId: String) {
+
+    fun getAllReviewsById(){
         viewModelScope.launch(Dispatchers.IO) {
-
             try {
-                _uiState.value = UiState.Loading
-
-                Log.i("UserApiVM", taskerId)
 
                 val response = ApiClient.apiService.getAllReviewsByUser(taskerId)
-                val reviewsList = response.reviews
 
-                Log.i("UserApiVM", response.reviews.toString())
+                val taskerReview = response.reviews
 
                 userReviewsList.clear()
-                userReviewsList.addAll(reviewsList)
-
-                Log.i("UserApiVM", "Reseñas obtenidas exitosamente")
-                _uiState.value = UiState.Ready
+                userReviewsList.addAll(taskerReview)
 
             } catch (e: Exception) {
                 when (e) {
                     is HttpException -> {
-                        Log.i("MainViewModel (GetAllReviews) http", e.message())
+                        Log.i("MainViewModel (PostReview) http", e.message())
                         _uiState.value = UiState.Error(e.message())
                     }
 
                     else -> {
-                        Log.i("MainViewModel (GetAllReviews) else", e.toString())
+                        Log.i("MainViewModel (PostReview) else", e.toString())
                         _uiState.value = UiState.Error(e.toString())
                     }
                 }
             }
-
         }
     }
 
-    fun postReview(review: ReviewSchemaApi) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun postReviewTasker(review: ReviewSchemaApi) {
+        viewModelScope.launch {
 
             try {
                 _uiState.value = UiState.Loading
@@ -242,6 +249,41 @@ class UserApiViewModel : ViewModel() {
         }
     }
 
+    fun createChatPreview(usuarioId: String, taskerId: String, taskName: String) {
+        viewModelScope.launch {
+            try {
+                val response = ApiClient.apiService.createChatPreview(ChatPreviewApi(usuarioId, taskerId, taskName, ""))
+                // Handle the response as needed
+                Log.i("ChatPreview", "Chat preview created: ${response.result}")
+            } catch (e: HttpException) {
+                // Handle the error as needed
+                Log.e("ChatPreview", "Error creating chat preview", e)
+            }
+        }
+    }
+
+    fun getChatPreviewsByUser(usuarioId: String) {
+        viewModelScope.launch {
+            try {
+                val response: ApiChatPreviewsResponse = ApiClient.apiService.getChatPreviewsByUser(usuarioId)
+                _mailbox.value = response.chatPreviews.map {
+                    ApiUserByCategorySuccessful(
+                        id = it.taskerId,
+                        nombre = it.taskName,
+                        fotoPerfil = "",
+                        ubicacion = "",
+                        usuarioTasker = true,
+                        tarjetasAsociadas = emptyList(),
+                        perfilTasker = DetallesPerfilTaskerCategory()
+                    )
+                }
+                Log.i("ChatPreview", "Chat previews fetched: ${response.chatPreviews}")
+            } catch (e: HttpException) {
+                Log.e("ChatPreview", "Error fetching chat previews", e)
+            }
+        }
+    }
+
     fun setStateToReady() {
         _uiState.value = UiState.Ready
     }
@@ -266,16 +308,6 @@ fun ApiUserUpdatedSuccessful.toUserApiModel(): UserApiModel {
         correo_electronico = this.correoElectronico,
         usuarioTasker = this.usuarioTasker,
         perfilTasker = this.perfilTasker,
-        /*DetallesPerfilTaskerModel(
-            telefono = this.perfilTasker!!.telefono,
-            descripcion_personal = this.perfilTasker!!.descripcion_personal,
-            fecha_union = this.perfilTasker?.fecha_union,
-            trabajos_realizados = this.perfilTasker?.trabajos_realizados,
-            promedio_calificaciones = this.perfilTasker?.promedio_calificaciones,
-            habilidades = this.perfilTasker?.habilidades,
-            galeria_trabajos = this.perfilTasker?.galeria_trabajos
-
-        ),*/
         fotoPerfil = this.fotoPerfil,
         tarjetasAsociadas = this.tarjetasAsociadas,
         ubicacion = this.ubicacion

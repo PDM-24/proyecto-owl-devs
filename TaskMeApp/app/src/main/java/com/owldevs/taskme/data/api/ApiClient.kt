@@ -1,7 +1,7 @@
 package com.owldevs.taskme.data.api
 
 
-import com.owldevs.taskme.constants.Constants
+import com.owldevs.taskme.utils.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

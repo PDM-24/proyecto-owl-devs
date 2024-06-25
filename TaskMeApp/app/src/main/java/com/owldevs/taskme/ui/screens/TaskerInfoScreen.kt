@@ -1,6 +1,7 @@
 package com.owldevs.taskme.ui.screens
 
-import UserViewModel
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,7 +40,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -55,6 +55,7 @@ import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.api.ApiUserByCategorySuccessful
 import com.owldevs.taskme.data.currentTasker
+import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.data.taskerId
 import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.ui.components.AbilityChip
@@ -62,15 +63,15 @@ import com.owldevs.taskme.ui.components.ReducedReviewCard
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun TaskerInfoScreen(
     navController: NavController = rememberNavController(),
     userApiViewModel: UserApiViewModel = viewModel()
 ) {
-
     LaunchedEffect(Unit) {
-        userApiViewModel.getAllReviewsByUser(currentTasker.id)
+        userApiViewModel.getAllReviewsById()
     }
 
     var isExpanded by remember { mutableStateOf(false) }
@@ -103,8 +104,8 @@ fun TaskerInfoScreen(
                     modifier = Modifier
                         .size(32.dp)
                         .clickable {
+                            taskerId = ""
                             navController.popBackStack()
-                            taskerId.value = ""
                             currentTasker = ApiUserByCategorySuccessful()
                         }
                 )
@@ -153,7 +154,14 @@ fun TaskerInfoScreen(
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End
             ) {
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        userApiViewModel.createChatPreview(
+                            usuarioId = currentUserId,
+                            taskerId = currentTasker.id,
+                            taskName = "Task Name" // replace with actual task name
+                        )
+                        navController.navigate(SecondaryScreens.ChatScreen.route)
+                    },
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
@@ -367,10 +375,7 @@ fun TaskerInfoScreen(
                     userReviewsList.forEach { review ->
                         ReducedReviewCard(
                             navController,
-                            userName = review.autorId.nombre,
-                            reviewBody = review.texto,
-                            reviewDate = review.fecha.time,
-                            userRating = review.calificacion.toDouble()
+                            review = review
                         )
                     }
                 } else {

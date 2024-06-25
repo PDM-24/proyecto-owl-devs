@@ -18,6 +18,7 @@ import com.owldevs.taskme.ui.screens.*
 import com.owldevs.taskme.ui.viewmodels.CategoryViewModel
 import com.owldevs.taskme.ui.viewmodels.ChatViewModel
 import com.owldevs.taskme.ui.viewmodels.LoginViewModel
+import com.owldevs.taskme.ui.viewmodels.TaskApiViewModel
 import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
 
@@ -28,6 +29,7 @@ fun MyAppNavigation() {
     val loginViewModel = viewModel<LoginViewModel>()
     val userApiViewModel = viewModel<UserApiViewModel>()
     val categoryViewModel = viewModel<CategoryViewModel>()
+    val taskApiViewModel = viewModel<TaskApiViewModel>()
 
     // State to track the current screen route
     var currentRoute by remember { mutableStateOf<String?>(null) }
@@ -87,7 +89,7 @@ fun MyAppNavigation() {
                 UserMailbox(navController)
             }
             composable(route = MainScreens.UserTasks.route) {
-                TasksScreen(navController)
+                TasksScreen(navController,taskApiViewModel)
             }
             /*FIN DE RUTAS PRINCIPALES*/
 
@@ -97,7 +99,7 @@ fun MyAppNavigation() {
                 UserOrder(navController)
             }
             composable(route = SecondaryScreens.UserMailbox.route) {
-                UserMailbox(navController)
+                UserMailbox(navController, userApiViewModel)
             }
             composable(route = SecondaryScreens.TaskScreen.route) {
                 UserTaskScreen(navController)
@@ -119,7 +121,7 @@ fun MyAppNavigation() {
                 route = SecondaryScreens.ChatScreen.route
             ) {
                 val chatViewModel = viewModel<ChatViewModel>()
-                ChatScreen(navController, chatViewModel, userViewModel)
+                ChatScreen(navController, chatViewModel, userApiViewModel)
             }
             composable(SecondaryScreens.ScheduleScreen.route) {
 

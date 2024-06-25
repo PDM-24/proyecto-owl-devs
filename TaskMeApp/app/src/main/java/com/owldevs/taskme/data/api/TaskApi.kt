@@ -1,7 +1,7 @@
 package com.owldevs.taskme.data.api
 
 import com.google.gson.annotations.SerializedName
-import com.owldevs.taskme.constants.Constants
+import com.owldevs.taskme.utils.Constants
 import java.sql.Date
 
 data class TaskApi(
@@ -71,6 +71,28 @@ data class Categoria(
     @SerializedName(value = "nombre")
     val nombre: String
 )
+
+
+
+data class TaskCategoria(
+    @SerializedName(value = "_id")
+    val id: String,
+    @SerializedName(value = "nombre")
+    val nombre: String
+)
+
+data class Cliente_id(
+    @SerializedName(value = "_id")
+    val id: String,
+    @SerializedName(value = "nombre_completo")
+    val nombreCompleto: String,
+    @SerializedName(value = "correo_electronico")
+    val correoElectronico: String,
+    @SerializedName(value = "ubicacion")
+    val ubicacion: String
+)
+
+
 
 data class User(
     @SerializedName(value = "_id")

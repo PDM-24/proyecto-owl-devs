@@ -18,7 +18,9 @@ const {
     updateTaskState,
     updateNotificationState,
     deleteNotification,
-    getAllUsers
+    getAllUsers,
+    createChatPreview, 
+    getChatPreviewsByUser
 } = require('../controllers/TaskMeControllers');
 
 /*RUTAS POST*/
@@ -28,16 +30,18 @@ router.post('/tasks', postTask);                                        //FUNCIO
 router.post('/reviews', postReview);                                    //FUNCIONA     - conectada
 router.post('/categories', postCategory);                               //FUNCIONA     - conectada
 router.post('/notifications', postNotification);                        //FUNCIONA     - conectada
+router.post('/chats', createChatPreview);                               //probando
 
 /*RUTAS GET y login de usuario*/
 
 router.post('/users/login', getUser);                                   //FUNCIONA     - conectada
 router.get('/users/:categoryId', getAllUsersByCatgory);                 //FUNCIONA     - conectada
 router.get('/tasks/role', getAllTaskByRole);                            //FUNCIONA
-router.get('/reviews/:usuarioId', getAllReviewsByUser);                 //FUNCIONA     - conectada
+router.get('/reviews/:usuarioId', getAllReviewsByUser);                    //FUNCIONA     - conectada
 router.get('/tasks/:taskId', getTaskById);                              //FUNCIONA     - conectada 
 router.get('/notifications/:usuarioId', getAllNotificationsByUser);     //FUNCIONA     - conectada 
 router.get('/categories', getAllCategories);                            //FUNCIONA     - conectada
+router.get('/chats/:usuarioId', getChatPreviewsByUser);                    //probando
 
 /*RUTAS PUT/PATCH*/
 

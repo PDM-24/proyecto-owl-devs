@@ -1,16 +1,13 @@
 package com.owldevs.taskme.data.api
 
 import com.google.gson.annotations.SerializedName
-import com.owldevs.taskme.constants.Constants
-import com.owldevs.taskme.model.User
-import okhttp3.internal.UTC
+import com.owldevs.taskme.utils.Constants
 import java.util.Date
 
 data class ApiResponseSuccessful(
     //ola
     @SerializedName(value = Constants.RESPONSE_SUCCESSFUL)
     val result: String,
-
     )
 
 data class ApiUsersByCategoryResponse(
@@ -88,6 +85,34 @@ data class ApiUserUpdatedSuccessful(
     val perfilTasker: DetallesPerfilTasker? = null
 )
 
+
+data class ApiTaskUserSuccessful(
+    @SerializedName(value = "_id")
+    val id: String,
+    @SerializedName(value = "categoria")
+    val categoria: TaskCategoria,
+    @SerializedName(value = "cliente_id")
+    val cliente_id: Cliente_id,
+    @SerializedName(value = "tasker_id")
+    val tasker_id: String,
+    @SerializedName(value = "hora")
+    val fecha: String,
+    @SerializedName(value = "fecha")
+    val hora: String,
+    @SerializedName(value = "ubicacion")
+    val ubicacion: String,
+    @SerializedName(value = "precio")
+    val precio: Number,
+    @SerializedName(value = "estado")
+    val estado: String,
+    @SerializedName(value = "metodo_pago")
+    val metodo_pago: String
+)
+
+
+
+
+
 data class ApiUserByCategorySuccessful(
     @SerializedName(value = "_id")
     val id: String = "",
@@ -138,7 +163,7 @@ data class DetallesPerfilTaskerCategory(
 
     @SerializedName(value = "galeria_trabajos")
     val galeriaTrabajos: List<GaleriaTrabajo> = listOf()
-)
+
 
 data class TurnTaskerSuccessful(
     @SerializedName(value = Constants.ID_USUARIO)

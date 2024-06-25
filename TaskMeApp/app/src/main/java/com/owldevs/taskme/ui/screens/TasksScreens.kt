@@ -16,7 +16,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,20 +26,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.ui.components.TaskCard
 import com.owldevs.taskme.ui.navigation.MyBottomNav
 import com.owldevs.taskme.ui.theme.TaskMeTheme
+import com.owldevs.taskme.ui.viewmodels.TaskApiViewModel
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TasksScreen(
     navController: NavController,
+    taskApiViewModel: TaskApiViewModel = viewModel(),
     isTasker: Boolean = true
 ) {
 
     var filterSearch by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        taskApiViewModel.getUserTasks()
+    }
 
 
     Column(
@@ -78,11 +88,11 @@ fun TasksScreen(
                 maxItemsInEachRow = 4
             ) {
                 FilterChip(
-                    selected = filterSearch == "Soliciados",
-                    onClick = { filterSearch = "Soliciados" },
+                    selected = filterSearch == "Pendiente",
+                    onClick = { filterSearch = "Pendiente" },
                     label = {
                         Text(
-                            text = "Solicitados",
+                            text = "Pendiente",
                             style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.colorScheme.onBackground
                         )
@@ -128,7 +138,7 @@ fun TasksScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(10) {
-                    TaskCard(navController)
+                    TaskCard(navController,taskApiViewModel)
                 }
             }
         }

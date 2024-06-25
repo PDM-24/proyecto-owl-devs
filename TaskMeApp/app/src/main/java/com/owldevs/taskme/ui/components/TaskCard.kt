@@ -29,19 +29,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.api.ApiTaskUserSuccessful
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
+import com.owldevs.taskme.ui.viewmodels.TaskApiViewModel
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
 @Composable
 fun TaskCard(
     navController: NavController,
-    taskId: Int = 0,
-    taskDate: Long = 123456,
-    taskStatus: String = "Status",
-    taskCategory: String = "Category",
-    taskerImg: Int = R.drawable.ic_pfp,
-    taskerName: String = "Jhon Doe"
+    taskApiViewModel: TaskApiViewModel
 ) {
     Card(
         modifier = Modifier
@@ -60,8 +59,8 @@ fun TaskCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Task N°: $taskId", style = MaterialTheme.typography.bodyMedium)
-                Text(text = "$taskDate", style = MaterialTheme.typography.bodySmall)
+                Text(text = "Task N°: ", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "", style = MaterialTheme.typography.bodySmall)
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -72,7 +71,7 @@ fun TaskCard(
                     contentDescription = "Task Status",
                     modifier = Modifier.size(32.dp)
                 )
-                Text(text = taskStatus, style = MaterialTheme.typography.bodyMedium)
+                Text(text = "", style = MaterialTheme.typography.bodyMedium)
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -83,7 +82,7 @@ fun TaskCard(
                     contentDescription = "Task Category",
                     modifier = Modifier.size(32.dp)
                 )
-                Text(text = taskCategory, style = MaterialTheme.typography.bodyMedium)
+                Text(text = "", style = MaterialTheme.typography.bodyMedium)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -95,11 +94,11 @@ fun TaskCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = taskerImg),
+                        painter = painterResource(id = R.drawable.ic_pfp),
                         contentDescription = "Tasker Img",
                         modifier = Modifier.size(32.dp)
                     )
-                    Text(text = taskerName, style = MaterialTheme.typography.bodyMedium)
+                    Text(text = "taskerName", style = MaterialTheme.typography.bodyMedium)
                 }
                 Button(
                     onClick = { navController.navigate(SecondaryScreens.UserTaskScreen.route) },

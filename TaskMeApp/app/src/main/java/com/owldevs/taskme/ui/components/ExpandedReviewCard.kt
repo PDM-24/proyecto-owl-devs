@@ -1,5 +1,7 @@
 package com.owldevs.taskme.ui.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,15 +33,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.api.ReviewResponseApi
+import java.time.Instant
+import java.time.ZoneId
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ExpandedReviewCard(
     userImg: Int = R.drawable.ic_pfp,
-    userName: String = "Jhon Doe",
-    reviewBody: String = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-    reviewDate: Long = 123456,
-    userRating: Double = 1.5
+    review: ReviewResponseApi
 ) {
+    val dateFormatted =
+        Instant.ofEpochMilli(review.fecha.time).atZone(ZoneId.of("UTC"))
+            .toLocalDate()
+
     var viewMore by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
@@ -68,7 +75,7 @@ fun ExpandedReviewCard(
                         contentDescription = "User Img",
                         modifier = Modifier.size(48.dp)
                     )
-                    Text(text = userName, style = MaterialTheme.typography.titleMedium)
+                    Text(text = review.autorId.nombre, style = MaterialTheme.typography.titleMedium)
                 }
                 Row() {
                     if (!viewMore) {
@@ -97,7 +104,7 @@ fun ExpandedReviewCard(
                 }
             }
             Text(
-                text = reviewBody,
+                text = review.texto,
                 maxLines = if (viewMore) Int.MAX_VALUE else 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium
@@ -106,11 +113,11 @@ fun ExpandedReviewCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "$reviewDate", style = MaterialTheme.typography.bodySmall)
+                Text(text = "${dateFormatted.dayOfMonth}/${dateFormatted.month}/${dateFormatted.year}", style = MaterialTheme.typography.bodySmall)
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(text = "$userRating", style = MaterialTheme.typography.bodyMedium)
+                    Text(text = "${review.calificacion}", style = MaterialTheme.typography.bodyMedium)
                     Icon(
                         imageVector = Icons.Default.Build,
                         contentDescription = "Rating",

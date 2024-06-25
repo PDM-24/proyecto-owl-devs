@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.api.ApiUserByCategorySuccessful
@@ -37,6 +38,7 @@ import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.screens.CategoryScreen
 import com.owldevs.taskme.ui.theme.TaskMeTheme
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 import java.time.Instant
 import java.time.ZoneId
 
@@ -45,17 +47,20 @@ import java.time.ZoneId
 fun UserInfoCard(
     navController: NavController,
     user: ApiUserByCategorySuccessful,
-    disponible: Boolean = false
+    userApiViewModel: UserApiViewModel = viewModel()
 ) {
-    val dateFormatted = Instant.ofEpochMilli(user.perfilTasker.fechaUnion.time).atZone(ZoneId.of("UTC")).toLocalDate()
+    val dateFormatted =
+        Instant.ofEpochMilli(user.perfilTasker.fechaUnion.time).atZone(ZoneId.of("UTC"))
+            .toLocalDate()
 
     Card(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .wrapContentHeight()
             .clickable {
+                taskerId = ""
+                taskerId = user.id
                 navController.navigate(SecondaryScreens.TaskerInfoScreen.route)
-                taskerId.value = user.id
                 currentTasker = currentTasker.copy(
                     id = user.id,
                     correoElectronico = user.correoElectronico,
@@ -96,42 +101,30 @@ fun UserInfoCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (disponible) {
-                        Text(
-                            text = "Disponible",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                        Box(
-                            modifier = Modifier
-                                .size(15.dp)
-                                .background(
-                                    color = MaterialTheme.colorScheme.tertiary,
-                                    shape = CircleShape
-                                )
-                        )
-                    } else {
-                        Text(
-                            text = "No Disponible",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                        Box(
-                            modifier = Modifier
-                                .size(15.dp)
-                                .background(
-                                    color = MaterialTheme.colorScheme.error,
-                                    shape = CircleShape
-                                )
-                        )
-                    }
+                    Text(
+                        text = "Disponible",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(15.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.tertiary,
+                                shape = CircleShape
+                            )
+                    )
+
                 }
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = "Trabajos realizados: ", style = MaterialTheme.typography.titleMedium)
-                Text(text = "${user.perfilTasker.trabajosRealizados}", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = "${user.perfilTasker.trabajosRealizados}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
             Text(
                 text = user.perfilTasker.descripcionPersonal,
@@ -153,7 +146,7 @@ fun UserInfoCard(
                         color = MaterialTheme.colorScheme.secondary
                     )
                     Text(
-                        text = "${dateFormatted.dayOfMonth}/${dateFormatted.month}/${dateFormatted.year}",
+                        text = "${dateFormatted.dayOfMonth}/${dateFormatted.monthValue}/${dateFormatted.year}",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -161,13 +154,19 @@ fun UserInfoCard(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "${user.perfilTasker.promedioCalificaciones}", style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = "${user.perfilTasker.promedioCalificaciones}",
+                        style = MaterialTheme.typography.titleMedium
+                    )
                     Icon(
                         imageVector = Icons.Filled.Build,
                         contentDescription = "Likes",
                         modifier = Modifier.size(16.dp)
                     )
-                    Text(text = "(${user.perfilTasker.trabajosRealizados})", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        text = "(${user.perfilTasker.trabajosRealizados})",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
             }
         }
