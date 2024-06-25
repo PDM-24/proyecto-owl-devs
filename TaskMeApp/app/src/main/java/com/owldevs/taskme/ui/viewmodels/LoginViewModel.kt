@@ -32,8 +32,10 @@ class LoginViewModel : ViewModel() {
 
                 if (response != null) {
                     val userProfile = UserApiModel(
-                        correoElectronico = response.correoElectronico,
-                        nombre = response.nombre,
+                        id = response.id,
+                        correo_electronico = response.correoElectronico,
+                        nombre_completo = response.nombre,
+                        fotoPerfil = response.fotoPerfil,
                         ubicacion = response.ubicacion,
                         usuarioTasker = false, // Set usuarioTasker to false by default
                         tarjetasAsociadas = response.tarjetasAsociadas,

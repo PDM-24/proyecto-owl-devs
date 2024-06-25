@@ -43,7 +43,7 @@ data class DetallesPerfilTasker(
     @SerializedName(value = Constants.TELFONO)
     val telefono: String = "",
 
-    @SerializedName(value =  Constants.DESCRIPCION_PERSONAL)
+    @SerializedName(value = Constants.DESCRIPCION_PERSONAL)
     val descripcion_personal: String = "",
 
     @SerializedName(value = Constants.FECHA_UNION)

@@ -4,7 +4,8 @@ object Constants{
     //api service
     // ip kattia: 192.168.1.5 o 172.20.10.2
     // ip jc: 192.168.1.25
-    const val BASE_URL = "http://192.168.1.22:3000"
+    // ip fede: 192.168.1.35 o 192.168.1.16
+    const val BASE_URL = "http://192.168.1.35:3000"
     const val API_PATH = "/api"
 
     //post paths
@@ -13,7 +14,7 @@ object Constants{
     const val POST_USER_PATH = "/users/register"
 
     //post a review
-    const val POST_REVIEW_PATH = "/postReview"
+    const val POST_REVIEW_PATH = "/reviews"
 
     //post a task
     const val POST_TASK_PATH = "/postTask"
@@ -24,19 +25,25 @@ object Constants{
     //post a category
     const val POST_CATEGORY_PATH = "/postCategory"
 
+    //patch paths
+    const val UPDATE_USER_PATH = "/users/{usuarioId}"
+
+
+
     //get paths
     const val GET_USER_LOGIN_PATH = "/users/login"
+    const val GET_ALL_REVIEWS_BY_USER_PATH = "/reviews/{usuarioId}"
+    const val GET_ALL_USERS_BY_CATEGORY_PATH = "/users/{categoryId}"
+    const val GET_TASK_BY_ID_PATH = "/tasks/{taskId}"
+    const val GET_ALL_NOTIFICATIONS_BY_USER_PATH = "/notifications/{usuarioId}"
 
     //api responses
     const val RESPONSE_SUCCESSFUL = "result"
     const val RESPONSE_ERROR = "message"
 
-    //update user data
-    const val UPDATE_USER = "/users/:usuarioId"
-
 
     //values of data classes
-    const val ID_USUARIO = "id_usuario"
+    const val ID_USUARIO = "id"
     const val TIPO = "tipo"
     const val MENSAJE = "mensaje"
     const val ESTADO = "estado"
@@ -67,7 +74,7 @@ object Constants{
     const val FECHA_UNION = "fecha_unión"
     const val TRABAJOS_REALIZADOS = "trabajos_realizados"
     const val PROMEDIO_CALIFIACIONES = "calificacion"
-    const val FOTO = "foto"
+    const val FOTO = "foto_perfil"
     const val ID_CATEGORIA = "id_categoria"
     const val URL = "url"
     const val DESCRIPCION = "descripcion"

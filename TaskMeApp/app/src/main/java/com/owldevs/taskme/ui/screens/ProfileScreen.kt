@@ -1,5 +1,6 @@
 package com.owldevs.taskme.ui.screens
 
+import android.provider.ContactsContract.Profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
@@ -45,9 +47,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.ui.components.AbilityChip
 import com.owldevs.taskme.ui.components.ReducedReviewCard
@@ -66,7 +70,7 @@ fun ProfileScreen(
     val currentUser by userApiViewModel.currentUser.observeAsState()
 
     // Extract data from currentUser
-    val userName = currentUser?.nombre ?: "Unknown"
+    val userName = currentUser?.nombre_completo ?: "Unknown"
     val taskerProfile = currentUser?.perfilTasker
     val tasksCompleted = taskerProfile?.trabajos_realizados ?: 0
     val userBio = taskerProfile?.descripcion_personal ?: "No bio available"
@@ -150,7 +154,9 @@ fun ProfileScreen(
             modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
             ) {
                 Text(
                     text = "Biografia: ",
@@ -167,7 +173,9 @@ fun ProfileScreen(
             }
 
             Column(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
             ) {
                 Text(
                     text = "Me dedico a:",
@@ -211,7 +219,9 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.width(10.dp))
 
             Column(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -278,7 +288,8 @@ fun ProfileScreen(
                                     focusedTextColor = MaterialTheme.colorScheme.onPrimary,
                                 ),
                                 shape = RoundedCornerShape(12.dp),
-                                modifier = Modifier.menuAnchor()
+                                modifier = Modifier
+                                    .menuAnchor()
                                     .width(150.dp)
                                     .height(48.dp)
                             )

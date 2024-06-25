@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -40,12 +41,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.ui.components.ExpandedReviewCard
 import com.owldevs.taskme.ui.theme.TaskMeTheme
 
@@ -224,9 +228,28 @@ fun ReviewsScreen(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                items(count = 10) {
-                    ExpandedReviewCard()
+                if (userReviewsList.isNotEmpty()) {
+                    items(userReviewsList) { review ->
+                        ExpandedReviewCard(
+                            userImg = review.autorId.fotoPerfil.toInt(),
+                            userName = review.autorId.nombre,
+                            reviewBody = review.texto,
+                            reviewDate = review.fecha.time,
+                            userRating = review.calificacion.toDouble()
+                        )
+                    }
+                } else {
+                    item {
+                        Text(
+                            text = "Este usuario aun no tiene ninguna reseña",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            textDecoration = TextDecoration.Underline,
+                            textAlign = TextAlign.Justify
+                        )
+                    }
                 }
+
             }
         }
     }

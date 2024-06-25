@@ -230,7 +230,7 @@ const getAllUsersByCatgory = async (req, res) => {
 
         const users = await User.find({
             "perfil_tasker.habilidades.id_categoria": categoryId
-        });
+        }).select('-contrasenia');
 
         res.status(200).json({
             "category": category.nombre,
@@ -242,6 +242,29 @@ const getAllUsersByCatgory = async (req, res) => {
     }
 };
 
+//Obtener todas las reviews de un tasker
+const getAllReviewsByUser = async (req, res) => {
+    try {
+
+        const { usuarioId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(usuarioId)) {
+            return res.status(404).json({ "message": "Usuario invalido" });
+        };
+
+        const reviews = await Review.find({ tasker_id: usuarioId }).populate({
+            path: 'autor_id',
+            select: {
+                nombre_completo: 1,
+                foto_perfil: 1
+            }
+        });
+
+        res.status(200).json({ reviews });
+    } catch (error) {
+        res.status(500).json({ "message": error.message });
+    }
+};
 
 //Obtener todas las tareas de un usuario segun su rol en la app
 const getAllTaskByRole = async (req, res) => {
@@ -337,7 +360,7 @@ const getAllNotificationsByUser = async (req, res) => {
 
         const notifications = await Notification.find({ id_usuario: usuarioId });
 
-        res.status(200).json(notifications);
+        res.status(200).json({ "notifications": notifications });
     } catch (error) {
         res.status(500).json({ "message": error.message });
     }
@@ -382,7 +405,7 @@ const updateUser = async (req, res) => {
         }
 
         res.status(200).json({
-            "message": "Usuario actualizado",
+            "result": "Usuario actualizado",
             updatedUser: updatedUser
         });
     } catch (error) {
@@ -416,7 +439,7 @@ const updateTaskState = async (req, res) => {
         };
 
         res.status(200).json({
-            message: "Estado de la tarea actualizado",
+            "result": "Estado de la tarea actualizado",
             updatedTask
         });
     } catch (error) {
@@ -450,7 +473,7 @@ const updateNotificationState = async (req, res) => {
         };
 
         res.status(200).json({
-            message: "Estado de la notificación actualizado",
+            "result": "Estado de la notificación actualizado",
             updatedNotification
         });
     } catch (error) {
@@ -476,7 +499,7 @@ const deleteNotification = async (req, res) => {
             return res.status(404).json({ message: "Notificación no encontrada" });
         };
 
-        res.status(200).json({ message: "Notificación eliminada" });
+        res.status(200).json({ "result": "Notificación eliminada" });
     } catch (error) {
         res.status(500).json({ "message": error.message });
     }
@@ -507,6 +530,7 @@ module.exports = {
     getUser,
     getAllUsersByCatgory,
     getAllTaskByRole,
+    getAllReviewsByUser,
     getTaskById,
     getAllNotificationsByUser,
     getAllCategories,

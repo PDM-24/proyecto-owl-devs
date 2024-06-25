@@ -88,7 +88,7 @@ fun UserProfile(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = currentUser?.nombre ?: "No name",
+                    text = currentUser?.nombre_completo ?: "No name",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground
                 )
@@ -113,7 +113,7 @@ fun UserProfile(
                         color = MaterialTheme.colorScheme.onBackground
                     )
                     Text(
-                        text = currentUser?.correoElectronico ?: "No email",
+                        text = currentUser?.correo_electronico ?: "No email",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onBackground
                     )

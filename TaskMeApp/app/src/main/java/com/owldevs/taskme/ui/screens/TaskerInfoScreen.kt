@@ -45,11 +45,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.taskerId
+import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.ui.components.AbilityChip
 import com.owldevs.taskme.ui.components.ReducedReviewCard
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
@@ -59,14 +62,13 @@ import com.owldevs.taskme.ui.navigation.SecondaryScreens
 fun TaskerInfoScreen(
     navController: NavController,
     userViewModel: UserViewModel = viewModel()
-
 ) {
     val currentUser by userViewModel.currentUser.observeAsState()
 
-    val userName = currentUser?.name?: "Unknown"
-    val userImg = R.drawable.ic_pfp
-    var tasksCompleted =  currentUser?.tasksCompleted
-    var userBio = currentUser?.taskerBio?: "No bio available"
+    val userName = currentUser?.name ?: "Unknown"
+    val userImg = currentUser?.userImg ?: R.drawable.ic_pfp
+    var tasksCompleted = currentUser?.tasksCompleted
+    var userBio = currentUser?.taskerBio ?: "No bio available"
     var ratingMedia = currentUser?.ratingMedia
 
     var isExpanded by remember { mutableStateOf(false) }
@@ -98,7 +100,10 @@ fun TaskerInfoScreen(
                     tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
                         .size(32.dp)
-                        .clickable { navController.popBackStack() }
+                        .clickable {
+                            navController.popBackStack()
+                            taskerId = ""
+                        }
                 )
             }
             Image(
@@ -357,12 +362,26 @@ fun TaskerInfoScreen(
                         )
                     }
                 }
-                ReducedReviewCard(navController)
-                ReducedReviewCard(navController)
-                ReducedReviewCard(navController)
-                ReducedReviewCard(navController)
-                ReducedReviewCard(navController)
-                ReducedReviewCard(navController)
+                if (userReviewsList.isNotEmpty()) {
+                    userReviewsList.forEach { review ->
+                        ReducedReviewCard(
+                            navController,
+                            userImg = review.autorId.fotoPerfil.toInt(),
+                            userName = review.autorId.nombre,
+                            reviewBody = review.texto,
+                            reviewDate = review.fecha.time,
+                            userRating = review.calificacion.toDouble()
+                        )
+                    }
+                } else {
+                    Text(
+                        text = "Este usuario aun no tiene ninguna reseña",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        textDecoration = TextDecoration.Underline,
+                        textAlign = TextAlign.Justify
+                    )
+                }
             }
         }
     }

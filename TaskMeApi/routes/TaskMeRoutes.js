@@ -10,6 +10,7 @@ const {
     getUser,
     getAllUsersByCatgory,
     getAllTaskByRole,
+    getAllReviewsByUser,
     getTaskById,
     getAllNotificationsByUser,
     getAllCategories,
@@ -22,24 +23,25 @@ const {
 
 /*RUTAS POST*/
 
-router.post('/users/register', registerUser);                           //FUNCIONA
-router.post('/tasks', postTask);                                        //FUNCIONA
-router.post('/reviews', postReview);                                    //FUNCIONA
-router.post('/categories', postCategory);                               //FUNCIONA
-router.post('/notifications', postNotification);                        //FUNCIONA
+router.post('/users/register', registerUser);                           //FUNCIONA     - conectada
+router.post('/tasks', postTask);                                        //FUNCIONA     - conectada
+router.post('/reviews', postReview);                                    //FUNCIONA     - conectada
+router.post('/categories', postCategory);                               //FUNCIONA     - conectada
+router.post('/notifications', postNotification);                        //FUNCIONA     - conectada
 
 /*RUTAS GET y login de usuario*/
 
-router.post('/users/login', getUser);                                   //FUNCIONA
-router.get('/users/:categoryId', getAllUsersByCatgory);                 //FUNCIONA
+router.post('/users/login', getUser);                                   //FUNCIONA     - conectada
+router.get('/users/:categoryId', getAllUsersByCatgory);                 //FUNCIONA     - conectada
 router.get('/tasks/role', getAllTaskByRole);                            //FUNCIONA
-router.get('/tasks/:taskId', getTaskById);                              //FUNCIONA
-router.get('/notifications/:usuarioId', getAllNotificationsByUser);     //FUNCIONA
-router.get('/categories', getAllCategories);                           //FUNCIONA
+router.get('/reviews/:usuarioId', getAllReviewsByUser);                 //FUNCIONA     - conectada
+router.get('/tasks/:taskId', getTaskById);                              //FUNCIONA     - conectada 
+router.get('/notifications/:usuarioId', getAllNotificationsByUser);     //FUNCIONA     - conectada 
+router.get('/categories', getAllCategories);                            //FUNCIONA     - conectada
 
 /*RUTAS PUT/PATCH*/
 
-router.patch('/users/:usuarioId', updateUser);                                  //FUNCIONA
+router.patch('/users/:usuarioId', updateUser);                                  //FUNCIONA     - conectada
 router.patch('/tasks/:taskId/state', updateTaskState);                          //FUNCIONA
 router.patch('/notifications/:notificationId/state', updateNotificationState);  //Probando
 
