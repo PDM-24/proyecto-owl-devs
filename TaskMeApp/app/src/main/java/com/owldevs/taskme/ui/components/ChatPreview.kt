@@ -1,6 +1,5 @@
 package com.owldevs.taskme.ui.components
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,12 +15,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.model.ChatPreviewData
+import com.owldevs.taskme.data.api.ApiUserByCategorySuccessful
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 
 @Composable
-fun ChatPreview(navController: NavController, chatData: ChatPreviewData) {
-
+fun ChatPreview(navController: NavController, chatData: ApiUserByCategorySuccessful) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,11 +48,10 @@ fun ChatPreview(navController: NavController, chatData: ChatPreviewData) {
         Column(
             modifier = Modifier.weight(1f).background(color = MaterialTheme.colorScheme.background)
         ) {
-            Text(text = chatData.name, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground, maxLines = 1)
-            Text(text = chatData.message, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground, maxLines = 1)
+            Text(text = chatData.nombre, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground, maxLines = 1)
+            Text(text = "Hola! Me gustaría que...", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground, maxLines = 1)
         }
 
-        Text(text = chatData.time, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onBackground)
+        Text(text = "00:00 a.m", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onBackground)
     }
 }
-

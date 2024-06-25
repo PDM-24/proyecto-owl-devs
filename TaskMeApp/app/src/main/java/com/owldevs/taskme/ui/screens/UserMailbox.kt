@@ -8,30 +8,26 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.owldevs.taskme.R
-import com.owldevs.taskme.model.ChatPreviewData
 import com.owldevs.taskme.ui.components.ChatPreview
-import com.owldevs.taskme.ui.theme.TaskMeTheme
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
 @Composable
-fun UserMailbox(navController: NavController) {
-    val navy = colorResource(id = R.color.navy)
-    val chatList = listOf(
-        ChatPreviewData("1", "John Doe", "Hola! Me gustaría que...", "00:00 a.m"),
-        ChatPreviewData("2", "John Doe1", "Hola! Me gustaría que...", "00:00 a.m"),
-        ChatPreviewData("3", "John Doe2", "Hola! Me gustaría que...", "00:00 a.m")
-        // Agrega más datos de ejemplo según sea necesario
-    )
+fun UserMailbox(navController: NavController, userApiViewModel: UserApiViewModel = viewModel()) {
+
+    val chatList by userApiViewModel.mailbox.observeAsState(emptyList())
+
+    LaunchedEffect(Unit) {
+        userApiViewModel.getChatPreviewsByUser(userApiViewModel.currentUser.value?.id ?: "")
+    }
 
     Box(
         modifier = Modifier

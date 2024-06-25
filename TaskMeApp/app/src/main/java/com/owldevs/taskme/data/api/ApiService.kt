@@ -37,12 +37,25 @@ interface ApiService {
     @POST(value = Constants.API_PATH + Constants.POST_CATEGORY_PATH)
     suspend fun postCategory(@Body category: CategoryApi): ApiResponseSuccessful
 
+    // post chat preview
+    @Headers("Content-Type: application/json")
+    @POST(Constants.API_PATH + Constants.POST_CHAT_PREVIEW_PATH)
+    suspend fun createChatPreview(@Body chatPreview: ChatPreviewApi): ApiChatPreviewResponse
+
+
+
     //get user
     @Headers(value = ["Content-Type: application/json"])
     @POST(value = Constants.API_PATH + Constants.GET_USER_LOGIN_PATH)
     suspend fun loginUser(@Body loginRequest: LoginRequest): ApiUserSuccessful
 
     //Gets
+
+    // get chat previews by user
+    @Headers("Content-Type: application/json")
+    @GET(Constants.API_PATH + Constants.GET_CHAT_PREVIEWS_BY_USER_PATH)
+    suspend fun getChatPreviewsByUser(@Path("usuarioId") usuarioId: String): ApiChatPreviewsResponse
+
 
     // get category
     @Headers(value = ["Content-Type: application/json"])

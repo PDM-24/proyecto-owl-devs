@@ -55,6 +55,7 @@ import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.api.ApiUserByCategorySuccessful
 import com.owldevs.taskme.data.currentTasker
+import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.data.taskerId
 import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.ui.components.AbilityChip
@@ -68,7 +69,6 @@ fun TaskerInfoScreen(
     navController: NavController = rememberNavController(),
     userApiViewModel: UserApiViewModel = viewModel()
 ) {
-
     LaunchedEffect(Unit) {
         userApiViewModel.getAllReviewsByUser(currentTasker.id)
     }
@@ -153,7 +153,14 @@ fun TaskerInfoScreen(
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End
             ) {
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        userApiViewModel.createChatPreview(
+                            usuarioId = currentUserId,
+                            taskerId = currentTasker.id,
+                            taskName = "Task Name" // replace with actual task name
+                        )
+                        navController.navigate(SecondaryScreens.ChatScreen.route)
+                    },
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
