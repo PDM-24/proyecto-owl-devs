@@ -3,6 +3,7 @@ package com.owldevs.taskme.data.api
 import com.google.gson.annotations.SerializedName
 import com.owldevs.taskme.constants.Constants
 import com.owldevs.taskme.model.User
+import okhttp3.internal.UTC
 import java.util.Date
 
 data class ApiResponseSuccessful(
@@ -16,27 +17,27 @@ data class ApiUsersByCategoryResponse(
     @SerializedName(value = "category")
     val categoria: String,
     @SerializedName(value = "users")
-    val usuarios: List<ApiUserSuccessful>
+    val usuarios: List<ApiUserByCategorySuccessful>
 )
 
 data class ApiUserSuccessful(
     @SerializedName(value = Constants.ID_USUARIO)
-    val id: String,
+    val id: String = "",
 
     @SerializedName("correoElectronico")
-    val correoElectronico: String,
+    val correoElectronico: String = "",
 
     @SerializedName("nombre")
-    val nombre: String,
+    val nombre: String = "",
 
     @SerializedName("fotoPerfil")
-    val fotoPerfil: String,
+    val fotoPerfil: String = "",
 
     @SerializedName("ubicacion")
-    val ubicacion: String,
+    val ubicacion: String = "",
 
     @SerializedName("usuarioTasker")
-    val usuarioTasker: Boolean,
+    val usuarioTasker: Boolean = false,
 
     @SerializedName("tarjetasAsociadas")
     val tarjetasAsociadas: List<tarjetas_asociadas> = arrayListOf(),
@@ -68,5 +69,57 @@ data class ApiUpdateSuccessful(
 
     @SerializedName("habilidades")
     val habilidades: List<Habilidad>
+)
+
+data class ApiUserByCategorySuccessful(
+    @SerializedName(value = "_id")
+    val id: String = "",
+
+    @SerializedName("correo_electronico")
+    val correoElectronico: String = "",
+
+    @SerializedName("nombre_completo")
+    val nombre: String = "",
+
+    @SerializedName("foto")
+    val fotoPerfil: String = "",
+
+    @SerializedName("ubicacion")
+    val ubicacion: String = "",
+
+    @SerializedName("usuario_tasker")
+    val usuarioTasker: Boolean = false,
+
+    @SerializedName("tarjetas_asociadas")
+    val tarjetasAsociadas: List<tarjetas_asociadas> = arrayListOf(),
+
+    @SerializedName("perfil_tasker")
+    val perfilTasker: DetallesPerfilTaskerCategory = DetallesPerfilTaskerCategory()
+)
+
+data class DetallesPerfilTaskerCategory(
+    @SerializedName(value = "telefono")
+    val telefono: String = "",
+
+    @SerializedName(value = "descripcion_personal")
+    val descripcionPersonal: String = "",
+
+    @SerializedName(value = "fecha_union")
+    val fechaUnion: Date = Date(),
+
+    @SerializedName(value = "trabajos_realizados")
+    val trabajosRealizados: Int = 0,
+
+    @SerializedName(value = "promedio_calificaciones")
+    val promedioCalificaciones: Double = 0.0,
+
+    @SerializedName(value = "foto")
+    val foto: String = "",
+
+    @SerializedName(value = "habilidades")
+    val habilidades: List<Habilidad> = listOf(),
+
+    @SerializedName(value = "galeria_trabajos")
+    val galeriaTrabajos: List<GaleriaTrabajo> = listOf()
 )
 

@@ -1,5 +1,7 @@
 package com.owldevs.taskme.ui.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,32 +30,41 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.api.ApiUserByCategorySuccessful
+import com.owldevs.taskme.data.currentTasker
 import com.owldevs.taskme.data.taskerId
 import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.screens.CategoryScreen
 import com.owldevs.taskme.ui.theme.TaskMeTheme
+import java.time.Instant
+import java.time.ZoneId
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun UserInfoCard(
     navController: NavController,
-    userId: String = "",
-    userImg: Int = R.drawable.ic_pfp,
-    userName: String = "Jhon Doe",
-    tasksCompleted: Int = 0,
-    userDescription: String = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-    dateJoined: Long = 123456,
-    userRatings: Double = 1.5,
-    ratingsNumber: Int = 0,
+    user: ApiUserByCategorySuccessful,
     disponible: Boolean = false
 ) {
+    val dateFormatted = Instant.ofEpochMilli(user.perfilTasker.fechaUnion.time).atZone(ZoneId.of("UTC")).toLocalDate()
+
     Card(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .wrapContentHeight()
             .clickable {
                 navController.navigate(SecondaryScreens.TaskerInfoScreen.route)
-                taskerId = userId
+                taskerId.value = user.id
+                currentTasker = currentTasker.copy(
+                    id = user.id,
+                    correoElectronico = user.correoElectronico,
+                    nombre = user.nombre,
+                    ubicacion = user.ubicacion,
+                    usuarioTasker = user.usuarioTasker,
+                    tarjetasAsociadas = user.tarjetasAsociadas,
+                    perfilTasker = user.perfilTasker
+                )
             },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -75,11 +86,11 @@ fun UserInfoCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = painterResource(id = userImg),
+                        painter = painterResource(id = R.drawable.ic_pfp),
                         contentDescription = "User Img",
                         modifier = Modifier.size(64.dp)
                     )
-                    Text(text = userName, style = MaterialTheme.typography.titleMedium)
+                    Text(text = user.nombre, style = MaterialTheme.typography.titleMedium)
                 }
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -120,10 +131,10 @@ fun UserInfoCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = "Trabajos realizados: ", style = MaterialTheme.typography.titleMedium)
-                Text(text = "$tasksCompleted", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "${user.perfilTasker.trabajosRealizados}", style = MaterialTheme.typography.bodyMedium)
             }
             Text(
-                text = userDescription,
+                text = user.perfilTasker.descripcionPersonal,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium
@@ -141,19 +152,22 @@ fun UserInfoCard(
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.secondary
                     )
-                    Text(text = "$dateJoined", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        text = "${dateFormatted.dayOfMonth}/${dateFormatted.month}/${dateFormatted.year}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "$userRatings", style = MaterialTheme.typography.titleMedium)
+                    Text(text = "${user.perfilTasker.promedioCalificaciones}", style = MaterialTheme.typography.titleMedium)
                     Icon(
                         imageVector = Icons.Filled.Build,
                         contentDescription = "Likes",
                         modifier = Modifier.size(16.dp)
                     )
-                    Text(text = "($ratingsNumber)", style = MaterialTheme.typography.bodyMedium)
+                    Text(text = "(${user.perfilTasker.trabajosRealizados})", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
