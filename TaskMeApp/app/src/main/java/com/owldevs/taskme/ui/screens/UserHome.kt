@@ -22,7 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.categoryId
 import com.owldevs.taskme.ui.components.CategoryCard
 import com.owldevs.taskme.ui.viewmodels.CategoryViewModel
 
@@ -32,6 +34,10 @@ fun UserHome(
     navController: NavController,
     categoryViewModel: CategoryViewModel = viewModel()
 ) {
+    LaunchedEffect(Unit) {
+        categoryViewModel.fetchCategories()
+    }
+
     val categories by categoryViewModel.categories.observeAsState(emptyList())
 
     // State for filter text and filtered categories
@@ -47,10 +53,6 @@ fun UserHome(
 
     // Group categories into pairs
     val groupedCategories = filteredCategories.chunked(2)
-
-    LaunchedEffect(Unit) {
-        categoryViewModel.fetchCategories()
-    }
 
     Column(
         modifier = Modifier
@@ -152,6 +154,7 @@ fun UserHome(
                             navController = navController,
                             onClick = {
                                 navController.navigate("category/${category.nombre}")
+                                categoryId = category.id
                             },
                             modifier = Modifier
                                 .weight(1f)

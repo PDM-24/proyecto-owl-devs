@@ -37,6 +37,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -50,26 +51,27 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.api.ApiUserByCategorySuccessful
+import com.owldevs.taskme.data.currentTasker
 import com.owldevs.taskme.data.taskerId
 import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.ui.components.AbilityChip
 import com.owldevs.taskme.ui.components.ReducedReviewCard
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun TaskerInfoScreen(
-    navController: NavController,
-    userViewModel: UserViewModel = viewModel()
+    navController: NavController = rememberNavController(),
+    userApiViewModel: UserApiViewModel = viewModel()
 ) {
-    val currentUser by userViewModel.currentUser.observeAsState()
 
-    val userName = currentUser?.name ?: "Unknown"
-    val userImg = currentUser?.userImg ?: R.drawable.ic_pfp
-    var tasksCompleted = currentUser?.tasksCompleted
-    var userBio = currentUser?.taskerBio ?: "No bio available"
-    var ratingMedia = currentUser?.ratingMedia
+    LaunchedEffect(Unit) {
+        userApiViewModel.getAllReviewsByUser(currentTasker.id)
+    }
 
     var isExpanded by remember { mutableStateOf(false) }
     var ratingValue by remember { mutableStateOf("") }
@@ -102,12 +104,13 @@ fun TaskerInfoScreen(
                         .size(32.dp)
                         .clickable {
                             navController.popBackStack()
-                            taskerId = ""
+                            taskerId.value = ""
+                            currentTasker = ApiUserByCategorySuccessful()
                         }
                 )
             }
             Image(
-                painter = painterResource(id = userImg),
+                painter = painterResource(id = R.drawable.ic_pfp),
                 contentDescription = "User Img",
                 modifier = Modifier.size(86.dp)
             )
@@ -116,12 +119,12 @@ fun TaskerInfoScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = userName,
+                    text = currentTasker.nombre,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
                 Text(
-                    text = "Trabajos realizados: $tasksCompleted",
+                    text = "Trabajos realizados: ${currentTasker.perfilTasker.trabajosRealizados}",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -139,7 +142,7 @@ fun TaskerInfoScreen(
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    text = userBio,
+                    text = currentTasker.perfilTasker.descripcionPersonal,
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 5
@@ -176,11 +179,9 @@ fun TaskerInfoScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     maxItemsInEachRow = 4
                 ) {
-                    AbilityChip()
-                    AbilityChip()
-                    AbilityChip()
-                    AbilityChip()
-                    AbilityChip()
+                    currentTasker.perfilTasker.habilidades.forEach { habilidad ->
+                        habilidad.nombre?.let { AbilityChip(abilityName = it) }
+                    }
                 }
             }
             Column(
@@ -245,7 +246,7 @@ fun TaskerInfoScreen(
                     ) {
                         TextButton(onClick = { navController.navigate(SecondaryScreens.ReviewsScreen.route) }) {
                             Text(
-                                text = "Reseñas: $ratingMedia",
+                                text = "Reseñas: ${currentTasker.perfilTasker.promedioCalificaciones}",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground
                             )
@@ -366,7 +367,6 @@ fun TaskerInfoScreen(
                     userReviewsList.forEach { review ->
                         ReducedReviewCard(
                             navController,
-                            userImg = review.autorId.fotoPerfil.toInt(),
                             userName = review.autorId.nombre,
                             reviewBody = review.texto,
                             reviewDate = review.fecha.time,
@@ -378,7 +378,6 @@ fun TaskerInfoScreen(
                         text = "Este usuario aun no tiene ninguna reseña",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onBackground,
-                        textDecoration = TextDecoration.Underline,
                         textAlign = TextAlign.Justify
                     )
                 }

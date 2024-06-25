@@ -5,6 +5,9 @@ import com.owldevs.taskme.constants.Constants
 
 
 data class CategoryApi(
+    @SerializedName(value = "_id")
+    val id: String = "",
+
     @SerializedName(value = Constants.NOMBRE)
     val nombre: String = "",
 
