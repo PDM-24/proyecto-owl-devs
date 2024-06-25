@@ -1,6 +1,7 @@
 package com.owldevs.taskme.ui.screens
 
-import UserViewModel
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,7 +40,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -62,6 +62,7 @@ import com.owldevs.taskme.ui.components.ReducedReviewCard
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun TaskerInfoScreen(
@@ -70,7 +71,7 @@ fun TaskerInfoScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        userApiViewModel.getAllReviewsByUser(currentTasker.id)
+        userApiViewModel.getAllReviewsById()
     }
 
     var isExpanded by remember { mutableStateOf(false) }
@@ -103,8 +104,8 @@ fun TaskerInfoScreen(
                     modifier = Modifier
                         .size(32.dp)
                         .clickable {
+                            taskerId = ""
                             navController.popBackStack()
-                            taskerId.value = ""
                             currentTasker = ApiUserByCategorySuccessful()
                         }
                 )
@@ -367,10 +368,7 @@ fun TaskerInfoScreen(
                     userReviewsList.forEach { review ->
                         ReducedReviewCard(
                             navController,
-                            userName = review.autorId.nombre,
-                            reviewBody = review.texto,
-                            reviewDate = review.fecha.time,
-                            userRating = review.calificacion.toDouble()
+                            review = review
                         )
                     }
                 } else {

@@ -2,7 +2,7 @@ package com.owldevs.taskme.data.api
 
 
 import com.google.gson.annotations.SerializedName
-import com.owldevs.taskme.constants.Constants
+import com.owldevs.taskme.utils.Constants
 import java.sql.Date
 
 data class NotificationApi(

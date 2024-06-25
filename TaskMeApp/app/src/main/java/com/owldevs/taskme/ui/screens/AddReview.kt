@@ -1,5 +1,6 @@
 package com.owldevs.taskme.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -23,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
@@ -40,19 +44,29 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.colorResource
-import com.owldevs.taskme.ui.theme.NaranjaIntenso
+import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.owldevs.taskme.data.api.ReviewSchemaApi
+import com.owldevs.taskme.data.currentUserId
+import com.owldevs.taskme.data.taskerId
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
+import java.util.Date
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddReview(
-    navController: NavController
-
+    navController: NavController,
+    userApiViewModel: UserApiViewModel = viewModel()
 ) {
 
-    var currentRating by remember { mutableStateOf(0) }
+    var review = ReviewSchemaApi()
+
+    var currentRating by remember { mutableIntStateOf(0) }
     var comentario by remember { mutableStateOf("") }
     val cyan = colorResource(id = R.color.cyan)
+
+    var showInputAlert by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -76,6 +90,29 @@ fun AddReview(
             )
         }
     ) { innerPadding ->
+        if (showInputAlert) {
+            AlertDialog(onDismissRequest = { showInputAlert = !showInputAlert },
+                confirmButton = {
+                    TextButton(onClick = { showInputAlert = !showInputAlert }) {
+                        Text(text = "OK")
+                    }
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Filled.Warning,
+                        contentDescription = "Warning Icon",
+                    )
+                },
+                title = { Text(text = "ERROR") },
+                text = {
+                    Text(
+                        text = "Debes proporcionar un comentario y calificar al tasker",
+                        textAlign = TextAlign.Justify,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+            )
+        }
 
         LazyColumn(
             modifier = Modifier
@@ -145,7 +182,26 @@ fun AddReview(
                 Spacer(modifier = Modifier.height(50.dp))
 
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        if (currentRating > 0 && comentario.isNotEmpty()) {
+
+                            review = review.copy(
+                                taskerId = taskerId,
+                                autorId = currentUserId,
+                                texto = comentario,
+                                calificacion = currentRating
+                            )
+
+                            Log.i("Rview", review.toString())
+
+                            userApiViewModel.postReviewTasker(review)
+
+                            navController.popBackStack()
+
+                        } else {
+                            showInputAlert = !showInputAlert
+                        }
+                    },
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(cyan),
                     modifier = Modifier

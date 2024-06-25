@@ -1,6 +1,6 @@
 package com.owldevs.taskme.data.api
 
-import com.owldevs.taskme.constants.Constants
+import com.owldevs.taskme.utils.Constants
 import com.owldevs.taskme.model.UpdateUserRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -8,6 +8,7 @@ import retrofit2.http.Headers
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     //post user

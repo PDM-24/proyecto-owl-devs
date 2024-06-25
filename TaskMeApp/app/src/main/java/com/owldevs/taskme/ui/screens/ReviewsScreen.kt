@@ -1,5 +1,7 @@
 package com.owldevs.taskme.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +36,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,19 +49,28 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.currentTasker
 import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.ui.components.ExpandedReviewCard
 import com.owldevs.taskme.ui.theme.TaskMeTheme
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReviewsScreen(
     navController: NavController,
-    userRatings: String = "John Doe"
+    userApiViewModel: UserApiViewModel = viewModel()
 ) {
+
+    LaunchedEffect(Unit) {
+        userApiViewModel.getAllReviewsById()
+    }
+
     var isExpanded by remember { mutableStateOf(false) }
     var ratingValue by remember { mutableStateOf("") }
 
@@ -70,7 +82,7 @@ fun ReviewsScreen(
         CenterAlignedTopAppBar(
             title = {
                 Text(
-                    text = "Reseñas: $userRatings",
+                    text = "Reseñas: ${currentTasker.nombre}",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -231,10 +243,7 @@ fun ReviewsScreen(
                 if (userReviewsList.isNotEmpty()) {
                     items(userReviewsList) { review ->
                         ExpandedReviewCard(
-                            userName = review.autorId.nombre,
-                            reviewBody = review.texto,
-                            reviewDate = review.fecha.time,
-                            userRating = review.calificacion.toDouble()
+                            review = review
                         )
                     }
                 } else {
