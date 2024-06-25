@@ -27,7 +27,9 @@ fun CategoryCard(
         modifier = modifier
             .fillMaxWidth()
             .height(75.dp)
-            .clickable { onClick() },
+            .clickable {
+                onClick()
+            },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary

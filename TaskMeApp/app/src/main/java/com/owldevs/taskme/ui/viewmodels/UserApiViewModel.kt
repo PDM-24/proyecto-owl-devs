@@ -23,7 +23,6 @@ import com.owldevs.taskme.data.taskerId
 import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.data.usersCategoryList
 import com.owldevs.taskme.data.usersNotificationsList
-import com.owldevs.taskme.model.HacerTaskerRequest
 import com.owldevs.taskme.model.UpdateUserRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,7 +38,10 @@ class UserApiViewModel : ViewModel() {
     var uiState: StateFlow<UiState> = _uiState
 
     private val _currentUser = MutableLiveData<UserApiModel?>()
-    val currentUser: LiveData<UserApiModel?> = _currentUser
+    var currentUser: LiveData<UserApiModel?> = _currentUser
+
+    private val _profileUpdated = MutableLiveData<Boolean>()
+    val profileUpdated: LiveData<Boolean> get() = _profileUpdated
 
     var errorMessage by mutableStateOf("")
         private set
@@ -57,91 +59,30 @@ class UserApiViewModel : ViewModel() {
     fun updateProfile(updatedProfile: UpdateUserRequest) {
         viewModelScope.launch {
             try {
-                val response =
-                    ApiClient.apiService.updateUser(_currentUser.value?.id, updatedProfile)
-                Log.i("Updated Profile", "Login response: $response")
-
-                if (response != null) {
-                    // Log para cada campo
-                    Log.i("Updated Profile", "Nombre: ${response.nombre}")
-                    Log.i("Updated Profile", "Correo: ${response.correoElectronico}")
-                    Log.i("Updated Profile", "Foto: ${response.fotoPerfil}")
-                    Log.i("Updated Profile", "Habilidades: ${response.habilidades}")
-
-
-                    if (response.nombre != null && response.correoElectronico != null && response.fotoPerfil != null && response.habilidades != null) {
-                        _currentUser.value = _currentUser.value?.copy(
-                            nombre_completo = response.nombre,
-                            correo_electronico = response.correoElectronico,
-                            fotoPerfil = response.fotoPerfil,
-                            perfilTasker = _currentUser.value?.perfilTasker?.copy(
-                                habilidades = response.habilidades
-                            ) ?: DetallesPerfilTasker(
-                                habilidades = response.habilidades,
-                                descripcion_personal = _currentUser.value?.perfilTasker?.descripcion_personal
-                                    ?: ""
-                            )
-                        )
-                    } else {
-                        errorMessage = "Error: La respuesta contiene campos nulos"
-                    }
-                } else {
-                    errorMessage = "Error: Respuesta nula del servidor"
-                }
+                val response = ApiClient.apiService.updateUser(_currentUser.value?.id, updatedProfile)
+                Log.i("Updated Profile", "Login response: ${response.result}")
+                Log.i("Updated Profile", "Updated User: ${response.usuarioUpdated}")
+                _currentUser.value = response.usuarioUpdated.toUserApiModel()
+                _profileUpdated.value = true
             } catch (e: Exception) {
                 errorMessage = "Error al actualizar el perfil: ${e.message}"
-                Log.e("LoginViewModel", "Error al iniciar sesión", e)
+                Log.e("UpdateProfile", "Error al actualizar el perfil", e)
             }
         }
     }
 
-    fun hacermeTasker(hacermeTasker:HacerTaskerRequest){
-        viewModelScope.launch {
-            try {
-                val response =
-                    ApiClient.apiService.turnTasker(_currentUser.value?.id, hacermeTasker)
-                Log.i("Updated Profile", "Login response: $response")
-
-                if (response != null) {
-                    // Log para cada campo
-                    Log.i("Updated Profile", "tasker: ${response.usuarioTasker}")
-                    Log.i("Updated Profile", "telefono: ${response.telefono}")
-                    Log.i("Updated Profile", "descripcion: ${response.descripcion_personal}")
-                    Log.i("Updated Profile", "Habilidades: ${response.habilidades}")
-
-
-                    if (response.telefono != null && response.descripcion_personal != null ) {
-                        _currentUser.value = _currentUser.value?.copy(
-                            perfilTasker = _currentUser.value?.perfilTasker?.copy(
-                                habilidades = response.habilidades
-                            ) ?: DetallesPerfilTasker(
-                                telefono = response.telefono,
-                                habilidades = response.habilidades,
-                                descripcion_personal = _currentUser.value?.perfilTasker?.descripcion_personal
-                                    ?: ""
-                            )
-                        )
-                    } else {
-                        errorMessage = "Error: La respuesta contiene campos nulos"
-                    }
-                } else {
-                    errorMessage = "Error: Respuesta nula del servidor"
-                }
-            } catch (e: Exception) {
-                errorMessage = "Error al actualizar el perfil: ${e.message}"
-                Log.e("LoginViewModel", "Error al iniciar sesión", e)
-            }
-        }
-    }
-
-    fun getAllReviewsByUser() {
+    fun getAllReviewsByUser(taskerId: String) {
         viewModelScope.launch(Dispatchers.IO) {
 
             try {
                 _uiState.value = UiState.Loading
 
+                Log.i("UserApiVM", taskerId)
+
                 val response = ApiClient.apiService.getAllReviewsByUser(taskerId)
                 val reviewsList = response.reviews
+
+                Log.i("UserApiVM", response.reviews.toString())
 
                 userReviewsList.clear()
                 userReviewsList.addAll(reviewsList)
@@ -203,11 +144,17 @@ class UserApiViewModel : ViewModel() {
                 val response = ApiClient.apiService.getAllUsersByCategory(categoryId)
                 val usersByCategory = response.usuarios
 
+                Log.i("MainViewModel (GetAllUsersCategory) http", response.usuarios.toString())
+
                 currentCategory = ""
                 currentCategory = response.categoria
 
+                Log.i("MainViewModel (GetAllUsersCategory) http", usersByCategory.toString())
+
                 usersCategoryList.clear()
                 usersCategoryList.addAll(usersByCategory)
+
+                Log.i("MainViewModel (GetAllUsersCategory) http", usersByCategory.toString())
 
                 _uiState.value = UiState.Ready
 
@@ -285,6 +232,11 @@ class UserApiViewModel : ViewModel() {
     fun setStateToReady() {
         _uiState.value = UiState.Ready
     }
+
+
+    fun doneUpdatingProfile() {
+        _profileUpdated.value = false
+    }
 }
 
 sealed class UiState {
@@ -294,7 +246,18 @@ sealed class UiState {
     data class Error(val message: String) : UiState()
 }
 
-
+fun ApiUserUpdatedSuccessful.toUserApiModel(): UserApiModel {
+    return UserApiModel(
+        id = this.id,
+        nombre_completo = this.nombre,
+        correo_electronico = this.correoElectronico,
+        usuarioTasker = this.usuarioTasker,
+        perfilTasker = this.perfilTasker,
+       fotoPerfil = this.fotoPerfil,
+        tarjetasAsociadas = this.tarjetasAsociadas,
+        ubicacion = this.ubicacion
+    )
+}
 
 
 

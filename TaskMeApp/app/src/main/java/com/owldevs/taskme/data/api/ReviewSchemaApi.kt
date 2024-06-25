@@ -49,7 +49,5 @@ data class ReviewAuthor(
     @SerializedName(value = "_id")
     val id: String,
     @SerializedName(value = "nombre_completo")
-    val nombre: String,
-    @SerializedName(value = "foto_perfil")
-    val fotoPerfil: String = ""
+    val nombre: String
 )

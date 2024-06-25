@@ -1,5 +1,7 @@
 package com.owldevs.taskme.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -37,6 +40,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,21 +55,34 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.categoryId
 import com.owldevs.taskme.data.currentUserId
+import com.owldevs.taskme.data.usersCategoryList
 import com.owldevs.taskme.ui.components.UserInfoCard
 import com.owldevs.taskme.ui.navigation.MyBottomNav
 import com.owldevs.taskme.ui.theme.TaskMeTheme
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryScreen(
     navController: NavController,
     categoryName: String = "CategoryName",
-    taskerDirection: String = "San Salvador, El Salvador"
+    taskerDirection: String = "San Salvador, El Salvador",
+    userApiViewModel: UserApiViewModel = viewModel()
 ) {
+
+    LaunchedEffect(Unit) {
+        userApiViewModel.getAllUsersByCategory()
+    }
+
     var userSearch by remember { mutableStateOf("") }
 
     Column(
@@ -117,6 +134,7 @@ fun CategoryScreen(
                             .size(28.dp)
                             .clickable {
                                 navController.popBackStack()
+                                categoryId = ""
                             }
                     )
                 },
@@ -189,9 +207,12 @@ fun CategoryScreen(
                 Arrangement.Center
             }
         ) {
-            if (true) {
-                items(count = 5) {
-                    UserInfoCard(navController)
+            if (usersCategoryList.isNotEmpty()) {
+                items(usersCategoryList) { user ->
+                    UserInfoCard(
+                        navController,
+                        user = user
+                    )
                 }
             } else {
                 item {
@@ -208,5 +229,14 @@ fun CategoryScreen(
                 }
             }
         }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Preview
+@Composable
+fun ShowPreview() {
+    TaskMeTheme(darkTheme = true) {
+        TaskerInfoScreen()
     }
 }
