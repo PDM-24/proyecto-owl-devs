@@ -149,7 +149,7 @@ data class DetallesPerfilTaskerCategory(
     val trabajosRealizados: Int = 0,
 
     @SerializedName(value = "promedio_calificaciones")
-    val promedioCalificaciones: Double = 0.0,
+    var promedioCalificaciones: Double = 0.0,
 
     @SerializedName(value = "foto")
     val foto: String = "",

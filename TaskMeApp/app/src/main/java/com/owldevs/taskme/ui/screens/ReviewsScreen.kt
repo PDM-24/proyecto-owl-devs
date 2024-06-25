@@ -74,6 +74,15 @@ fun ReviewsScreen(
     var isExpanded by remember { mutableStateOf(false) }
     var ratingValue by remember { mutableStateOf("") }
 
+    // Filtrar las reseñas por calificación
+    val filteredReviews = if (ratingValue.isNotEmpty()) {
+        userReviewsList.filter { review ->
+            review.calificacion.toString() == ratingValue
+        }
+    } else {
+        userReviewsList
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -240,8 +249,8 @@ fun ReviewsScreen(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                if (userReviewsList.isNotEmpty()) {
-                    items(userReviewsList) { review ->
+                if (filteredReviews.isNotEmpty()) {
+                    items(filteredReviews) { review ->
                         ExpandedReviewCard(
                             review = review
                         )

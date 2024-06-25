@@ -360,7 +360,7 @@ fun ProfileScreen(
                 }
 
                 if (userReviewsList.isNotEmpty()) {
-                    userReviewsList.forEach { review ->
+                    userReviewsList.filter { it.calificacion.toString() == ratingValue || ratingValue.isEmpty() }.forEach { review ->
                         ReducedReviewCard(
                             navController,
                             review = review
