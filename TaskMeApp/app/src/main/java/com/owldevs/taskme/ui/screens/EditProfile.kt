@@ -2,6 +2,7 @@ package com.owldevs.taskme.ui.screens
 
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -18,6 +19,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -25,11 +27,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.api.DetallesPerfilTasker
 import com.owldevs.taskme.data.api.Habilidad
 import com.owldevs.taskme.model.UpdateUserRequest
 import com.owldevs.taskme.ui.components.AbilityChip
+import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.viewmodels.CategoryViewModel
 import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -38,6 +43,10 @@ fun EditProfile(
     userApiViewModel: UserApiViewModel = viewModel(),
     categoryViewModel: CategoryViewModel = viewModel()
 ) {
+
+
+
+
     val currentUser by userApiViewModel.currentUser.observeAsState()
     val initialUserName = currentUser?.nombre_completo ?: ""
     val initialEmail = currentUser?.correo_electronico ?: ""
@@ -45,6 +54,7 @@ fun EditProfile(
     val taskerProfile = currentUser?.perfilTasker
 
     val categories by categoryViewModel.categories.observeAsState(emptyList())
+
 
 
     var imageUri by remember { mutableStateOf<Uri?>(null) }
@@ -58,6 +68,8 @@ fun EditProfile(
     val errorMessage by userApiViewModel::errorMessage
     val snackbarHostState = remember { SnackbarHostState() }
     var showSnackbar by remember { mutableStateOf(false) }
+
+
 
 
     LaunchedEffect(Unit) {
@@ -78,6 +90,7 @@ fun EditProfile(
             navController.navigate("editProfile")
         }
     }
+
 
 
     Scaffold(
@@ -306,16 +319,18 @@ fun EditProfile(
                         val habilidadesList = selectedCategorias.map { categoriaNombre ->
                             Habilidad(nombre = categoriaNombre)
                         }
-                              val updateRequest =
-                                  UpdateUserRequest(
-                                      id = currentUser?.id,
-                                      nombre_completo = newName,
-                                      correo_electronico = newEmail,
-                                      fotoPerfil = imageUri.toString(),
-                                      habilidades = habilidadesList
-                                  )
+                        val updateRequest = UpdateUserRequest(
+                            nombre_completo = newName,
+                            correo_electronico = newEmail,
+                            foto_perfil = imageUri?.toString(),
+                            perfil_tasker = DetallesPerfilTasker(
+                                descripcion_personal = descripcion,
+                                habilidades = habilidadesList
+                            )
+                        )
                         userApiViewModel.updateProfile(updateRequest)
                         showSnackbar = true
+                        navController.popBackStack()
                     },
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
