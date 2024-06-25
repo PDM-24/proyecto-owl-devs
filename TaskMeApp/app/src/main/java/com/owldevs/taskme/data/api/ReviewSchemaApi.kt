@@ -1,53 +1,56 @@
 package com.owldevs.taskme.data.api
 
 import com.google.gson.annotations.SerializedName
-import com.owldevs.taskme.constants.Constants
-import java.io.Serial
-import java.sql.Date
+import com.owldevs.taskme.utils.Constants
+import java.util.Date
 
 //Post
 data class ReviewSchemaApi(
-    @SerializedName(value = Constants.TASKER_ID)
+    @SerializedName(value = "taskerId")
     val taskerId: String = "",
 
-    @SerializedName(value = Constants.AUTOR_ID)
+    @SerializedName(value = "autorId")
     val autorId: String = "",
 
-    @SerializedName(value = Constants.TEXTO)
+    @SerializedName(value = "texto")
     val texto: String = "",
 
-    @SerializedName(value = Constants.CALIFICACION)
-    val calificacion: Number = 0,
-
-    @SerializedName(value = Constants.FECHA)
-    val fecha: Date
+    @SerializedName(value = "calificacion")
+    val calificacion: Number = 0
 )
 
 data class ApiReviewsResponse(
+    @SerializedName(value = "result")
+    val result: String = "",
+
     @SerializedName(value = "reviews")
-    val reviews: List<ReviewResponseApi>
+    val reviews: List<ReviewResponseApi> = listOf()
 )
 
 data class ReviewResponseApi(
+
+    @SerializedName(value = "_id")
+    val id: String = "",
+
     @SerializedName(value = "tasker_id")
-    val taskerId: String,
+    val taskerId: String = "",
 
     @SerializedName(value = "autor_id")
-    val autorId: ReviewAuthor,
+    val autorId: ReviewAuthor = ReviewAuthor(),
 
     @SerializedName(value = "texto")
-    val texto: String,
+    val texto: String = "",
 
     @SerializedName(value = "calificacion")
-    val calificacion: Number,
+    val calificacion: Number = 0,
 
     @SerializedName(value = "fecha")
-    val fecha: Date
+    val fecha: Date = Date()
 )
 
 data class ReviewAuthor(
     @SerializedName(value = "_id")
-    val id: String,
+    val id: String = "",
     @SerializedName(value = "nombre_completo")
-    val nombre: String
+    val nombre: String = ""
 )

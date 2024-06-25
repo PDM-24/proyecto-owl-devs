@@ -1,4 +1,4 @@
-package com.owldevs.taskme.constants
+package com.owldevs.taskme.utils
 
 object Constants{
     //api service

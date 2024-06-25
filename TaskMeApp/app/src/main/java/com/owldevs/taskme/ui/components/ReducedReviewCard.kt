@@ -1,5 +1,7 @@
 package com.owldevs.taskme.ui.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,18 +31,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.api.ReviewResponseApi
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.TaskMeTheme
+import java.time.Instant
+import java.time.ZoneId
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ReducedReviewCard(
     navController: NavController,
     userImg: Int = R.drawable.ic_pfp,
-    userName: String = "Jhon Doe",
-    reviewBody: String = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-    reviewDate: Long = 123456,
-    userRating: Double = 1.5
+    review: ReviewResponseApi
 ) {
+
+    val dateFormatted =
+        Instant.ofEpochMilli(review.fecha.time).atZone(ZoneId.of("UTC"))
+            .toLocalDate()
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,11 +76,11 @@ fun ReducedReviewCard(
                         painter = painterResource(id = userImg), contentDescription = "User Img",
                         modifier = Modifier.size(32.dp)
                     )
-                    Text(text = userName, style = MaterialTheme.typography.titleMedium)
+                    Text(text = review.autorId.nombre, style = MaterialTheme.typography.titleMedium)
                 }
             }
             Text(
-                text = reviewBody,
+                text = review.texto,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium
@@ -82,11 +90,17 @@ fun ReducedReviewCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "$reviewDate", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    text = "${dateFormatted.dayOfMonth}/${dateFormatted.monthValue}/${dateFormatted.year}",
+                    style = MaterialTheme.typography.bodySmall
+                )
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(text = "$userRating", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        text = "${review.calificacion}",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                     Icon(
                         imageVector = Icons.Default.Build,
                         contentDescription = "Rating",

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.LoginRequest
+import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.model.UserApiModel
 import com.owldevs.taskme.model.UserApiResponse
 import kotlinx.coroutines.launch
@@ -30,23 +31,21 @@ class LoginViewModel : ViewModel() {
                 val response = ApiClient.apiService.loginUser(loginRequest)
                 Log.i("LoginViewModel", "Login response: $response")
 
-                if (response != null) {
-                    val userProfile = UserApiModel(
-                        id = response.id,
-                        correo_electronico = response.correoElectronico,
-                        nombre_completo = response.nombre,
-                        fotoPerfil = response.fotoPerfil,
-                        ubicacion = response.ubicacion,
-                        usuarioTasker = false, // Set usuarioTasker to false by default
-                        tarjetasAsociadas = response.tarjetasAsociadas,
-                        perfilTasker = response.perfilTasker
-                    )
-                    _userProfile.value = userProfile
-                    userApiViewModel.setCurrentUser(userProfile)
-                    loginState = true
-                } else {
-                    errorMessage = "Error: Respuesta nula del servidor"
-                }
+                currentUserId = response.id
+
+                val userProfile = UserApiModel(
+                    id = response.id,
+                    correo_electronico = response.correoElectronico,
+                    nombre_completo = response.nombre,
+                    fotoPerfil = response.fotoPerfil,
+                    ubicacion = response.ubicacion,
+                    usuarioTasker = false, // Set usuarioTasker to false by default
+                    tarjetasAsociadas = response.tarjetasAsociadas,
+                    perfilTasker = response.perfilTasker
+                )
+                _userProfile.value = userProfile
+                userApiViewModel.setCurrentUser(userProfile)
+                loginState = true
             } catch (e: Exception) {
                 errorMessage = "Error al iniciar sesión: ${e.message}"
                 Log.e("LoginViewModel", "Error al iniciar sesión", e)

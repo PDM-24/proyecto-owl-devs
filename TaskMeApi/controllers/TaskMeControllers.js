@@ -277,7 +277,10 @@ const getAllReviewsByUser = async (req, res) => {
             }
         });
 
-        res.status(200).json({ reviews });
+        res.status(200).json({
+            "result": "ok",
+            "reviews": reviews
+        });
     } catch (error) {
         res.status(500).json({ "message": error.message });
     }

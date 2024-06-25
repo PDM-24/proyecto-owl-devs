@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiChatPreviewsResponse
@@ -19,12 +18,9 @@ import com.owldevs.taskme.data.api.ChatPreviewApi
 import com.owldevs.taskme.data.api.DetallesPerfilTasker
 import com.owldevs.taskme.data.api.DetallesPerfilTaskerCategory
 import com.owldevs.taskme.model.UserApiModel
-import com.owldevs.taskme.data.api.Habilidad
-import com.owldevs.taskme.data.api.LoginRequest
 import com.owldevs.taskme.data.api.ReviewSchemaApi
 import com.owldevs.taskme.data.categoryId
 import com.owldevs.taskme.data.currentCategory
-import com.owldevs.taskme.data.currentTasker
 import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.data.taskId
 import com.owldevs.taskme.data.taskerId
@@ -33,13 +29,10 @@ import com.owldevs.taskme.data.usersCategoryList
 import com.owldevs.taskme.data.usersNotificationsList
 import com.owldevs.taskme.model.UpdateUserRequest
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.HttpException
-import java.io.IOException
 
 
 class UserApiViewModel : ViewModel() {
@@ -76,7 +69,8 @@ class UserApiViewModel : ViewModel() {
     fun updateProfile(updatedProfile: UpdateUserRequest) {
         viewModelScope.launch {
             try {
-                val response = ApiClient.apiService.updateUser(_currentUser.value?.id, updatedProfile)
+                val response =
+                    ApiClient.apiService.updateUser(_currentUser.value?.id, updatedProfile)
                 Log.i("Updated Profile", "Login response: ${response.result}")
                 Log.i("Updated Profile", "Updated User: ${response.usuarioUpdated}")
                 _currentUser.value = response.usuarioUpdated.toUserApiModel()
@@ -88,44 +82,35 @@ class UserApiViewModel : ViewModel() {
         }
     }
 
-    fun getAllReviewsByUser(taskerId: String) {
+    fun getAllReviewsById(){
         viewModelScope.launch(Dispatchers.IO) {
-
             try {
-                _uiState.value = UiState.Loading
-
-                Log.i("UserApiVM", taskerId)
 
                 val response = ApiClient.apiService.getAllReviewsByUser(taskerId)
-                val reviewsList = response.reviews
 
-                Log.i("UserApiVM", response.reviews.toString())
+                val taskerReview = response.reviews
 
                 userReviewsList.clear()
-                userReviewsList.addAll(reviewsList)
-
-                Log.i("UserApiVM", "Reseñas obtenidas exitosamente")
-                _uiState.value = UiState.Ready
+                userReviewsList.addAll(taskerReview)
 
             } catch (e: Exception) {
                 when (e) {
                     is HttpException -> {
-                        Log.i("MainViewModel (GetAllReviews) http", e.message())
+                        Log.i("MainViewModel (PostReview) http", e.message())
                         _uiState.value = UiState.Error(e.message())
                     }
 
                     else -> {
-                        Log.i("MainViewModel (GetAllReviews) else", e.toString())
+                        Log.i("MainViewModel (PostReview) else", e.toString())
                         _uiState.value = UiState.Error(e.toString())
                     }
                 }
             }
-
         }
     }
 
-    fun postReview(review: ReviewSchemaApi) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun postReviewTasker(review: ReviewSchemaApi) {
+        viewModelScope.launch {
 
             try {
                 _uiState.value = UiState.Loading
@@ -305,7 +290,7 @@ fun ApiUserUpdatedSuccessful.toUserApiModel(): UserApiModel {
         correo_electronico = this.correoElectronico,
         usuarioTasker = this.usuarioTasker,
         perfilTasker = this.perfilTasker,
-       fotoPerfil = this.fotoPerfil,
+        fotoPerfil = this.fotoPerfil,
         tarjetasAsociadas = this.tarjetasAsociadas,
         ubicacion = this.ubicacion
     )
