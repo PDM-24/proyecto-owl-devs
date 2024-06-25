@@ -1,5 +1,6 @@
 package com.owldevs.taskme.ui.screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -59,6 +60,8 @@ import com.owldevs.taskme.data.api.ApiService
 import com.owldevs.taskme.data.api.DetallesPerfilTasker
 import com.owldevs.taskme.data.api.Habilidad
 import com.owldevs.taskme.data.api.UserApi
+import com.owldevs.taskme.model.HacerTaskerRequest
+import com.owldevs.taskme.model.UpdateUserRequest
 import com.owldevs.taskme.ui.components.AbilityChip
 import com.owldevs.taskme.ui.navigation.MainScreens
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
@@ -77,11 +80,16 @@ fun UsertoTaskerScreen(
     userApiViewModel: UserApiViewModel = viewModel(),
     categoryViewModel: CategoryViewModel = viewModel()
 ) {
+
+
+    val currentUser by userApiViewModel.currentUser.observeAsState()
     val selectedCategorias = remember { mutableStateListOf<String>() }
     val categories by categoryViewModel.categories.observeAsState(emptyList())
     LaunchedEffect(Unit) {
         categoryViewModel.fetchCategories()
     }
+
+
 
     val cyan = colorResource(id = R.color.cyan)
     var num_tel by remember { mutableStateOf("") }
@@ -268,26 +276,29 @@ fun UsertoTaskerScreen(
 
                 Button(
                     onClick = {
-                        userApiViewModel.updateUser(
-                            UserApi(
-                                usuario_tasker = true,
-                                PerfilTasker = (DetallesPerfilTasker(
-                                    telefono = num_tel,
-                                    descripcion_personal = description,
-                                    //habilidades = selectedCategorias
-                                )
 
-                                        )
+                            val habilidadesList = selectedCategorias.map { categoriaNombre ->
+                                Habilidad(nombre = categoriaNombre)
+                            }
+                            val updateRequest = HacerTaskerRequest(
+                                id = currentUser?.id,
+                                telefono = num_tel,
+                                usuarioTasker = true,
+                                descripcion_personal = description,
+                                habilidades = habilidadesList
                             )
-                        )
-                        navController.navigate(MainScreens.TaskerProfile.route)
-                    },
+                            Log.d("Request Data", "id: ${currentUser?.id}, telefono: $num_tel, descripcion: $description, habilidades: $habilidadesList")
+                            userApiViewModel.hacermeTasker(updateRequest)
+                            navController.navigate(MainScreens.TaskerProfile.route)
+                        }
+                    ,
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(cyan),
                     enabled = agreedToTerms // Enable button based on checkbox
                 ) {
                     Text(text = "Convertirme en tasker")
                 }
+
 
                 Spacer(modifier = Modifier.height(20.dp))
             }

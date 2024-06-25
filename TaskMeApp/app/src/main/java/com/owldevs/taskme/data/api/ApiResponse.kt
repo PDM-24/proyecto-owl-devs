@@ -70,3 +70,20 @@ data class ApiUpdateSuccessful(
     val habilidades: List<Habilidad>
 )
 
+data class TurnTaskerSuccessful(
+    @SerializedName(value = Constants.ID_USUARIO)
+    val id: String,
+
+    @SerializedName(value=Constants.TELFONO)
+    val telefono: String,
+
+    @SerializedName(value=Constants.USUARIO_TASKER)
+    val usuarioTasker: Boolean,
+
+    @SerializedName(value=Constants.DESCRIPCION_PERSONAL)
+    val descripcion_personal: String,
+
+
+    @SerializedName("habilidades")
+    val habilidades: List<Habilidad>
+)

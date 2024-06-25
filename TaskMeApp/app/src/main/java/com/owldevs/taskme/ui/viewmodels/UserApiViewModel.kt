@@ -23,6 +23,7 @@ import com.owldevs.taskme.data.taskerId
 import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.data.usersCategoryList
 import com.owldevs.taskme.data.usersNotificationsList
+import com.owldevs.taskme.model.HacerTaskerRequest
 import com.owldevs.taskme.model.UpdateUserRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -76,6 +77,45 @@ class UserApiViewModel : ViewModel() {
                             perfilTasker = _currentUser.value?.perfilTasker?.copy(
                                 habilidades = response.habilidades
                             ) ?: DetallesPerfilTasker(
+                                habilidades = response.habilidades,
+                                descripcion_personal = _currentUser.value?.perfilTasker?.descripcion_personal
+                                    ?: ""
+                            )
+                        )
+                    } else {
+                        errorMessage = "Error: La respuesta contiene campos nulos"
+                    }
+                } else {
+                    errorMessage = "Error: Respuesta nula del servidor"
+                }
+            } catch (e: Exception) {
+                errorMessage = "Error al actualizar el perfil: ${e.message}"
+                Log.e("LoginViewModel", "Error al iniciar sesión", e)
+            }
+        }
+    }
+
+    fun hacermeTasker(hacermeTasker:HacerTaskerRequest){
+        viewModelScope.launch {
+            try {
+                val response =
+                    ApiClient.apiService.turnTasker(_currentUser.value?.id, hacermeTasker)
+                Log.i("Updated Profile", "Login response: $response")
+
+                if (response != null) {
+                    // Log para cada campo
+                    Log.i("Updated Profile", "tasker: ${response.usuarioTasker}")
+                    Log.i("Updated Profile", "telefono: ${response.telefono}")
+                    Log.i("Updated Profile", "descripcion: ${response.descripcion_personal}")
+                    Log.i("Updated Profile", "Habilidades: ${response.habilidades}")
+
+
+                    if (response.telefono != null && response.descripcion_personal != null ) {
+                        _currentUser.value = _currentUser.value?.copy(
+                            perfilTasker = _currentUser.value?.perfilTasker?.copy(
+                                habilidades = response.habilidades
+                            ) ?: DetallesPerfilTasker(
+                                telefono = response.telefono,
                                 habilidades = response.habilidades,
                                 descripcion_personal = _currentUser.value?.perfilTasker?.descripcion_personal
                                     ?: ""
