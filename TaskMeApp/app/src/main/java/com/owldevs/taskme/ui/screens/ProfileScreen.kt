@@ -1,6 +1,8 @@
 package com.owldevs.taskme.ui.screens
 
+import android.os.Build
 import android.provider.ContactsContract.Profile
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,6 +40,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,14 +63,24 @@ import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 import coil.compose.rememberImagePainter
 import coil.compose.AsyncImage
+import com.owldevs.taskme.data.currentUserId
+import com.owldevs.taskme.data.taskerId
+import com.owldevs.taskme.data.userReviewsList
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ProfileScreen(
     navController: NavController,
     userApiViewModel: UserApiViewModel = viewModel()
 ) {
+    LaunchedEffect(Unit) {
+        taskerId = ""
+        taskerId = currentUserId
+        userApiViewModel.getAllReviewsById()
+    }
+
     val currentUser by userApiViewModel.currentUser.observeAsState()
 
     // Extract data from currentUser
@@ -345,12 +359,21 @@ fun ProfileScreen(
                     }
                 }
 
-                ReducedReviewCard(navController)
-                ReducedReviewCard(navController)
-                ReducedReviewCard(navController)
-                ReducedReviewCard(navController)
-                ReducedReviewCard(navController)
-                ReducedReviewCard(navController)
+                if (userReviewsList.isNotEmpty()) {
+                    userReviewsList.forEach { review ->
+                        ReducedReviewCard(
+                            navController,
+                            review = review
+                        )
+                    }
+                } else {
+                    Text(
+                        text = "Este usuario aun no tiene ninguna reseña",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        textAlign = TextAlign.Justify
+                    )
+                }
             }
         }
     }

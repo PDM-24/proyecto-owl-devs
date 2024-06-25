@@ -1,6 +1,5 @@
 package com.owldevs.taskme.ui.screens
 
-import UserViewModel
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -27,19 +26,25 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.currentTasker
 import com.owldevs.taskme.ui.components.NewTaskSection
 import com.owldevs.taskme.ui.components.OrderDetailBtn
 import com.owldevs.taskme.ui.viewmodels.ChatViewModel
+import com.owldevs.taskme.ui.viewmodels.UserApiViewModel
 
 @Composable
-fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  userViewModel: UserViewModel) {
+fun ChatScreen(
+    navController: NavController,
+    chatViewModel: ChatViewModel,
+    userApiViewModel: UserApiViewModel
+) {
     ProvideWindowInsets {
         val chatMessages by chatViewModel.messages.collectAsState(initial = emptyList())
-        val currentUser by userViewModel.currentUser.observeAsState()
-        val role = currentUser?.role
-        val mobileNumber = currentUser?.phoneNo
+        val currentUser by userApiViewModel.currentUser.observeAsState()
+        val isTasker = currentUser?.usuarioTasker == true
+        val taskerPhoneNumber = currentTasker.perfilTasker.telefono
 
-        var messageText by remember { mutableStateOf("") }
+
         val context = LocalContext.current
 
         Box(
@@ -68,16 +73,16 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  user
                         .padding(vertical = 20.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Column{
-                        if(role == "client"){
-                            OrderDetailBtn(navController)
-                        }else{
+                    Column {
+                        if (isTasker) {
                             NewTaskSection(navController)
+                        } else {
+                            OrderDetailBtn(navController)
                         }
 
                         // Debugging: Show current user role
                         Text(
-                            text = "Role: ${currentUser?.role ?: "No role"}",
+                            text = "Role: ${if (isTasker) "Tasker" else "Client"}",
                             fontSize = 16.sp,
                             color = Color.White
                         )
@@ -118,7 +123,7 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  user
                                                 tint = Color.Unspecified
                                             )
                                             Text(
-                                                text = message.sender,
+                                                text = currentTasker.nombre ,
                                                 color = MaterialTheme.colorScheme.onBackground,
                                                 style = MaterialTheme.typography.titleLarge
                                             )
@@ -142,37 +147,50 @@ fun ChatScreen(navController: NavController, chatViewModel: ChatViewModel,  user
                     }
                 }
 
-                Box(modifier = Modifier.weight(0.60f)){
+                Box(modifier = Modifier.weight(0.60f)) {
                     Row(
-                        modifier = Modifier.fillMaxWidth().padding(horizontal= 16.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Button(
-                            onClick = {
-                                val message = "Hello, I would like to contact you regarding a task."
-                                mobileNumber?.let {
-                                    onClickWhatsApp(
-                                        context = context,
-                                        mobileNumber = it,
-                                        message = message
-                                    )
-                                }
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth().padding(horizontal = 10.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                            shape = RoundedCornerShape(10.dp)
-                        ) {
-                            Text(text = "Contactar via WhatsApp",
+                        if (!isTasker) {
+                            Button(
+                                onClick = {
+                                    val message = "¡Hola! Quería consultarle acerca de una tarea."
+                                    taskerPhoneNumber?.let {
+                                        onClickWhatsApp(
+                                            context = context,
+                                            mobileNumber = it,
+                                            message = message
+                                        )
+                                    }
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                                shape = RoundedCornerShape(10.dp)
+                            ) {
+                                Text(
+                                    text = "Contactar via WhatsApp",
+                                    color = MaterialTheme.colorScheme.primaryContainer,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier.padding(8.dp)
+                                )
+                            }
+                        } else {
+                            Text(
+                                text = " ",
                                 color = MaterialTheme.colorScheme.primaryContainer,
                                 style = MaterialTheme.typography.titleMedium,
-                                modifier = Modifier.padding(8.dp))
+                                modifier = Modifier.padding(8.dp)
+                            )
                         }
+
                     }
                 }
-
-
             }
         }
     }
@@ -183,11 +201,13 @@ fun onClickWhatsApp(
     mobileNumber: String,
     message: String
 ) {
+    val phoneNumberWithCountryCode = "+503$mobileNumber"
     val intent = Intent(
         Intent.ACTION_VIEW,
         Uri.parse(
-            "https://wa.me/${mobileNumber.removePrefix("+")}?text=${message.replace(" ", "%20")}"
+            "https://wa.me/${phoneNumberWithCountryCode}?text=${message.replace(" ", "%20")}"
         )
     )
     context.startActivity(intent)
 }
+

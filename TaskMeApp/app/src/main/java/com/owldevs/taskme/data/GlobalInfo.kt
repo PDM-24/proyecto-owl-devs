@@ -13,7 +13,7 @@ import com.owldevs.taskme.data.api.TaskAApiIdResponse
 import com.owldevs.taskme.data.api.TaskApiIdResponse
 
 //Id's
-var taskerId = MutableLiveData<String>()
+var taskerId: String = ""
 var currentUserId: String = ""
 var currentUserRole: String = ""
 var categoryId: String = ""

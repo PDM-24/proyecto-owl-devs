@@ -1,6 +1,9 @@
 package com.owldevs.taskme.data.api
 
-import com.owldevs.taskme.constants.Constants
+
+import com.owldevs.taskme.model.HacerTaskerRequest
+import com.owldevs.taskme.utils.Constants
+
 import com.owldevs.taskme.model.UpdateUserRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -15,6 +18,11 @@ interface ApiService {
     @Headers(value = ["Content-Type: application/json"])
     @POST(value = Constants.API_PATH + Constants.POST_USER_PATH)
     suspend fun registerUser(@Body user: UserApi): ApiResponseSuccessful
+
+    //post tasker
+    @Headers(value = ["Content-Type: application/json"])
+    @POST(value = Constants.API_PATH + Constants.POST_USER_PATH)
+    suspend fun registerTasker(@Body user: UserApi): ApiResponseSuccessful
 
     //post review
     @Headers(value = ["Content-Type: application/json"])
@@ -38,12 +46,25 @@ interface ApiService {
     @POST(value = Constants.API_PATH + Constants.POST_CATEGORY_PATH)
     suspend fun postCategory(@Body category: CategoryApi): ApiResponseSuccessful
 
+    // post chat preview
+    @Headers("Content-Type: application/json")
+    @POST(Constants.API_PATH + Constants.POST_CHAT_PREVIEW_PATH)
+    suspend fun createChatPreview(@Body chatPreview: ChatPreviewApi): ApiChatPreviewResponse
+
+
+
     //get user
     @Headers(value = ["Content-Type: application/json"])
     @POST(value = Constants.API_PATH + Constants.GET_USER_LOGIN_PATH)
     suspend fun loginUser(@Body loginRequest: LoginRequest): ApiUserSuccessful
 
     //Gets
+
+    // get chat previews by user
+    @Headers("Content-Type: application/json")
+    @GET(Constants.API_PATH + Constants.GET_CHAT_PREVIEWS_BY_USER_PATH)
+    suspend fun getChatPreviewsByUser(@Path("usuarioId") usuarioId: String): ApiChatPreviewsResponse
+
 
     // get category
     @Headers(value = ["Content-Type: application/json"])
@@ -96,6 +117,13 @@ interface ApiService {
     suspend fun updateUser(
         @Path("usuarioId") usuarioId: String?,
         @Body updateUserRequest: UpdateUserRequest
+    ): ApiUpdateSuccessful
+
+    @Headers(value = ["Content-Type: application/json"])
+    @PATCH(value = Constants.API_PATH + Constants.UPDATE_USER_PATH)
+    suspend fun turnTasker(
+        @Path("usuarioId") usuarioId: String?,
+        @Body hacerTaskerRequest: HacerTaskerRequest
     ): ApiUpdateSuccessful
 
 

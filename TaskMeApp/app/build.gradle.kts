@@ -51,6 +51,7 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.room.ktx)
     //Dependencias para retrofit
     val retrofit_version = "2.11.0"
 

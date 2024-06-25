@@ -46,7 +46,7 @@ fun MyAppNavigation() {
         bottomBar = {
             // Ocultar la barra de navegación en la página de login
 
-            if (currentRoute != SecondaryScreens.LoginScreen.route && currentRoute != SecondaryScreens.CreateOrHave.route && currentRoute != SecondaryScreens.RegisterClientOrTask.route  && currentRoute != SecondaryScreens.Support.route && currentRoute != SecondaryScreens.RegisterClient.route) {
+            if (currentRoute != SecondaryScreens.LoginScreen.route && currentRoute != SecondaryScreens.CreateOrHave.route && currentRoute != SecondaryScreens.RegisterClientOrTask.route  && currentRoute != SecondaryScreens.Support.route && currentRoute != SecondaryScreens.RegisterClient.route && currentRoute != SecondaryScreens.RegisterTasker.route) {
 
                 MyBottomNav(navController, userApiViewModel)
             }
@@ -99,7 +99,7 @@ fun MyAppNavigation() {
                 UserOrder(navController)
             }
             composable(route = SecondaryScreens.UserMailbox.route) {
-                UserMailbox(navController)
+                UserMailbox(navController, userApiViewModel)
             }
             composable(route = SecondaryScreens.TaskScreen.route) {
                 UserTaskScreen(navController, taskApiViewModel)
@@ -113,6 +113,10 @@ fun MyAppNavigation() {
                 RegisterScreen(navController = navController, onBackClick = { navController.navigateUp() })
             }
 
+            composable(route = SecondaryScreens.RegisterTasker.route) {
+                RegisterTaskerScreen(navController = navController, onBackClick = { navController.navigateUp() })
+            }
+
             composable(route = SecondaryScreens.Support.route) {
                 SupportScreen(navController)
             }
@@ -121,7 +125,7 @@ fun MyAppNavigation() {
                 route = SecondaryScreens.ChatScreen.route
             ) {
                 val chatViewModel = viewModel<ChatViewModel>()
-                ChatScreen(navController, chatViewModel, userViewModel)
+                ChatScreen(navController, chatViewModel, userApiViewModel)
             }
             composable(SecondaryScreens.ScheduleScreen.route) {
 
@@ -181,7 +185,7 @@ fun MyAppNavigation() {
             }
 
             composable(SecondaryScreens.UsertoTasker.route) {
-                UsertoTaskerScreen(navController = navController)
+                UsertoTaskerScreen(navController = navController, userApiViewModel)
             }
 
 

@@ -28,7 +28,9 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.owldevs.taskme.R
 import com.owldevs.taskme.data.api.DetallesPerfilTasker
+
 import com.owldevs.taskme.data.api.Habilidad
+
 import com.owldevs.taskme.model.UpdateUserRequest
 import com.owldevs.taskme.ui.components.AbilityChip
 import com.owldevs.taskme.ui.navigation.MainScreens

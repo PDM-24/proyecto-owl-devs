@@ -1,16 +1,13 @@
 package com.owldevs.taskme.data.api
 
 import com.google.gson.annotations.SerializedName
-import com.owldevs.taskme.constants.Constants
-import com.owldevs.taskme.model.User
-import okhttp3.internal.UTC
+import com.owldevs.taskme.utils.Constants
 import java.util.Date
 
 data class ApiResponseSuccessful(
     //ola
     @SerializedName(value = Constants.RESPONSE_SUCCESSFUL)
     val result: String,
-
     )
 
 data class ApiUsersByCategoryResponse(
@@ -162,4 +159,22 @@ data class DetallesPerfilTaskerCategory(
 
     @SerializedName(value = "galeria_trabajos")
     val galeriaTrabajos: List<GaleriaTrabajo> = listOf()
+
+
+data class TurnTaskerSuccessful(
+    @SerializedName(value = Constants.ID_USUARIO)
+    val id: String,
+
+    @SerializedName(value=Constants.TELFONO)
+    val telefono: String,
+
+    @SerializedName(value=Constants.USUARIO_TASKER)
+    val usuarioTasker: Boolean,
+
+    @SerializedName(value=Constants.DESCRIPCION_PERSONAL)
+    val descripcion_personal: String,
+
+
+    @SerializedName("habilidades")
+    val habilidades: List<Habilidad>
 )

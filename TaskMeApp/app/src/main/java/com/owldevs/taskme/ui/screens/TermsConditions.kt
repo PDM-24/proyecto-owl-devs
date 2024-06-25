@@ -46,7 +46,7 @@ fun TermsConditions(
     Box() {
         Row {
             IconButton(
-                onClick = { /*navController.popBackStack()*/ },
+                onClick = { navController.popBackStack() },
                 modifier = Modifier.padding(16.dp)
             ) {
                 Icon(

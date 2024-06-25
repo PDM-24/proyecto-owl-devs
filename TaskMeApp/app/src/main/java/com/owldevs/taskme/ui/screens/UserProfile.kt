@@ -33,11 +33,9 @@ fun UserProfile(
     navController: NavController,
     userApiViewModel: UserApiViewModel = viewModel()
 ) {
-    val currentUser by userApiViewModel.currentUser.observeAsState()
 
-    LaunchedEffect(currentUser) {
-        Log.i("UserProfile", "Role: ${if (currentUser?.usuarioTasker == true) "Tasker" else "Client"}")
-    }
+
+    val currentUser by userApiViewModel.currentUser.observeAsState()
 
     Box(
         modifier = Modifier
@@ -77,9 +75,11 @@ fun UserProfile(
                     painter = painterResource(id = R.drawable.ic_pfp),
                     contentDescription = "Profile picture container",
                     tint = Color.Unspecified,
-                    modifier = Modifier.size(60.dp).clickable {
-                        // icon clicked
-                    }
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clickable {
+                            // icon clicked
+                        }
                 )
                 Spacer(modifier = Modifier.height(4.dp))
 
@@ -132,25 +132,49 @@ fun UserProfile(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Button(
-                    onClick = {
-                        userApiViewModel.changeUserRole("tasker")
-                        navController.navigate(MainScreens.TaskerProfile.route)
-                        currentUserRole = "tasker"
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                    shape = RoundedCornerShape(10.dp)
-                ) {
-                    Text(
-                        text = "Cambiar a perfil de Tasker",
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(8.dp)
-                    )
+                if (currentUser?.perfilTasker?.habilidades.isNullOrEmpty()) {
+                    Button(
+                        onClick = {
+                            navController.navigate(SecondaryScreens.UsertoTasker.route)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Text(
+                            text = "Convertirme en Tasker",
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
                 }
+
+                else {
+                    Button(
+                        onClick = {
+                            userApiViewModel.changeUserRole("tasker")
+                            navController.navigate(MainScreens.TaskerProfile.route)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Text(
+                            text = "Cambiar a perfil de Tasker",
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+
+
+                }
+
 
                 Spacer(modifier = Modifier.height(16.dp))
 
