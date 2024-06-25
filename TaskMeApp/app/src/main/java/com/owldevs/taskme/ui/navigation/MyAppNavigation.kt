@@ -112,7 +112,7 @@ fun MyAppNavigation() {
             }
 
             composable(route = SecondaryScreens.RegisterTasker.route) {
-                RegisterScreen(navController = navController, onBackClick = { navController.navigateUp() })
+                RegisterTaskerScreen(navController = navController, onBackClick = { navController.navigateUp() })
             }
 
             composable(route = SecondaryScreens.Support.route) {
