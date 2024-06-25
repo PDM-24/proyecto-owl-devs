@@ -53,20 +53,37 @@ data class ApiResponseError(
 
 
 data class ApiUpdateSuccessful(
-    @SerializedName(value = Constants.ID_USUARIO)
+    @SerializedName(value = "message")
+    val result: String,
+    @SerializedName(value = "updatedUser")
+    val usuarioUpdated: ApiUserUpdatedSuccessful
+)
+
+
+
+data class ApiUserUpdatedSuccessful(
+    @SerializedName(value = "_id")
     val id: String,
 
-    @SerializedName("correo_electronico")
+    @SerializedName(value = "correo_electronico")
     val correoElectronico: String,
 
-    @SerializedName("nombre_completo")
+    @SerializedName(value = "nombre_completo")
     val nombre: String,
 
-    @SerializedName("foto_perfil")
+    @SerializedName(value = "foto_perfil")
     val fotoPerfil: String,
 
+    @SerializedName(value = "ubicacion")
+    val ubicacion: String,
 
-    @SerializedName("habilidades")
-    val habilidades: List<Habilidad>
+    @SerializedName(value = "usuario_tasker")
+    val usuarioTasker: Boolean,
+
+    @SerializedName(value = "tarjetas_asociadas")
+    val tarjetasAsociadas: List<tarjetas_asociadas> = arrayListOf(),
+
+    @SerializedName(value = "perfil_tasker")
+    val perfilTasker: DetallesPerfilTasker? = null
 )
 

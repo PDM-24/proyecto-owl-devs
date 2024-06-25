@@ -55,9 +55,6 @@ data class DetallesPerfilTasker(
     @SerializedName(value = Constants.PROMEDIO_CALIFIACIONES)
     val promedio_calificaciones: Int = 0,
 
-    @SerializedName(value = Constants.FOTO)
-    val foto: String = "",
-
     @SerializedName(value = Constants.HABILIDADES)
     val habilidades: List<Habilidad> = listOf(),
 
