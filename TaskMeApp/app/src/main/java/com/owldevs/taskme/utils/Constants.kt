@@ -6,7 +6,7 @@ object Constants{
     // ip jc: 192.168.1.25
     // ip fede: 192.168.1.35 o 192.168.1.16
     // ip pao:  10.149.24.182
-    const val BASE_URL = "http://10.149.24.182:3000"
+    const val BASE_URL = "http://192.168.0.15:3000"
     const val API_PATH = "/api"
 
     //post paths

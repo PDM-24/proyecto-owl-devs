@@ -15,6 +15,11 @@ interface ApiService {
     @POST(value = Constants.API_PATH + Constants.POST_USER_PATH)
     suspend fun registerUser(@Body user: UserApi): ApiResponseSuccessful
 
+    //post tasker
+    @Headers(value = ["Content-Type: application/json"])
+    @POST(value = Constants.API_PATH + Constants.POST_USER_PATH)
+    suspend fun registerTasker(@Body user: UserApi): ApiResponseSuccessful
+
     //post review
     @Headers(value = ["Content-Type: application/json"])
     @POST(value = Constants.API_PATH + Constants.POST_REVIEW_PATH)

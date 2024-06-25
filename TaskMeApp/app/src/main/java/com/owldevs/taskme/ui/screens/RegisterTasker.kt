@@ -1,6 +1,7 @@
 package com.owldevs.taskme.ui.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -33,11 +34,17 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.room.util.copy
 import com.owldevs.taskme.R
+import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.DetallesPerfilTasker
 import com.owldevs.taskme.data.api.UserApi
 import com.owldevs.taskme.ui.navigation.SecondaryScreens
 import com.owldevs.taskme.ui.theme.AzulMarino
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun RegisterTaskerScreen(navController: NavController, onBackClick: () -> Unit = {}) {
@@ -49,6 +56,7 @@ fun RegisterTaskerScreen(navController: NavController, onBackClick: () -> Unit =
     val cyan = colorResource(id = R.color.cyan)
     val latoBold = FontFamily(Font(R.font.lato_bold))
 
+    var taskeruser = UserApi()
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -264,17 +272,20 @@ fun RegisterTaskerScreen(navController: NavController, onBackClick: () -> Unit =
 
             Button(
                 onClick = {
-                    /*val user = DetallesPerfilTasker(
-                        telefono = "",
-                        descripcion_personal = "",
-                        fecha_union = "",
-                        trabajos_realizados = 0,
-                        promedio_calificaciones = 0,
-                        foto = "",
-                        habilidades = listOf(),
-                        galeria_trabajos = listOf()
-                )*/
 
+                          taskeruser = UserApi(
+                              nombre_completo = "$name $surname",
+                              correo_electronico = email,
+                              contrasenia = password,
+                              ubicacion = location,
+                              usuario_tasker = true,
+                              PerfilTasker = DetallesPerfilTasker(
+                                  telefono = telefono,
+                                  descripcion_personal = about_you
+                                  //habilidades = habilidades.map { Habilidad(nombre = it) }
+                              )
+                          )
+                    registerTasker(taskeruser, navController)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -372,6 +383,26 @@ fun CustomTextFieldTasker(
         singleLine = !isMultiline,
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None
     )
+}
+
+fun registerTasker(taskeruser: UserApi, navController: NavController) {
+    CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = ApiClient.apiService.registerTasker(taskeruser)
+            withContext(Dispatchers.Main) {
+                if (response.result == "ok") {
+                    Toast.makeText(navController.context, "Registro exitoso", Toast.LENGTH_LONG).show()
+                    navController.navigate(SecondaryScreens.LoginScreen.route)
+                } else {
+                    Toast.makeText(navController.context, "error de algo", Toast.LENGTH_LONG).show()
+                }
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(navController.context, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 }
 
 
