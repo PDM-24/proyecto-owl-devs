@@ -1,6 +1,9 @@
 package com.owldevs.taskme.data.api
 
+
+import com.owldevs.taskme.model.HacerTaskerRequest
 import com.owldevs.taskme.utils.Constants
+
 import com.owldevs.taskme.model.UpdateUserRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -105,6 +108,13 @@ interface ApiService {
     suspend fun updateUser(
         @Path("usuarioId") usuarioId: String?,
         @Body updateUserRequest: UpdateUserRequest
+    ): ApiUpdateSuccessful
+
+    @Headers(value = ["Content-Type: application/json"])
+    @PATCH(value = Constants.API_PATH + Constants.UPDATE_USER_PATH)
+    suspend fun turnTasker(
+        @Path("usuarioId") usuarioId: String?,
+        @Body hacerTaskerRequest: HacerTaskerRequest
     ): ApiUpdateSuccessful
 
 

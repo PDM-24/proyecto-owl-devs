@@ -12,7 +12,6 @@ import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.LoginRequest
 import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.model.UserApiModel
-import com.owldevs.taskme.model.UserApiResponse
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -46,6 +45,7 @@ class LoginViewModel : ViewModel() {
                 _userProfile.value = userProfile
                 userApiViewModel.setCurrentUser(userProfile)
                 loginState = true
+
             } catch (e: Exception) {
                 errorMessage = "Error al iniciar sesión: ${e.message}"
                 Log.e("LoginViewModel", "Error al iniciar sesión", e)
