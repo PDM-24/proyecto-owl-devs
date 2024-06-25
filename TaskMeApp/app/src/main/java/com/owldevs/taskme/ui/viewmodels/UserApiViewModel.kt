@@ -23,6 +23,7 @@ import com.owldevs.taskme.data.categoryId
 import com.owldevs.taskme.data.currentCategory
 import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.data.taskId
+import com.owldevs.taskme.data.taskerId
 import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.data.usersCategoryList
 import com.owldevs.taskme.data.usersNotificationsList

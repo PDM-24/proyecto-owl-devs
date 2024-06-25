@@ -1,10 +1,10 @@
 package com.owldevs.taskme.model
 
 import com.google.gson.annotations.SerializedName
-import com.owldevs.taskme.constants.Constants
 import com.owldevs.taskme.data.api.DetallesPerfilTasker
 //import com.owldevs.taskme.data.api.DetallesPerfilTasker
 import com.owldevs.taskme.data.api.Habilidad
+import com.owldevs.taskme.utils.Constants
 
 /*data class HacerTaskerRequest(
     val id: String?,

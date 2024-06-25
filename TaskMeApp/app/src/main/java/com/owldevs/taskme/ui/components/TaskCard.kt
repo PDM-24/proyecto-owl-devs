@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.owldevs.taskme.R
-import com.owldevs.taskme.data.ApiUserBySuccessful
 import com.owldevs.taskme.data.api.ApiTaskUserSuccessful
 import com.owldevs.taskme.data.categoria
 import com.owldevs.taskme.data.estado

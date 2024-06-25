@@ -160,7 +160,7 @@ data class DetallesPerfilTaskerCategory(
     @SerializedName(value = "galeria_trabajos")
     val galeriaTrabajos: List<GaleriaTrabajo> = listOf()
 
-
+)
 data class TurnTaskerSuccessful(
     @SerializedName(value = Constants.ID_USUARIO)
     val id: String,
