@@ -9,21 +9,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiClient
-import com.owldevs.taskme.data.api.ApiUserSuccessful
 import com.owldevs.taskme.data.api.ApiUserUpdatedSuccessful
-import com.owldevs.taskme.data.api.DetallesPerfilTasker
 import com.owldevs.taskme.model.UserApiModel
-import com.owldevs.taskme.data.api.Habilidad
-import com.owldevs.taskme.data.api.LoginRequest
 import com.owldevs.taskme.data.api.ReviewSchemaApi
 import com.owldevs.taskme.data.categoryId
 import com.owldevs.taskme.data.currentCategory
 import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.data.taskId
-import com.owldevs.taskme.data.taskerId
 import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.data.usersCategoryList
 import com.owldevs.taskme.data.usersNotificationsList
+import com.owldevs.taskme.model.DetallesPerfilTaskerModel
 import com.owldevs.taskme.model.HacerTaskerRequest
 import com.owldevs.taskme.model.UpdateUserRequest
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +27,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import java.io.IOException
 
 
 class UserApiViewModel : ViewModel() {
@@ -271,6 +266,16 @@ fun ApiUserUpdatedSuccessful.toUserApiModel(): UserApiModel {
         correo_electronico = this.correoElectronico,
         usuarioTasker = this.usuarioTasker,
         perfilTasker = this.perfilTasker,
+        /*DetallesPerfilTaskerModel(
+            telefono = this.perfilTasker!!.telefono,
+            descripcion_personal = this.perfilTasker!!.descripcion_personal,
+            fecha_union = this.perfilTasker?.fecha_union,
+            trabajos_realizados = this.perfilTasker?.trabajos_realizados,
+            promedio_calificaciones = this.perfilTasker?.promedio_calificaciones,
+            habilidades = this.perfilTasker?.habilidades,
+            galeria_trabajos = this.perfilTasker?.galeria_trabajos
+
+        ),*/
         fotoPerfil = this.fotoPerfil,
         tarjetasAsociadas = this.tarjetasAsociadas,
         ubicacion = this.ubicacion

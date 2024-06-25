@@ -2,6 +2,7 @@ package com.owldevs.taskme.model
 
 import com.google.gson.annotations.SerializedName
 import com.owldevs.taskme.data.api.DetallesPerfilTasker
+//import com.owldevs.taskme.data.api.DetallesPerfilTasker
 import com.owldevs.taskme.data.api.Habilidad
 import com.owldevs.taskme.data.api.tarjetas_asociadas
 

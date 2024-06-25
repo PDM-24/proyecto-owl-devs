@@ -11,7 +11,6 @@ import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.LoginRequest
 import com.owldevs.taskme.model.UserApiModel
-import com.owldevs.taskme.model.UserApiResponse
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -40,7 +39,19 @@ class LoginViewModel : ViewModel() {
                         usuarioTasker = response.usuarioTasker, // Set usuarioTasker to false by default
                         tarjetasAsociadas = response.tarjetasAsociadas,
                         perfilTasker = response.perfilTasker
-                    )
+
+                        /*DetallesPerfilTaskerModel(
+                                telefono = response.perfilTasker!!.telefono,
+                                descripcion_personal = response.perfilTasker.descripcion_personal,
+                                fecha_union = response.perfilTasker?.fecha_union,
+                                trabajos_realizados = response.perfilTasker?.trabajos_realizados,
+                                promedio_calificaciones = response.perfilTasker?.promedio_calificaciones,
+                                habilidades = response.perfilTasker?.habilidades,
+                                galeria_trabajos = response.perfilTasker?.galeria_trabajos
+
+                            )*/
+                        )
+
                     _userProfile.value = userProfile
                     userApiViewModel.setCurrentUser(userProfile)
                     loginState = true

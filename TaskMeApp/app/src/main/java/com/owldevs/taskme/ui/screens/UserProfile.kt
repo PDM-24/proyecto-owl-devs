@@ -131,7 +131,28 @@ fun UserProfile(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                if (currentUser?.perfilTasker!=null) {
+                if (currentUser?.perfilTasker?.habilidades.isNullOrEmpty()) {
+                    Button(
+                        onClick = {
+                            navController.navigate(SecondaryScreens.UsertoTasker.route)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Text(
+                            text = "Convertirme en Tasker",
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+
+                }
+
+                else {
                     Button(
                         onClick = {
                             userApiViewModel.changeUserRole("tasker")
@@ -151,26 +172,7 @@ fun UserProfile(
                         )
                     }
 
-                }
 
-                else {
-                    Button(
-                        onClick = {
-                            navController.navigate(SecondaryScreens.UsertoTasker.route)
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 10.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Text(
-                            text = "Convertirme en Tasker",
-                            color = MaterialTheme.colorScheme.primaryContainer,
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                    }
                 }
 
 

@@ -58,8 +58,11 @@ import com.owldevs.taskme.R
 import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.ApiService
 import com.owldevs.taskme.data.api.DetallesPerfilTasker
+
 import com.owldevs.taskme.data.api.Habilidad
 import com.owldevs.taskme.data.api.UserApi
+import com.owldevs.taskme.model.DetallesPerfilTaskerModel
+
 import com.owldevs.taskme.model.HacerTaskerRequest
 import com.owldevs.taskme.model.UpdateUserRequest
 import com.owldevs.taskme.ui.components.AbilityChip

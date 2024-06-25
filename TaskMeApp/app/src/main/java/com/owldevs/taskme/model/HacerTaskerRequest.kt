@@ -3,6 +3,7 @@ package com.owldevs.taskme.model
 import com.google.gson.annotations.SerializedName
 import com.owldevs.taskme.constants.Constants
 import com.owldevs.taskme.data.api.DetallesPerfilTasker
+//import com.owldevs.taskme.data.api.DetallesPerfilTasker
 import com.owldevs.taskme.data.api.Habilidad
 
 /*data class HacerTaskerRequest(
