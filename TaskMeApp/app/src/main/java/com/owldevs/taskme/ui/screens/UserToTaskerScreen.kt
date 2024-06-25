@@ -281,15 +281,16 @@ fun UsertoTaskerScreen(
                                 Habilidad(nombre = categoriaNombre)
                             }
                             val updateRequest = HacerTaskerRequest(
-                                id = currentUser?.id,
-                                telefono = num_tel,
                                 usuarioTasker = true,
-                                descripcion_personal = description,
-                                habilidades = habilidadesList
+                                perfil_tasker = DetallesPerfilTasker(
+                                    telefono = num_tel,
+                                    descripcion_personal = description,
+                                    habilidades = habilidadesList
+                                )
                             )
                             Log.d("Request Data", "id: ${currentUser?.id}, telefono: $num_tel, descripcion: $description, habilidades: $habilidadesList")
-                            userApiViewModel.hacermeTasker(updateRequest)
-                            navController.navigate(MainScreens.TaskerProfile.route)
+                        userApiViewModel.hacermeTasker(updateRequest)
+                            //navController.navigate(MainScreens.TaskerProfile.route)
                         }
                     ,
                     shape = RoundedCornerShape(8.dp),

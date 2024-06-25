@@ -91,7 +91,7 @@ interface ApiService {
     suspend fun turnTasker(
         @Path("usuarioId") usuarioId: String?,
         @Body hacerTaskerRequest: HacerTaskerRequest
-    ): TurnTaskerSuccessful
+    ): ApiUpdateSuccessful
 
 
 }

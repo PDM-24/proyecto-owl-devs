@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiClient
 import com.owldevs.taskme.data.api.ApiUserSuccessful
+import com.owldevs.taskme.data.api.ApiUserUpdatedSuccessful
 import com.owldevs.taskme.data.api.DetallesPerfilTasker
 import com.owldevs.taskme.model.UserApiModel
 import com.owldevs.taskme.data.api.Habilidad
@@ -23,6 +24,7 @@ import com.owldevs.taskme.data.taskerId
 import com.owldevs.taskme.data.userReviewsList
 import com.owldevs.taskme.data.usersCategoryList
 import com.owldevs.taskme.data.usersNotificationsList
+import com.owldevs.taskme.model.HacerTaskerRequest
 import com.owldevs.taskme.model.UpdateUserRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -70,6 +72,22 @@ class UserApiViewModel : ViewModel() {
             }
         }
     }
+
+    fun hacermeTasker(hacermeTasker: HacerTaskerRequest) {
+        viewModelScope.launch {
+            try {
+                val response = ApiClient.apiService.turnTasker(_currentUser.value?.id, hacermeTasker)
+                Log.i("Updated Profile", "Login response: ${response.result}")
+                Log.i("Updated Profile", "Updated User: ${response.usuarioUpdated}")
+                _currentUser.value = response.usuarioUpdated.toUserApiModel()
+                _profileUpdated.value = true
+            } catch (e: Exception) {
+                errorMessage = "Error al actualizar el perfil: ${e.message}"
+                Log.e("UpdateProfile", "Error al actualizar el perfil", e)
+            }
+        }
+    }
+
 
     fun getAllReviewsByUser(taskerId: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -253,11 +271,13 @@ fun ApiUserUpdatedSuccessful.toUserApiModel(): UserApiModel {
         correo_electronico = this.correoElectronico,
         usuarioTasker = this.usuarioTasker,
         perfilTasker = this.perfilTasker,
-       fotoPerfil = this.fotoPerfil,
+        fotoPerfil = this.fotoPerfil,
         tarjetasAsociadas = this.tarjetasAsociadas,
         ubicacion = this.ubicacion
     )
 }
+
+
 
 
 

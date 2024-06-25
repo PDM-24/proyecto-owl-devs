@@ -62,6 +62,7 @@ data class ApiUpdateSuccessful(
 
 
 
+
 data class ApiUserUpdatedSuccessful(
     @SerializedName(value = "_id")
     val id: String,

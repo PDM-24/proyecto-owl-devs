@@ -32,14 +32,9 @@ fun UserProfile(
     navController: NavController,
     userApiViewModel: UserApiViewModel = viewModel()
 ) {
-    val currentUser by userApiViewModel.currentUser.observeAsState()
 
-    LaunchedEffect(currentUser) {
-        Log.i(
-            "UserProfile",
-            "Role: ${if (currentUser?.usuarioTasker == true) "Tasker" else "Client"}"
-        )
-    }
+
+    val currentUser by userApiViewModel.currentUser.observeAsState()
 
     Box(
         modifier = Modifier
@@ -136,7 +131,7 @@ fun UserProfile(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                if (currentUser?.usuarioTasker == true) {
+                if (currentUser?.perfilTasker!=null) {
                     Button(
                         onClick = {
                             userApiViewModel.changeUserRole("tasker")
