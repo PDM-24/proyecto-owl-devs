@@ -5,8 +5,11 @@ object Constants{
     // ip kattia: 192.168.1.5 o 172.20.10.2
     // ip jc: 192.168.1.25
     // ip fede: 192.168.1.35 o 192.168.1.16
+
     // ip vale:  192.168.1.22
     const val BASE_URL = "http://192.168.1.5:3000"
+
+    // ip pao:  10.149.24.182
 
     const val API_PATH = "/api"
 
