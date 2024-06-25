@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owldevs.taskme.data.api.ApiClient
@@ -18,6 +19,7 @@ import com.owldevs.taskme.data.api.LoginRequest
 import com.owldevs.taskme.data.api.ReviewSchemaApi
 import com.owldevs.taskme.data.categoryId
 import com.owldevs.taskme.data.currentCategory
+import com.owldevs.taskme.data.currentTasker
 import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.data.taskId
 import com.owldevs.taskme.data.taskerId
@@ -26,9 +28,11 @@ import com.owldevs.taskme.data.usersCategoryList
 import com.owldevs.taskme.data.usersNotificationsList
 import com.owldevs.taskme.model.UpdateUserRequest
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -72,14 +76,18 @@ class UserApiViewModel : ViewModel() {
         }
     }
 
-    fun getAllReviewsByUser() {
+    fun getAllReviewsByUser(taskerId: String) {
         viewModelScope.launch(Dispatchers.IO) {
 
             try {
                 _uiState.value = UiState.Loading
 
+                Log.i("UserApiVM", taskerId)
+
                 val response = ApiClient.apiService.getAllReviewsByUser(taskerId)
                 val reviewsList = response.reviews
+
+                Log.i("UserApiVM", response.reviews.toString())
 
                 userReviewsList.clear()
                 userReviewsList.addAll(reviewsList)
@@ -141,11 +149,17 @@ class UserApiViewModel : ViewModel() {
                 val response = ApiClient.apiService.getAllUsersByCategory(categoryId)
                 val usersByCategory = response.usuarios
 
+                Log.i("MainViewModel (GetAllUsersCategory) http", response.usuarios.toString())
+
                 currentCategory = ""
                 currentCategory = response.categoria
 
+                Log.i("MainViewModel (GetAllUsersCategory) http", usersByCategory.toString())
+
                 usersCategoryList.clear()
                 usersCategoryList.addAll(usersByCategory)
+
+                Log.i("MainViewModel (GetAllUsersCategory) http", usersByCategory.toString())
 
                 _uiState.value = UiState.Ready
 

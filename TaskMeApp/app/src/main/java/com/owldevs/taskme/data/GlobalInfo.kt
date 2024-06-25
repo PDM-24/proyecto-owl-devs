@@ -1,13 +1,16 @@
 package com.owldevs.taskme.data
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
+import com.owldevs.taskme.data.api.ApiUserByCategorySuccessful
 import com.owldevs.taskme.data.api.ApiUserSuccessful
 import com.owldevs.taskme.data.api.NotificationApiResponse
 import com.owldevs.taskme.data.api.ReviewResponseApi
 import com.owldevs.taskme.data.api.TaskApiIdResponse
 
 //Id's
-var taskerId: String = ""
+var taskerId = MutableLiveData<String>()
 var currentUserId: String = ""
 var currentUserRole: String = ""
 var categoryId: String = ""
@@ -16,8 +19,9 @@ var notificationId: String = ""
 
 //Listas
 var userReviewsList = mutableStateListOf<ReviewResponseApi>()
-var usersCategoryList = mutableStateListOf<ApiUserSuccessful>()
+var usersCategoryList = mutableStateListOf<ApiUserByCategorySuccessful>()
 var usersNotificationsList = mutableStateListOf<NotificationApiResponse>()
 
 //Extras:
 var currentCategory: String = ""
+var currentTasker: ApiUserByCategorySuccessful = ApiUserByCategorySuccessful()

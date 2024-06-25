@@ -231,7 +231,6 @@ fun ReviewsScreen(
                 if (userReviewsList.isNotEmpty()) {
                     items(userReviewsList) { review ->
                         ExpandedReviewCard(
-                            userImg = review.autorId.fotoPerfil.toInt(),
                             userName = review.autorId.nombre,
                             reviewBody = review.texto,
                             reviewDate = review.fecha.time,

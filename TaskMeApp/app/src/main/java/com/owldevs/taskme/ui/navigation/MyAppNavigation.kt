@@ -176,7 +176,7 @@ fun MyAppNavigation() {
             }
 
             composable(SecondaryScreens.TaskerInfoScreen.route){
-                TaskerInfoScreen(navController, userViewModel)
+                TaskerInfoScreen(navController)
 
             }
 
