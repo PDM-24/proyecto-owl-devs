@@ -76,6 +76,7 @@ fun TaskerInfoScreen(
 
     var isExpanded by remember { mutableStateOf(false) }
     var ratingValue by remember { mutableStateOf("") }
+    val promedioCalificaciones = currentTasker.perfilTasker.promedioCalificaciones
 
     Column(
         modifier = Modifier
@@ -254,9 +255,10 @@ fun TaskerInfoScreen(
                     ) {
                         TextButton(onClick = { navController.navigate(SecondaryScreens.ReviewsScreen.route) }) {
                             Text(
-                                text = "Reseñas: ${currentTasker.perfilTasker.promedioCalificaciones}",
+                                text = "Reseñas: $promedioCalificaciones",
                                 style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground
+                                color = MaterialTheme.colorScheme.onBackground,
+                                textDecoration = TextDecoration.Underline
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Icon(
@@ -372,13 +374,13 @@ fun TaskerInfoScreen(
                     }
                 }
                 if (userReviewsList.isNotEmpty()) {
-                    userReviewsList.forEach { review ->
+                    userReviewsList.filter { it.calificacion.toString() == ratingValue || ratingValue.isEmpty() }.forEach { review ->
                         ReducedReviewCard(
                             navController,
                             review = review
                         )
                     }
-                } else {
+                }  else {
                     Text(
                         text = "Este usuario aun no tiene ninguna reseña",
                         style = MaterialTheme.typography.titleMedium,

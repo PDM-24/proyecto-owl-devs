@@ -21,6 +21,7 @@ import com.owldevs.taskme.model.UserApiModel
 import com.owldevs.taskme.data.api.ReviewSchemaApi
 import com.owldevs.taskme.data.categoryId
 import com.owldevs.taskme.data.currentCategory
+import com.owldevs.taskme.data.currentTasker
 import com.owldevs.taskme.data.currentUserId
 import com.owldevs.taskme.data.taskId
 import com.owldevs.taskme.data.taskerId
@@ -92,6 +93,14 @@ class UserApiViewModel : ViewModel() {
 
                 userReviewsList.clear()
                 userReviewsList.addAll(taskerReview)
+
+                // Calcular el promedio de calificaciones
+                val promedio = if (taskerReview.isNotEmpty()) {
+                    taskerReview.map { it.calificacion.toDouble() }.average()
+                } else {
+                    0.0
+                }
+                currentTasker.perfilTasker.promedioCalificaciones = promedio
 
             } catch (e: Exception) {
                 when (e) {

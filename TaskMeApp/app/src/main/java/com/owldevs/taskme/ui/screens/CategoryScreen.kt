@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -27,7 +28,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -52,6 +56,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -84,6 +89,19 @@ fun CategoryScreen(
     }
 
     var userSearch by remember { mutableStateOf("") }
+    var isExpanded by remember { mutableStateOf(false) }
+    var ratingValue by remember { mutableStateOf("") }
+
+    // Filtrar usuarios por calificación y nombre
+    val filteredUsers = usersCategoryList.filter { user ->
+        val matchesRating = if (ratingValue.isNotEmpty()) {
+            user.perfilTasker.promedioCalificaciones >= ratingValue.toDouble()
+        } else {
+            true
+        }
+        val matchesName = user.nombre.contains(userSearch, ignoreCase = true)
+        matchesRating && matchesName
+    }
 
     Column(
         modifier = Modifier
@@ -142,6 +160,8 @@ fun CategoryScreen(
                 modifier = Modifier.zIndex(1f)
             )
         }
+
+        Spacer(modifier = Modifier.height(6.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
@@ -153,9 +173,12 @@ fun CategoryScreen(
             Text(
                 text = taskerDirection,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
+                textDecoration = TextDecoration.Underline
             )
         }
+
+        Spacer(modifier = Modifier.height(6.dp))
         OutlinedTextField(
             value = userSearch,
             onValueChange = { userToSearch -> userSearch = userToSearch },
@@ -189,12 +212,95 @@ fun CategoryScreen(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
         )
-        Text(
-            text = "Taskers destacados en tu area: ",
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.fillMaxWidth(0.9f)
-        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(0.9f)
+        ) {
+            Text(
+                text = "Taskers destacados en tu área:",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+            )
+            ExposedDropdownMenuBox(
+                expanded = isExpanded,
+                onExpandedChange = { isExpanded = !isExpanded }
+            ) {
+                OutlinedTextField(
+                    value = when (ratingValue) {
+                        "5" -> "5 Estrellas"
+                        "4" -> "4 Estrellas"
+                        "3" -> "3 Estrellas"
+                        "2" -> "2 Estrellas"
+                        "1" -> "1 Estrellas"
+                        else -> "Filtrar por Calificación"
+                    },
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
+                    },
+                    placeholder = {
+                        Text(
+                            text = "Filtrar por Calificación",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
+                    singleLine = true,
+                    textStyle = MaterialTheme.typography.bodyMedium,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.onSecondary,
+                        focusedTextColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .menuAnchor()
+                )
+                ExposedDropdownMenu(
+                    expanded = isExpanded,
+                    onDismissRequest = { isExpanded = false }
+                ) {
+                    DropdownMenuItem(text = {
+                        Text(text = "5 Estrellas", style = MaterialTheme.typography.titleSmall)
+                    }, onClick = {
+                        ratingValue = "5"
+                        isExpanded = false
+                    })
+                    DropdownMenuItem(text = {
+                        Text(text = "4 Estrellas", style = MaterialTheme.typography.titleSmall)
+                    }, onClick = {
+                        ratingValue = "4"
+                        isExpanded = false
+                    })
+                    DropdownMenuItem(text = {
+                        Text(text = "3 Estrellas", style = MaterialTheme.typography.titleSmall)
+                    }, onClick = {
+                        ratingValue = "3"
+                        isExpanded = false
+                    })
+                    DropdownMenuItem(text = {
+                        Text(text = "2 Estrellas", style = MaterialTheme.typography.titleSmall)
+                    }, onClick = {
+                        ratingValue = "2"
+                        isExpanded = false
+                    })
+                    DropdownMenuItem(text = {
+                        Text(text = "1 Estrellas", style = MaterialTheme.typography.titleSmall)
+                    }, onClick = {
+                        ratingValue = "1"
+                        isExpanded = false
+                    })
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(6.dp))
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -207,8 +313,8 @@ fun CategoryScreen(
                 Arrangement.Center
             }
         ) {
-            if (usersCategoryList.isNotEmpty()) {
-                items(usersCategoryList) { user ->
+            if (filteredUsers.isNotEmpty()) {
+                items(filteredUsers) { user ->
                     UserInfoCard(
                         navController,
                         user = user
@@ -221,7 +327,7 @@ fun CategoryScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "No hay Taskers en esta ubicacion",
+                            text = "No hay Taskers en esta ubicación",
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.titleLarge
                         )
@@ -232,11 +338,3 @@ fun CategoryScreen(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview
-@Composable
-fun ShowPreview() {
-    TaskMeTheme(darkTheme = true) {
-        TaskerInfoScreen()
-    }
-}
